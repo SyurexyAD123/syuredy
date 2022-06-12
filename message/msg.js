@@ -82,6 +82,8 @@ let tictactoe = [];
 let tebakgambar = []
 let kuiscuy = []
 let tebaktebakan = []
+let tekateki = []
+let tebakkimia = []
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -334,6 +336,34 @@ module.exports = async(conn, msg, m, setting, store) => {
 		]
 			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK KATA', mentions: [sender]} )  
 		    kuiscuy.splice(getGamePosi(from, kuiscuy), 1)
+		  }
+		}
+		
+		cekWaktuGame(conn, tekateki)
+		if (isPlayGame(from, tekateki) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, tekateki)) {
+		    var htgm = randomNomor(500, 550)
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tekateki)}\nHadiah : ${htgm} balance\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tekateki` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'KUIS V2', mentions: [sender]} )  
+		    tekateki.splice(getGamePosi(from, tekateki), 1)
+		  }
+		}
+		
+		cekWaktuGame(conn, tebakkimia)
+		if (isPlayGame(from, tebakkimia) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, tebakkimia)) {
+		    var htgm = randomNomor(500, 550)
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakkimia)}\nHadiah : ${htgm} balance\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakkimia` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK KIMIA', mentions: [sender]} )  
+		    tebakkimia.splice(getGamePosi(from, tebakkimia), 1)
 		  }
 		}
 		
@@ -1377,17 +1407,16 @@ case prefix+'dare':
 			case prefix+'tebakgambar':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tebakgambar)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebakgambar[getGamePosi(from, tebakgambar)].msg)
-				kotz.tebakgambar().then( data => {
-				  data = data[0]
+				var tg = JSON.parse(fs.readFileSync('./fitur/tebakgambar.json'))
+				var data = pickRandom(tg)
 				  data.jawaban = data.jawaban.split('Jawaban ').join('')
-				  var teks = `*TEBAK GAMBAR*\n\n`+monospace(`Petunjuk : ${data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
-				  conn.sendMessage(from, { image: { url: data.image }, caption: teks }, { quoted: msg })
+				  var teks = `*TEBAK GAMBAR*\n\n`+monospace(`Petunjuk : ${data.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nDeskripsi : ${data.deskripsi}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {caption: teks, image: {url: data.img}}, {quoted: msg})
 				  .then( res => {
 					var jawab = data.jawaban.toLowerCase()
-					addPlayGame(from, 'Tebak Gambar', jawab, gamewaktu, res, tebakgambar)
+					addPlayGame(from, 'TEBAK KATA', jawab, gamewaktu, res, tebakgambar)
 					gameAdd(sender, glimit)
 				  })
-				})
 			    break
 case prefix+'tebakkata':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
@@ -1407,13 +1436,41 @@ case prefix+'kuis':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tebaktebakan)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebaktebakan[getGamePosi(from, tebaktebakan)].msg)
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaktebakan.json'))
-				const hayo = pickRandom(tebaknya)
+				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
 				  var teks = `*KUIS GAME*\n\n`+monospace(`Soal : ${hayo.soal}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
 					var jawab = hayo.jawaban.toLowerCase()
 					addPlayGame(from, 'KUIS GAME', jawab, gamewaktu, res, tebaktebakan)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'tekateki':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, tekateki)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tekateki[getGamePosi(from, tekateki)].msg)
+				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tekateki.json'))
+				var hayo = pickRandom(tebaknya)
+				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
+				  var teks = `*TEKA TEKI*\n\n`+monospace(`Soal : ${hayo.soal}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  .then( res => {
+					var jawab = hayo.jawaban.toLowerCase()
+					addPlayGame(from, 'KUIS GAME', jawab, gamewaktu, res, tekateki)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'tebakkimia':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, tebakkimia)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebakkimia[getGamePosi(from, tebakkimia)].msg)
+				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebakkimia.json'))
+				var hayo = pickRandom(tebaknya)
+				  hayo.unsur = hayo.unsur.split('Jawaban ').join('')
+				  var teks = `*TEKA TEKI*\n\n`+monospace(`Soal : Apa Kepanjangan Dari Unsur ${hayo.lambang}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  .then( res => {
+					var jawab = hayo.unsur.toLowerCase()
+					addPlayGame(from, 'TEBAK KIMIA', jawab, gamewaktu, res, tebakkimia)
 					gameAdd(sender, glimit)
 				  })
 			    break
@@ -2200,7 +2257,7 @@ case prefix+'report':
     case prefix+'chatown':
     if (args.length < 2) return reply(`Silahkan Masukan Laporan nya, Contoh : ${command} Ada Bug Di fitur <fitur>`)
                 reply(`Laporan Telah DibKirimkan Oleh ke Owner, Laporan main² atau palsu akan di banned!`)
-conn.sendMessage(ownerNumber, {text: `*[ PANGGILAN USER ]*\n\n*Dari :* @${sender}\n*Pesan :* ${q}`, mentions: [sender]})
+conn.sendMessage(`6281319944917@s.whatsapp.net`, {text: `*[ PANGGILAN USER ]*\n\n*Dari :* @${sender}\n*Pesan :* ${q}`, mentions: [sender]})
 break
 case prefix+'gombal':
   case prefix+'gombalan':
