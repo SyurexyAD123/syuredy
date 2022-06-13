@@ -2291,6 +2291,7 @@ case prefix+'lirik':
 case prefix+'sendvirus':
   case prefix+'sendvirtex':
   case prefix+'sv':
+				reply("Sukses Mengirim Virtex")
   if (!isOwner)return reply(mess.OnlyOwner)
   if (!args[1].includes('62')) return reply(`Masukan Nomer mulai dari 62`)
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/1.txt')})
