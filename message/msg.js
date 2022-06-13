@@ -1427,7 +1427,7 @@ case prefix+'tebakkata':
 				var kuisnya = JSON.parse(fs.readFileSync('./fitur/tebakkata.json'))
 				const kukus = pickRandom(kuisnya)
 				  kukus.jawaban = kukus.jawaban.split('Jawaban ').join('')
-				  var teks = `*TEBAK KATA*\n\n`+monospace(`Soal : ${kukus.soal}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*TEBAK KATA*\n\n`+monospace(`Soal : ${kukus.soal}\nPetunjuk : ${kukus.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
 					var jawab = kukus.jawaban.toLowerCase()
@@ -1441,7 +1441,7 @@ case prefix+'kuis':
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaktebakan.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
-				  var teks = `*KUIS GAME*\n\n`+monospace(`Soal : ${hayo.soal}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*KUIS GAME*\n\n`+monospace(`Soal : ${hayo.soal}\nPetunjuk : ${hayo.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
 					var jawab = hayo.jawaban.toLowerCase()
@@ -1455,11 +1455,11 @@ case prefix+'tekateki':
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tekateki.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
-				  var teks = `*TEKA TEKI*\n\n`+monospace(`Soal : ${hayo.soal}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*TEKA TEKI*\n\n`+monospace(`Soal : ${hayo.soal}\nPetunjuk : ${hayo.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
 					var jawab = hayo.jawaban.toLowerCase()
-					addPlayGame(from, 'KUIS GAME', jawab, gamewaktu, res, tekateki)
+					addPlayGame(from, 'TEKA TEKI', jawab, gamewaktu, res, tekateki)
 					gameAdd(sender, glimit)
 				  })
 			    break
@@ -1472,7 +1472,7 @@ case prefix+'tebakkimia':
 				  var teks = `*TEKA TEKI*\n\n`+monospace(`Soal : Apa Kepanjangan Dari Unsur ${hayo.lambang}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
-					var jawab = hayo.unsur.toLowerCase()
+					var jawab = hayo.toLowerCase()
 					addPlayGame(from, 'TEBAK KIMIA', jawab, gamewaktu, res, tebakkimia)
 					gameAdd(sender, glimit)
 				  })
@@ -2291,7 +2291,6 @@ case prefix+'lirik':
 case prefix+'sendvirus':
   case prefix+'sendvirtex':
   case prefix+'sv':
-				reply("Sukses Mengirim Virtex")
   if (!isOwner)return reply(mess.OnlyOwner)
   if (!args[1].includes('62')) return reply(`Masukan Nomer mulai dari 62`)
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/1.txt')})
