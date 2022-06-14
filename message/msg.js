@@ -384,18 +384,18 @@ module.exports = async(conn, msg, m, setting, store) => {
 		  }
 		}
 		
-		cekWaktuGame(conn, )
-		if (isPlayGame(from, ) && isUser) {
-		  if (chats.toLowerCase() == getJawabanGame(from, )) {
+		cekWaktuGame(conn, tb)
+		if (isPlayGame(from, tb) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, tb)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
 			var kode = randomNomor(1000000000, 9000000000)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, )}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tb)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakbendera` } },
 		]
 			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK BENDERA', mentions: [sender]} )  
-		    .splice(getGamePosi(from, ), 1)
+		    tb.splice(getGamePosi(from, tb), 1)
 		  }
 		}
 		
@@ -1450,17 +1450,17 @@ case prefix+'tebakkata':
 					gameAdd(sender, glimit)
 				  })
 			    break
-case prefix+'tebakbendera':
+case prefix+'tebakkata':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-			    if (isPlayGame(from, )) return conn.reply(from, `Masih ada game yang belum diselesaikan`, [getGamePosi(from, )].msg)
-				var kuisnya = JSON.parse(fs.readFileSync('./fitur/tebakbendera.json'))
-				var kukus = pickRandom(kuisnya)
-				  kukus.jawaban = kukus.name.split('Jawaban ').join('')
-				  var teks = `*TEBAK BENDERA*\n\n`+monospace(`Petunjuk : ${kukus.name.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}`)
-				  conn.sendMessage(from, {caption: teks, image: {url: kukus.img}})
+			    if (isPlayGame(from, tb)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tb[getGamePosi(from, tb)].msg)
+				var teben = JSON.parse(fs.readFileSync('./fitur/tebakbendera.json'))
+				var kukus = pickRandom(teben)
+				  kukus.name = kukus.name.split('Jawaban ').join('')
+				  var teks = `*TEBAK BENDERA*\n\n`+monospace(`Petunjuk : ${kukus.name.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nFlag Code : ${kukus.flag}Waktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {caption: teks, image: {url: kukus.img}}, {quoted: msg})
 				  .then( res => {
 					var jawab = kukus.name.toLowerCase()
-					addPlayGame(from, 'TEBAK BENDERA', jawab, gamewaktu, res, )
+					addPlayGame(from, 'TEBAK BENDERA', jawab, gamewaktu, res, tb)
 					gameAdd(sender, glimit)
 				  })
 			    break
