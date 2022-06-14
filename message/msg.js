@@ -1457,7 +1457,7 @@ case prefix+'tebakbendera':
 				var teben = JSON.parse(fs.readFileSync('./fitur/tebakbendera.json'))
 				var kukus = pickRandom(teben)
 				  kukus.name = kukus.name.split('Jawaban ').join('')
-				  var teks = `*TEBAK BENDERA*\n\n`+monospace(`Petunjuk : ${kukus.name.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nFlag Code : ${kukus.flag}Waktu : ${gamewaktu}s`)
+				  var teks = `*TEBAK BENDERA*\n\n`+monospace(`Petunjuk : ${kukus.name.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nFlag Code : ${kukus.flag}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {caption: teks, image: {url: kukus.img}}, {quoted: msg})
 				  .then( res => {
 					var jawab = kukus.name.toLowerCase()
