@@ -4,7 +4,7 @@
   "botName": "JOJO - BOT",
   "sessionName": "session",
   "pathimg": "./media/Jojo2.jpg",
-  "gamewaktu": 90,
+  "gamewaktu": 40,
   "limitCount": 30,
   "gcount": {
 	"prem": 100000000000,
