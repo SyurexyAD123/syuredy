@@ -84,6 +84,7 @@ let kuiscuy = []
 let tebaktebakan = []
 let tekateki = []
 let tebakkimia = []
+let tb = []
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -1450,7 +1451,7 @@ case prefix+'tebakkata':
 					gameAdd(sender, glimit)
 				  })
 			    break
-case prefix+'tebakkata':
+case prefix+'tebakbendera':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tb)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tb[getGamePosi(from, tb)].msg)
 				var teben = JSON.parse(fs.readFileSync('./fitur/tebakbendera.json'))
