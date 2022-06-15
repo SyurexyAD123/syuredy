@@ -668,34 +668,28 @@ case prefix+'githubown':
 			    }
                 break
 			case prefix+'toimg': case prefix+'toimage':
-			case prefix+'tovid': case prefix+'tovideo':
-			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			    if (!isQuotedSticker) return reply(`Reply stikernya!`)
-			    var stream = await downloadContentFromMessage(msg.message.extendedTextMessage?.contextInfo.quotedMessage.stickerMessage, 'sticker')
-			    var buffer = Buffer.from([])
-			    for await(const chunk of stream) {
-			       buffer = Buffer.concat([buffer, chunk])
-			    }
-			    var rand1 = 'sticker/'+getRandom('.webp')
-			    var rand2 = 'sticker/'+getRandom('.png')
-			    fs.writeFileSync(`./${rand1}`, buffer)
-			    if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
-			    exec(`ffmpeg -i ./${rand1} ./${rand2}`, (err) => {
-			      fs.unlinkSync(`./${rand1}`)
-			      if (err) return reply(mess.error.api)
-			      conn.sendMessage(from, { image: { url: `./${rand2}` }}, { quoted: msg })
-			      limitAdd(sender, limit)
-				  fs.unlinkSync(`./${rand2}`)
-			    })
-			    } else {
-			    reply(mess.wait)
-		          webp2mp4File(`./${rand1}`).then( data => {
-			       fs.unlinkSync(`./${rand1}`)
-			       conn.sendMessage(from, { video: { url: data.result }}, { quoted: msg })
-			       limitAdd(sender, limit)
-				  })
-			    }
-			    break
+                case prefix+'tovid': case prefix+'tovideo':
+                   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+                   if (!isQuotedSticker) return reply(`Reply stikernya!`)
+                   if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
+                     var pathe = './sticker/'+getRandom('.png')
+                     var media = await conn.downloadAndSaveMediaMessage(msg, 'sticker', pathe)
+                     reply(mess.wait)
+                     conn.sendMessage(from, { image: fs.readFileSync(media) }, { quoted: msg })
+                     limitAdd(sender, limit)
+                     fs.unlinkSync(pathe)
+                   } else {
+                     var patha = './sticker/'+getRandom('.webp')
+                     var media = await conn.downloadAndSaveMediaMessage(msg, 'sticker', patha)
+                     reply(mess.wait)
+                     addCountCmd('#tovid', sender, _cmd)
+                     webp2mp4File(`${media}`).then(async(data) => {
+                       fs.unlinkSync(`${media}`)
+                       conn.sendMessage(from, { video: await getBuffer(data.data) }, { quoted: msg })
+                       limitAdd(sender, limit)
+                     }).catch((e) => { reply(mess.error.api); fs.unlinkSync(patha) })
+                   }
+                   break
 	        // Downloader Menu
 			/*case prefix+'tiktok':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
