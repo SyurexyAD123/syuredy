@@ -1524,9 +1524,9 @@ case prefix+'tebaklagu':
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaklagu.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.judul = hayo.judul.split('Judul ').join('')
-				  var teks = `*TEBAK LAGU*\n\n`+monospace(`Tebak Lagu Berikut\nPetunjuk : ${hayo.judul.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nSong : ${hayo.penyanyi}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*TEBAK LAGU*\n\n`+monospace(`Tebak Lagu Berikut\nSong : ${hayo.penyanyi}\nPetunjuk : ${hayo.judul.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
-				  conn.sendMessage(from, {audio: {url: data.link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+				  conn.sendMessage(from, {audio: {url: hayo.link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 				  .then( res => {
 					var jawab = hayo.judul.toLowerCase()
 					addPlayGame(from, 'TEBAK LAGU', jawab, gamewaktu, res, tebaklagu)
