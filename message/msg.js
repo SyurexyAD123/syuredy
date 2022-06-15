@@ -86,6 +86,7 @@ let tekateki = []
 let tebakkimia = []
 let tb = []
 let tebaklagu = []
+let siapaaku = []
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -403,6 +404,21 @@ module.exports = async(conn, msg, m, setting, store) => {
 		]
 			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'Tebak Lagu', mentions: [sender]} )  
 		    tebaklagu.splice(getGamePosi(from, tebaklagu), 1)
+		  }
+		}
+		
+		cekWaktuGame(conn, siapaaku)
+		if (isPlayGame(from, siapaaku) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, siapaaku)) {
+		    var htgm = randomNomor(500, 550)
+		    var kode = randomNomor(1000000000, 9000000000)
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, siapaaku)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}siapakahaku` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK AKU', mentions: [sender]} )  
+		    siapaaku.splice(getGamePosi(from, siapaaku), 1)
 		  }
 		}
 		
@@ -1530,6 +1546,21 @@ case prefix+'tebaklagu':
 				  .then( res => {
 					var jawab = hayo.judul.toLowerCase()
 					addPlayGame(from, 'TEBAK LAGU', jawab, gamewaktu, res, tebaklagu)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'siapakahaku':
+  case prefix+'siapaaku':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, siapaaku)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, siapaaku[getGamePosi(from, siapaaku)].msg)
+				var tebaknya = JSON.parse(fs.readFileSync('./fitur/siapakahaku.json'))
+				var hayo = pickRandom(tebaknya)
+				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
+				  var teks = `*Siapa Aku?*\n\n`+monospace(`Soal : ${hayo.soal}\nNomor Soal Ke : ${hayo.index}\nPetunjuk : ${hayo.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  .then( res => {
+					var jawab = hayo.jawaban.toLowerCase()
+					addPlayGame(from, 'Siapa Aku?', jawab, gamewaktu, res, siapaaku)
 					gameAdd(sender, glimit)
 				  })
 			    break

@@ -157,6 +157,7 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}tebakkata
   ≻ ${prefix}tebakbendera
   ≻ ${prefix}tebaklagu
+  ≻ ${prefix}siapakahaku
   ≻ ${prefix}apakah <Query>
   ≻ ${prefix}kapankah <Query>
   ≻ ${prefix}rate <Query>
