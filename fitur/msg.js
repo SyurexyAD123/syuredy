@@ -19,7 +19,7 @@ const {
 	downloadContentFromMessage
 } = require("@adiwajshing/baileys")
 const { color, bgcolor } = require('../lib/color')
-const { getBuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid } = require("../lib/myfunc");
+const { geuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid } = require("../lib/myfunc");
 const { webp2mp4File } = require("../lib/convert")
 const { toAudio, toPTT, toVideo } = require('../lib/converter')
 const { y2mateA, y2mateV } = require('../lib/y2mate')
@@ -32,7 +32,7 @@ const { mediafire } = require("../lib/mediafire")
 const { ephoto } = require("../lib/ephoto")
 const { igDownloader } = require("../lib/igdown")
 const { wikiSearch } = require("../lib/wiki")
-const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("../lib/limit");
+const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, gealance, isGame, gameAdd, givegame, cekGLimit } = require("../lib/limit");
 const { isTicTacToe, getPosTic } = require("../lib/tictactoe");
 const { addPlayGame, getJawabanGame, isPlayGame, cekWaktuGame, getGamePosi } = require("../lib/game");
 const tictac = require("../lib/tictac");
@@ -84,6 +84,9 @@ let kuiscuy = []
 let tebaktebakan = []
 let tekateki = []
 let tebakkimia = []
+let tb = []
+let tebaklagu = []
+let siapaaku = []
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -92,6 +95,7 @@ let premium = JSON.parse(fs.readFileSync('./database/premium.json'));
 let balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
+/*let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));*/
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -107,6 +111,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const content = JSON.stringify(msg.message)
 		const from = msg.key.remoteJid
 		const chats = (type === 'conversation' && msg.message.conversation) ? msg.message.conversation : (type == 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type == 'documentMessage') && msg.message.documentMessage.caption ? msg.message.documentMessage.caption : (type == 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : (type == 'extendedTextMessage') && msg.message.extendedTextMessage.text ? msg.message.extendedTextMessage.text : (type == 'buttonsResponseMessage' && msg.message.buttonsResponseMessage.selectedButtonId) ? msg.message.buttonsResponseMessage.selectedButtonId : (type == 'templateButtonReplyMessage') && msg.message.templateButtonReplyMessage.selectedId ? msg.message.templateButtonReplyMessage.selectedId : ''
+		const budy = (type === 'conversation') ? msg.message.conversation : (type === 'extendedTextMessage') ? msg.message.extendedTextMessage.text : ''
 		const toJSON = j => JSON.stringify(j, null,'\t')
 		if (conn.multi) {
 			var prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(chats) ? chats.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi) : '#'
@@ -132,11 +137,14 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const groupMetadata = isGroup ? await conn.groupMetadata(from) : ''
 		const groupName = isGroup ? groupMetadata.subject : ''
 		const groupId = isGroup ? groupMetadata.id : ''
+		const groupOwner = isGroup ? groupMetadata.owner : ''
+		const groupDesc = isGroup ? groupMetadata.desc : ''
 		const groupMembers = isGroup ? groupMetadata.participants : ''
 		const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : ''
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isGroupAdmins = groupAdmins.includes(sender)
 		const isUser = pendaftar.includes(sender)
+		/*const isAntilink = antilink.includes(sender)*/
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 
 		const gcounti = setting.gcount
@@ -189,16 +197,16 @@ module.exports = async(conn, msg, m, setting, store) => {
 		    mime = res.headerd["content-type"]
 		    let type = mime.split("/")[0]+"Message"
 		    if (mime.split("/")[0] === "image") {
-		       var img = await getBuffer(url)
+		       var img = await geuffer(url)
 		       return conn.sendMessage(from, { image: img, caption: caption }, options)
 		    } else if (mime.split("/")[0] === "video") {
-		       var vid = await getBuffer(url)
+		       var vid = await geuffer(url)
 		       return conn.sendMessage(from, { video: vid, caption: caption }, options)
 		    } else if (mime.split("/")[0] === "audio") {
-		       var aud = await getBuffer(url)
+		       var aud = await geuffer(url)
 		       return conn.sendMessage(from, { audio: aud, mimetype: 'audio/mp3' }, options)
 		    } else {
-		       var doc = await getBuffer(url)
+		       var doc = await geuffer(url)
 		       return conn.sendMessage(from, { document: doc, mimetype: mime, caption: caption }, options)
 		    }
 		}
@@ -207,7 +215,7 @@ module.exports = async(conn, msg, m, setting, store) => {
            url = url.videos[0].url
            hxz.youtube(url).then(async(data) => {
              /*var button = [{ buttonId: `/ytmp3 ${url}`, buttonText: { displayText: `🎵 Audio (${data.size_mp3})` }, type: 1 }, { buttonId: `/ytmp4 ${url}`, buttonText: { displayText: `🎥 Video (${data.size})` }, type: 1 }]*/
-             /*conn.sendMessage(from, { caption: `*Title :* ${data.title}\n*Quality :* ${data.quality}\n*Url :* https://youtu.be/${data.id}`, location: { jpegThumbnail: await getBuffer(data.thumb) }, buttons: button, footer: 'Pilih Salah Satu Button Dibawah⬇️', mentions: [sender] })*/
+             /*conn.sendMessage(from, { caption: `*Title :* ${data.title}\n*Quality :* ${data.quality}\n*Url :* https://youtu.be/${data.id}`, location: { jpegThumbnail: await geuffer(data.thumb) }, buttons: button, footer: 'Pilih Salah Satu Button Dibawah⬇️', mentions: [sender] })*/
            var button = [
 		        	{ urlButton: { displayText: `Source`, url : `https://youtu.be/${data.id}` } },
 	         		{ quickReplyButton: { displayText: `🎵 Audio (${data.size_mp3})`, id: `${prefix}ytmp3 ${url}` } },
@@ -314,9 +322,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		cekWaktuGame(conn, tebakgambar)
 		if (isPlayGame(from, tebakgambar) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebakgambar)) {
+		    var kode = randomNomor(1000000000, 9000000000)
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var tebakgmbr = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakgambar` } },
 		]
@@ -330,7 +339,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 		  if (chats.toLowerCase() == getJawabanGame(from, kuiscuy)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, kuiscuy)}\nHadiah : ${htgm} balance\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kode = randomNomor(1000000000, 9000000000)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, kuiscuy)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakkata` } },
 		]
@@ -342,9 +352,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		cekWaktuGame(conn, tekateki)
 		if (isPlayGame(from, tekateki) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tekateki)) {
+		    var kode = randomNomor(1000000000, 9000000000)
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tekateki)}\nHadiah : ${htgm} balance\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tekateki)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tekateki` } },
 		]
@@ -378,6 +389,51 @@ module.exports = async(conn, msg, m, setting, store) => {
 		]
 			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'KUIS By JOJO-BOT', mentions: [sender]} )  
 		    tebaktebakan.splice(getGamePosi(from, tebaktebakan), 1)
+		  }
+		}
+		
+		cekWaktuGame(conn, tebaklagu)
+		if (isPlayGame(from, tebaklagu) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, tebaklagu)) {
+		    var htgm = randomNomor(500, 550)
+		    var kode = randomNomor(1000000000, 9000000000)
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaklagu)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebaklagu` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'Tebak Lagu', mentions: [sender]} )  
+		    tebaklagu.splice(getGamePosi(from, tebaklagu), 1)
+		  }
+		}
+		
+		cekWaktuGame(conn, siapaaku)
+		if (isPlayGame(from, siapaaku) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, siapaaku)) {
+		    var htgm = randomNomor(500, 550)
+		    var kode = randomNomor(1000000000, 9000000000)
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, siapaaku)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}siapakahaku` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK AKU', mentions: [sender]} )  
+		    siapaaku.splice(getGamePosi(from, siapaaku), 1)
+		  }
+		}
+		
+		cekWaktuGame(conn, tb)
+		if (isPlayGame(from, tb) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, tb)) {
+		    var htgm = randomNomor(500, 550)
+			addBalance(sender, htgm, balance)
+			var kode = randomNomor(1000000000, 9000000000)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tb)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakbendera` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK BENDERA', mentions: [sender]} )  
+		    tb.splice(getGamePosi(from, tb), 1)
 		  }
 		}
 		
@@ -419,7 +475,17 @@ if (chats.startsWith(`Bot`)){
 		   reply(`${err}`)
 		 }
 		}
-		
+		// Anti Antian
+/*if (isGroup && isAntilink && fromMe) {
+  if (budy.includes("https://chat.whatsapp.com/")) {
+    if (isGroupAdmins)return reply(mess.OnlyAdmin)
+    var caption = `Anti link Detected, kamu jangan share link grup!\nMaaf bot akan kick kamu`
+    reply(caption)
+    conn.groupParticipantsUpdate(from, [sender], "remove")
+    .then( res => reply(`Succes✔️`)
+      .catch( err => reply(jsonformat(err))))
+  }
+}*/
 		// Logs;
 		if (!isGroup && isCmd && !fromMe) {
 			addBalance(sender, randomNomor(45), balance)
@@ -634,34 +700,28 @@ case prefix+'githubown':
 			    }
                 break
 			case prefix+'toimg': case prefix+'toimage':
-			case prefix+'tovid': case prefix+'tovideo':
-			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			    if (!isQuotedSticker) return reply(`Reply stikernya!`)
-			    var stream = await downloadContentFromMessage(msg.message.extendedTextMessage?.contextInfo.quotedMessage.stickerMessage, 'sticker')
-			    var buffer = Buffer.from([])
-			    for await(const chunk of stream) {
-			       buffer = Buffer.concat([buffer, chunk])
-			    }
-			    var rand1 = 'sticker/'+getRandom('.webp')
-			    var rand2 = 'sticker/'+getRandom('.png')
-			    fs.writeFileSync(`./${rand1}`, buffer)
-			    if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
-			    exec(`ffmpeg -i ./${rand1} ./${rand2}`, (err) => {
-			      fs.unlinkSync(`./${rand1}`)
-			      if (err) return reply(mess.error.api)
-			      conn.sendMessage(from, { image: { url: `./${rand2}` }}, { quoted: msg })
-			      limitAdd(sender, limit)
-				  fs.unlinkSync(`./${rand2}`)
-			    })
-			    } else {
-			    reply(mess.wait)
-		          webp2mp4File(`./${rand1}`).then( data => {
-			       fs.unlinkSync(`./${rand1}`)
-			       conn.sendMessage(from, { video: { url: data.result }}, { quoted: msg })
-			       limitAdd(sender, limit)
-				  })
-			    }
-			    break
+                case prefix+'tovid': case prefix+'tovideo':
+                   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+                   if (!isQuotedSticker) return reply(`Reply stikernya!`)
+                   if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
+                     var pathe = './sticker/'+getRandom('.png')
+                     var media = await downloadAndSaveMediaMessage(msg, 'sticker', pathe)
+                     reply(mess.wait)
+                     conn.sendMessage(from, { image: fs.readFileSync(media) }, { quoted: msg })
+                     limitAdd(sender, limit)
+                     fs.unlinkSync(pathe)
+                   } else {
+                     var patha = './sticker/'+getRandom('.webp')
+                     var media = await downloadAndSaveMediaMessage(msg, 'sticker', patha)
+                     reply(mess.wait)
+                     addCountCmd('#tovid', sender, _cmd)
+                     webp2mp4File(`${media}`).then(async(data) => {
+                       fs.unlinkSync(`${media}`)
+                       conn.sendMessage(from, { video: await getBuffer(data.data) }, { quoted: msg })
+                       limitAdd(sender, limit)
+                     }).catch((e) => { reply(mess.error.api); fs.unlinkSync(patha) })
+                   }
+                   break
 	        // Downloader Menu
 			/*case prefix+'tiktok':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
@@ -1422,13 +1482,27 @@ case prefix+'tebakkata':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, kuiscuy)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, kuiscuy[getGamePosi(from, kuiscuy)].msg)
 				var kuisnya = JSON.parse(fs.readFileSync('./fitur/tebakkata.json'))
-				const kukus = pickRandom(kuisnya)
+				var kukus = pickRandom(kuisnya)
 				  kukus.jawaban = kukus.jawaban.split('Jawaban ').join('')
-				  var teks = `*TEBAK KATA*\n\n`+monospace(`Soal : ${kukus.soal}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*TEBAK KATA*\n\n`+monospace(`Soal : ${kukus.soal}\nPetunjuk : ${kukus.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
 					var jawab = kukus.jawaban.toLowerCase()
 					addPlayGame(from, 'TEBAK KATA', jawab, gamewaktu, res, kuiscuy)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'tebakbendera':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, tb)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tb[getGamePosi(from, tb)].msg)
+				var teben = JSON.parse(fs.readFileSync('./fitur/tebakbendera.json'))
+				var kukus = pickRandom(teben)
+				  kukus.name = kukus.name.split('Jawaban ').join('')
+				  var teks = `*TEBAK BENDERA*\n\n`+monospace(`Petunjuk : ${kukus.name.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nFlag Code : ${kukus.flag}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {caption: teks, image: {url: kukus.img}}, {quoted: msg})
+				  .then( res => {
+					var jawab = kukus.name.toLowerCase()
+					addPlayGame(from, 'TEBAK BENDERA', jawab, gamewaktu, res, tb)
 					gameAdd(sender, glimit)
 				  })
 			    break
@@ -1438,7 +1512,7 @@ case prefix+'kuis':
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaktebakan.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
-				  var teks = `*KUIS GAME*\n\n`+monospace(`Soal : ${hayo.soal}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*KUIS GAME*\n\n`+monospace(`Soal : ${hayo.soal}\nPetunjuk : ${hayo.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
 					var jawab = hayo.jawaban.toLowerCase()
@@ -1452,11 +1526,41 @@ case prefix+'tekateki':
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tekateki.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
-				  var teks = `*TEKA TEKI*\n\n`+monospace(`Soal : ${hayo.soal}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*TEKA TEKI*\n\n`+monospace(`Soal : ${hayo.soal}\nPetunjuk : ${hayo.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  .then( res => {
 					var jawab = hayo.jawaban.toLowerCase()
-					addPlayGame(from, 'KUIS GAME', jawab, gamewaktu, res, tekateki)
+					addPlayGame(from, 'TEKA TEKI', jawab, gamewaktu, res, tekateki)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'tebaklagu':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, tebaklagu)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebaklagu[getGamePosi(from, tebaklagu)].msg)
+				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaklagu.json'))
+				var hayo = pickRandom(tebaknya)
+				  hayo.judul = hayo.judul.split('Judul ').join('')
+				  var teks = `*TEBAK LAGU*\n\n`+monospace(`Tebak Lagu Berikut\nSong : ${hayo.penyanyi}\nPetunjuk : ${hayo.judul.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  conn.sendMessage(from, {audio: {url: hayo.link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+				  .then( res => {
+					var jawab = hayo.judul.toLowerCase()
+					addPlayGame(from, 'TEBAK LAGU', jawab, gamewaktu, res, tebaklagu)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'siapakahaku':
+  case prefix+'siapaaku':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, siapaaku)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, siapaaku[getGamePosi(from, siapaaku)].msg)
+				var tebaknya = JSON.parse(fs.readFileSync('./fitur/siapakahaku.json'))
+				var hayo = pickRandom(tebaknya)
+				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
+				  var teks = `*Siapa Aku?*\n\n`+monospace(`Soal : ${hayo.soal}\nNomor Soal Ke : ${hayo.index}\nPetunjuk : ${hayo.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  .then( res => {
+					var jawab = hayo.jawaban.toLowerCase()
+					addPlayGame(from, 'Siapa Aku?', jawab, gamewaktu, res, siapaaku)
 					gameAdd(sender, glimit)
 				  })
 			    break
@@ -1532,6 +1636,23 @@ case prefix+'tebakkimia':
 				  reply(`Kirim perintah ${command} _options_\nOptions : close & open\nContoh : ${command} close`)
 				}
 			    break
+/*case prefix+'antilink':
+		        if (!isGroup) return reply(mess.OnlyGrup)
+				if (!isGroupAdmins) return reply(mess.GrupAdmin)
+				if (!isBotGroupAdmins) return reply(mess.BotAdmin)
+				if (args.length < 2) return reply(`Kirim perintah ${command} _options_\nOptions : on & off\nContoh : ${command} on`)
+				if (args[1] == "on") {
+				  antilink.push(from)
+			fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink, null, 2))
+				  reply(`Sukses Mengaktifkan Anti Link`)
+				} else if (args[1] == "off") {
+				   antilink.splice(from)
+			fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink, null, 2))
+				  reply(`Sukses Menghapus Anti Link`)
+				} else {
+				  reply(`Kirim perintah ${command} _options_\nOptions : on & off\nContoh : ${command} on`)
+				}*/
+			    break
 			case prefix+'revoke':
 			    if (!isGroup) return reply(mess.OnlyGrup)
 				if (!isGroupAdmins) return reply(mess.GrupAdmin)
@@ -1548,6 +1669,17 @@ case prefix+'tebakkimia':
 		        groupMembers.map( i => mem.push(i.id) )
 				conn.sendMessage(from, { text: q ? q : '', mentions: mem })
 			    break
+case prefix+'infogc':
+  case prefix+'infogrup':
+    case prefix+'grupinfo':
+      case prefix+'infogroup':
+        case prefix+'groupinfo':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (!isGroup)return reply(mess.OnlyGrup)
+  var caption = `*[ ${groupMetadata.subject} ]*\n\n*Nama Grup :* ${groupMetadata.subject}\n*Pemilik Grup :* @${groupMetadata.owner}\n*Di Buat Pada :* ${moment(`${groupMetadata.creation}` * 1000).tz('Asia/Jakarta').format('DD/MM/YYYY HH:mm:ss')}\n*Jumlah Member :* ${groupMembers.length}\n*Jumlah Admin :* ${groupAdmins.length}\n*Deskripsi :* ${groupMetadata.desc}`
+  conn.profilePictureUrl(from, 'image').then( res => conn.sendMessage(from, {caption: caption, image: { url: res }}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: caption, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}, mentions: [mems]}, {quoted: msg}))
+  limitAdd(sender, limit)
+  break
 case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
@@ -1665,10 +1797,10 @@ case prefix+'add':
                 if (isNaN(args[1])) return reply(`Harus berupa angka`)
                 if (args[1].toLowerCase() === 'infinity') return reply(`Yahaha saya ndak bisa di tipu`)
                 let ane = Number(parseInt(args[1]) * 150)
-                if (getBalance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
+                if (gealance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
                 kurangBalance(sender, ane, balance)
                 giveLimit(sender, parseInt(args[1]), limit)
-                reply(monospace(`Pembeliaan limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${getBalance(sender, balance)}\nSisa Limit : ${getLimit(sender, limitCount, limit)}/${limitCount}`))
+                reply(monospace(`Pembeliaan limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${gealance(sender, balance)}\nSisa Limit : ${getLimit(sender, limitCount, limit)}/${limitCount}`))
             }
                 break
 			case prefix+'transfer':
@@ -1679,7 +1811,7 @@ case prefix+'add':
                  if (isNaN(args[2])) return reply(`Nominal harus berupa angka!`)
                  if (args[2].toLowerCase() === 'infinity') return reply(`Yahaha saya ndak bisa di tipu`)
                  if (args[2].includes("-")) return reply(`Jangan menggunakan -`)
-                 var anu = getBalance(sender, balance)
+                 var anu = gealance(sender, balance)
                  if (anu < args[2] || anu == 'undefined') return reply(`Balance Kamu Tidak Mencukupi Untuk Transfer Sebesar $${args[2]}, Kumpulkan Terlebih Dahulu\nKetik ${prefix}balance, untuk mengecek Balance mu!`)
                  kurangBalance(sender, parseInt(args[2]), balance)
                  addBalance(mentioned[0], parseInt(args[2]), balance)
@@ -1693,26 +1825,23 @@ case prefix+'add':
                 if (isNaN(args[1])) return reply(`Harus berupa angka`)
                 if (args[1].toLowerCase() === 'infinity') return reply(`Yahaha saya ndak bisa di tipu`)
                 let ane = Number(parseInt(args[1]) * 150)
-                if (getBalance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
+                if (gealance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
                 kurangBalance(sender, ane, balance)
                 givegame(sender, parseInt(args[1]), glimit)
-                reply(monospace(`Pembeliaan game limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${getBalance(sender, balance)}\nSisa Game Limit : ${cekGLimit(sender, gcount, glimit)}/${gcount}`))
+                reply(monospace(`Pembeliaan game limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${gealance(sender, balance)}\nSisa Game Limit : ${cekGLimit(sender, gcount, glimit)}/${gcount}`))
             }
                 break
-			case prefix+'limit': 
-			case prefix+'ceklimit':
-			  case prefix+'balance':
-			    case prefix+'celbalance':
+			case prefix+'limit': case prefix+'balance':
+			case prefix+'ceklimit': case prefix+'cekbalance':
 			    if (mentioned.length !== 0){
 					var Ystatus = ownerNumber.includes(mentioned[0])
 					var isPrim = Ystatus ? true : _prem.checkPremiumUser(mentioned[0], premium)
 				    var ggcount = isPrim ? gcounti.prem : gcounti.user
                     var limitMen = `${getLimit(mentioned[0], limitCount, limit)}`
-                    textImg(`Limit : ${_prem.checkPremiumUser(mentioned[0], premium) ? 'Unlimited' : limitMen}/${limitCount}\nLimit Game : ${cekGLimit(mentioned[0], ggcount, glimit)}/${ggcount}\nBalance : $${getBalance(mentioned[0], balance)}\n\nKamu dapat membeli limit dengan ${prefix}buylimit dan ${prefix}buyglimit untuk membeli game limit`)
-                    
+                    textImg(`Limit : ${_prem.checkPremiumUser(mentioned[0], premium) ? 'Unlimited' : limitMen}/${limitCount}\nLimit Game : ${cekGLimit(mentioned[0], ggcount, glimit)}/${ggcount}\nBalance : $${gealance(mentioned[0], balance)}\n\nKamu dapat membeli limit dengan ${prefix}buylimit dan ${prefix}buyglimit untuk membeli game limit`)
                 } else {
-                    var limitPrib = `${getLimit(mentioned[0], limitCount, limit)}`
-                    textImg(`Limit : ${_prem.checkPremiumUser(mentioned[0], premium) ? 'Unlimited' : limitMen}/${limitCount}\nLimit Game : ${cekGLimit(mentioned[0], ggcount, glimit)}/${ggcount}\nBalance : $${getBalance(mentioned[0], balance)}\n\nKamu dapat membeli limit dengan ${prefix}buylimit dan ${prefix}buyglimit untuk membeli game limit`)
+                    var limitPrib = `${getLimit(sender, limitCount, limit)}/${limitCount}`
+                    textImg(`Limit : ${isPremium ? 'Unlimited' : limitPrib}\nLimit Game : ${cekGLimit(sender, gcount, glimit)}/${gcount}\nBalance : $${gealance(sender, balance)}\n\nKamu dapat membeli limit dengan ${prefix}buylimit dan ${prefix}buyglimit untuk membeli game limit`)
                 }
 				break
 //Api Anto
