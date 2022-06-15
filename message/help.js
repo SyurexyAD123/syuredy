@@ -192,6 +192,7 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}add <@tag>
   ≻ ${prefix}promote <@tag>
   ≻ ${prefix}demote <@tag>
+  ≻ ${prefix}infogc
   
   *( 🧑🏻‍💻 )  Owner Menu*
   > evalcode

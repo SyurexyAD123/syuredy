@@ -93,6 +93,7 @@ let premium = JSON.parse(fs.readFileSync('./database/premium.json'));
 let balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
+/*let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));*/
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -108,6 +109,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const content = JSON.stringify(msg.message)
 		const from = msg.key.remoteJid
 		const chats = (type === 'conversation' && msg.message.conversation) ? msg.message.conversation : (type == 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type == 'documentMessage') && msg.message.documentMessage.caption ? msg.message.documentMessage.caption : (type == 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : (type == 'extendedTextMessage') && msg.message.extendedTextMessage.text ? msg.message.extendedTextMessage.text : (type == 'buttonsResponseMessage' && msg.message.buttonsResponseMessage.selectedButtonId) ? msg.message.buttonsResponseMessage.selectedButtonId : (type == 'templateButtonReplyMessage') && msg.message.templateButtonReplyMessage.selectedId ? msg.message.templateButtonReplyMessage.selectedId : ''
+		const budy = (type === 'conversation') ? msg.message.conversation : (type === 'extendedTextMessage') ? msg.message.extendedTextMessage.text : ''
 		const toJSON = j => JSON.stringify(j, null,'\t')
 		if (conn.multi) {
 			var prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(chats) ? chats.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi) : '#'
@@ -133,11 +135,14 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const groupMetadata = isGroup ? await conn.groupMetadata(from) : ''
 		const groupName = isGroup ? groupMetadata.subject : ''
 		const groupId = isGroup ? groupMetadata.id : ''
+		const groupOwner = isGroup ? groupMetadata.owner : ''
+		const groupDesc = isGroup ? groupMetadata.desc : ''
 		const groupMembers = isGroup ? groupMetadata.participants : ''
 		const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : ''
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isGroupAdmins = groupAdmins.includes(sender)
 		const isUser = pendaftar.includes(sender)
+		/*const isAntilink = antilink.includes(sender)*/
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 
 		const gcounti = setting.gcount
@@ -438,7 +443,17 @@ if (chats.startsWith(`Bot`)){
 		   reply(`${err}`)
 		 }
 		}
-		
+		// Anti Antian
+/*if (isGroup && isAntilink && fromMe) {
+  if (budy.includes("https://chat.whatsapp.com/")) {
+    if (isGroupAdmins)return reply(mess.OnlyAdmin)
+    var caption = `Anti link Detected, kamu jangan share link grup!\nMaaf bot akan kick kamu`
+    reply(caption)
+    conn.groupParticipantsUpdate(from, [sender], "remove")
+    .then( res => reply(`Succes✔️`)
+      .catch( err => reply(jsonformat(err))))
+  }
+}*/
 		// Logs;
 		if (!isGroup && isCmd && !fromMe) {
 			addBalance(sender, randomNomor(45), balance)
@@ -1565,6 +1580,23 @@ case prefix+'tebakkimia':
 				  reply(`Kirim perintah ${command} _options_\nOptions : close & open\nContoh : ${command} close`)
 				}
 			    break
+/*case prefix+'antilink':
+		        if (!isGroup) return reply(mess.OnlyGrup)
+				if (!isGroupAdmins) return reply(mess.GrupAdmin)
+				if (!isBotGroupAdmins) return reply(mess.BotAdmin)
+				if (args.length < 2) return reply(`Kirim perintah ${command} _options_\nOptions : on & off\nContoh : ${command} on`)
+				if (args[1] == "on") {
+				  antilink.push(from)
+			fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink, null, 2))
+				  reply(`Sukses Mengaktifkan Anti Link`)
+				} else if (args[1] == "off") {
+				   antilink.splice(from)
+			fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink, null, 2))
+				  reply(`Sukses Menghapus Anti Link`)
+				} else {
+				  reply(`Kirim perintah ${command} _options_\nOptions : on & off\nContoh : ${command} on`)
+				}*/
+			    break
 			case prefix+'revoke':
 			    if (!isGroup) return reply(mess.OnlyGrup)
 				if (!isGroupAdmins) return reply(mess.GrupAdmin)
@@ -1581,6 +1613,17 @@ case prefix+'tebakkimia':
 		        groupMembers.map( i => mem.push(i.id) )
 				conn.sendMessage(from, { text: q ? q : '', mentions: mem })
 			    break
+case prefix+'infogc':
+  case prefix+'infogrup':
+    case prefix+'grupinfo':
+      case prefix+'infogroup':
+        case prefix+'groupinfo':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (!isGroup)return reply(mess.OnlyGrup)
+  var caption = `*[ ${groupMetadata.subject} ]*\n\n*Nama Grup :* ${groupMetadata.subject}\n*Pemilik Grup :* @${groupMetadata.owner}\n*Di Buat Pada :* ${moment(`${groupMetadata.creation}` * 1000).tz('Asia/Jakarta').format('DD/MM/YYYY HH:mm:ss')}\n*Jumlah Member :* ${groupMembers.length}\n*Jumlah Admin :* ${groupAdmins.length}\n*Deskripsi :* ${groupMetadata.desc}`
+  conn.profilePictureUrl(from, 'image').then( res => conn.sendMessage(from, {caption: caption, image: { url: res }}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: caption, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}, mentions: [mems]}, {quoted: msg}))
+  limitAdd(sender, limit)
+  break
 case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
