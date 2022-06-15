@@ -85,6 +85,7 @@ let tebaktebakan = []
 let tekateki = []
 let tebakkimia = []
 let tb = []
+let tebaklagu = []
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -390,6 +391,21 @@ module.exports = async(conn, msg, m, setting, store) => {
 		  }
 		}
 		
+		cekWaktuGame(conn, tebaklagu)
+		if (isPlayGame(from, tebaklagu) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, tebaklagu)) {
+		    var htgm = randomNomor(500, 550)
+		    var kode = randomNomor(1000000000, 9000000000)
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaklagu)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebaklagu` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'Tebak Lagu', mentions: [sender]} )  
+		    tebaklagu.splice(getGamePosi(from, tebaklagu), 1)
+		  }
+		}
+		
 		cekWaktuGame(conn, tb)
 		if (isPlayGame(from, tb) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tb)) {
@@ -682,7 +698,7 @@ case prefix+'githubown':
                      var patha = './sticker/'+getRandom('.webp')
                      var media = await downloadAndSaveMediaMessage(msg, 'sticker', patha)
                      reply(mess.wait)
-                     
+                     addCountCmd('#tovid', sender, _cmd)
                      webp2mp4File(`${media}`).then(async(data) => {
                        fs.unlinkSync(`${media}`)
                        conn.sendMessage(from, { video: await getBuffer(data.data) }, { quoted: msg })
@@ -1499,6 +1515,21 @@ case prefix+'tekateki':
 				  .then( res => {
 					var jawab = hayo.jawaban.toLowerCase()
 					addPlayGame(from, 'TEKA TEKI', jawab, gamewaktu, res, tekateki)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'tebaklagu':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, tebaklagu)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebaklagu[getGamePosi(from, tebaklagu)].msg)
+				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaklagu.json'))
+				var hayo = pickRandom(tebaknya)
+				  hayo.judul = hayo.judul.split('Judul ').join('')
+				  var teks = `*TEBAK LAGU*\n\n`+monospace(`Tebak Lagu Berikut\nPetunjuk : ${hayo.judul.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  conn.sendMessage(from, {audio: {url: hayo.link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+				  .then( res => {
+					var jawab = hayo.judul.toLowerCase()
+					addPlayGame(from, 'TEBAK LAGU', jawab, gamewaktu, res, tebaklagu)
 					gameAdd(sender, glimit)
 				  })
 			    break
