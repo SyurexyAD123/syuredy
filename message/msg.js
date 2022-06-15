@@ -673,16 +673,16 @@ case prefix+'githubown':
                    if (!isQuotedSticker) return reply(`Reply stikernya!`)
                    if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
                      var pathe = './sticker/'+getRandom('.png')
-                     var media = await conn.downloadAndSaveMediaMessage(msg, 'sticker', pathe)
+                     var media = await downloadAndSaveMediaMessage(msg, 'sticker', pathe)
                      reply(mess.wait)
                      conn.sendMessage(from, { image: fs.readFileSync(media) }, { quoted: msg })
                      limitAdd(sender, limit)
                      fs.unlinkSync(pathe)
                    } else {
                      var patha = './sticker/'+getRandom('.webp')
-                     var media = await conn.downloadAndSaveMediaMessage(msg, 'sticker', patha)
+                     var media = await downloadAndSaveMediaMessage(msg, 'sticker', patha)
                      reply(mess.wait)
-                     addCountCmd('#tovid', sender, _cmd)
+                     
                      webp2mp4File(`${media}`).then(async(data) => {
                        fs.unlinkSync(`${media}`)
                        conn.sendMessage(from, { video: await getBuffer(data.data) }, { quoted: msg })
