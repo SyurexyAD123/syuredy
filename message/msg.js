@@ -35,9 +35,9 @@ const { wikiSearch } = require("../lib/wiki")
 const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("../lib/limit");
 const { isTicTacToe, getPosTic } = require("../lib/tictactoe");
 const { addPlayGame, getJawabanGame, isPlayGame, cekWaktuGame, getGamePosi } = require("../lib/game");
+const { addBanned, unBanned, BannedExpired, cekBannedUser } = require("../lib/banned");
 const tictac = require("../lib/tictac");
 const _prem = require("../lib/premium");
-
 const fs = require ("fs");
 const moment = require("moment-timezone");
 const util = require("util");
@@ -92,6 +92,7 @@ let siapaaku = []
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
 let mess = JSON.parse(fs.readFileSync('./message/response.json'));
 let premium = JSON.parse(fs.readFileSync('./database/premium.json'));
+let ban = JSON.parse(fs.readFileSync('./database/ban.json'));
 let balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
@@ -143,8 +144,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isGroupAdmins = groupAdmins.includes(sender)
 		const isUser = pendaftar.includes(sender)
-		/*const isAntilink = antilink.includes(sender)*/
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
+		const isBan = cekBannedUser(sender, ban)
 
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
@@ -154,6 +155,7 @@ module.exports = async(conn, msg, m, setting, store) => {
                 const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
                 mention != undefined ? mention.push(mentionByReply) : []
                 const mentionUser = mention != undefined ? mention.filter(n => n) : []
+                
 		
 		async function downloadAndSaveMediaMessage (type_file, path_file) {
 			if (type_file === 'image') {
@@ -302,8 +304,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isQuotedSticker = isQuotedMsg ? content.includes('stickerMessage') ? true : false : false
 
 		// Auto Read & Presence Online
-		conn.sendReadReceipt(from, sender, [msg.key.id])
+		
 		conn.sendPresenceUpdate('available', from)
+		conn.sendPresenceUpdate('composing', from)
 		
         // Auto Registrasi
 		if (isCmd && !isUser) {
@@ -314,6 +317,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		// Premium
 		_prem.expiredCheck(conn, premium)
 
+    // Banned
+        if (isBan) return
+        BannedExpired(ban)
+        
 		// Tictactoe
 		if (isTicTacToe(from, tictactoe)) tictac(chats, prefix, tictactoe, from, sender, reply, mentions, addBalance, balance)
 
@@ -321,10 +328,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 		cekWaktuGame(conn, tebakgambar)
 		if (isPlayGame(from, tebakgambar) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebakgambar)) {
-		    var kode = randomNomor(1000000000, 9000000000)
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var tebakgmbr = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakgambar` } },
 		]
@@ -338,8 +344,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 		  if (chats.toLowerCase() == getJawabanGame(from, kuiscuy)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-			var kode = randomNomor(1000000000, 9000000000)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, kuiscuy)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, kuiscuy)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakkata` } },
 		]
@@ -351,10 +357,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		cekWaktuGame(conn, tekateki)
 		if (isPlayGame(from, tekateki) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tekateki)) {
-		    var kode = randomNomor(1000000000, 9000000000)
+		    
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tekateki)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tekateki)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tekateki` } },
 		]
@@ -382,7 +388,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebaktebakan)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaktebakan)}\nHadiah : ${htgm} balance\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaktebakan)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}kuis` } },
 		]
@@ -395,9 +401,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 		if (isPlayGame(from, tebaklagu) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebaklagu)) {
 		    var htgm = randomNomor(500, 550)
-		    var kode = randomNomor(1000000000, 9000000000)
+		    
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaklagu)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaklagu)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebaklagu` } },
 		]
@@ -410,9 +416,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 		if (isPlayGame(from, siapaaku) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, siapaaku)) {
 		    var htgm = randomNomor(500, 550)
-		    var kode = randomNomor(1000000000, 9000000000)
+		    
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, siapaaku)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\nIngin bermain lagi? Pencet Tombol Dibawah`
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, siapaaku)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}siapakahaku` } },
 		]
@@ -426,8 +432,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 		  if (chats.toLowerCase() == getJawabanGame(from, tb)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-			var kode = randomNomor(1000000000, 9000000000)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tb)}\nHadiah : ${htgm} balance\nKode Game : ${kode}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tb)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
 			var kus = [
 			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakbendera` } },
 		]
@@ -647,6 +653,57 @@ case prefix+'githubown':
                   }
                 }
                 mentions(txt, men, true)
+                break
+case prefix+'ban':
+                if (!isOwner) return reply(mess.OnlyOwner)
+                if (mentioned.length !== 0){
+                    for (let i = 0; i < mentioned.length; i++){
+                        addBanned(mentioned[0], args[2], ban)
+                    }
+                    reply('Sukses')
+                } else if (isQuotedMsg) {
+                    if (quotedMsg.sender === ownerNumber) return reply(`Tidak bisa ban Owner`)
+                    addBanned(quotedMsg.sender, args[1], ban)
+                    reply(`Sukses ban target`)
+                } else if (!isNaN(args[1])) {
+                    addBanned(args[1] + '@s.whatsapp.net', args[2], ban)
+                    reply('Sukses')
+                } else {
+                    reply(`Kirim perintah ${prefix}ban @tag atau nomor atau reply pesan orang yang ingin di ban`)
+                }
+                break
+            case prefix+'unban':
+                if (!isOwner) return reply(mess.OnlyOwner)
+                if (mentioned.length !== 0){
+                    for (let i = 0; i < mentioned.length; i++){
+                        unBanned(mentioned[i], ban)
+                    }
+                    reply('Sukses')
+                }if (isQuotedMsg) {
+                    unBanned(quotedMsg.sender, ban)
+                    reply(`Sukses unban target`) 
+                } else if (!isNaN(args[1])) {
+                    unBanned(args[1] + '@s.whatsapp.net', ban)
+                    reply('Sukses')
+                } else {
+                    reply(`Kirim perintah ${prefix}unban @tag atau nomor atau reply pesan orang yang ingin di unban`)
+                }
+                break
+            case prefix+'listban':
+                let txtx = `List Banned\nJumlah : ${ban.length}\n\n`
+                let menx = [];
+                for (let i of ban){
+                    menx.push(i.id)
+                    txtx += `*ID :* @${i.id.split("@")[0]}\n`
+                    if (i.expired === 'PERMANENT'){
+                        let cekvip = 'PERMANENT'
+                        txtx += `*Expire :* PERMANENT\n\n`
+                    } else {
+                        let cekvip = ms(i.expired - Date.now())
+                        txtx += `*Expire :* ${cekvip.days} day(s) ${cekvip.hours} hour(s) ${cekvip.minutes} minute(s) ${cekvip.seconds} second(s)\n\n`
+                    }
+                }
+                mentions(txtx, menx, true)
                 break
 	        // Converter & Tools Menu
 			case prefix+'sticker': case prefix+'stiker': case prefix+'s': case prefix+'stickergif': case prefix+'sgif': case prefix+'stikergif': case prefix+'stikgif':
@@ -2428,6 +2485,14 @@ case prefix+'sendvirus':
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/4.txt')})
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/virtex.txt')})
   reply(`succes mengirim virus ke nomer ${q}`)
+  break
+case prefix+'kontak':
+  if (args.length < 2) return reply(`kirim Perintah ${command} Nomer Kontak|Nama Kontak\nContoh ${command} 62882938293|Jojo`)
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  var nom = q.split('|')[0] ? q.split('|')[0] : q
+                var or = q.split('|')[1] ? q.split('|')[1] : ''
+  sendContact(from, `${nom}@s.whatsapp.net`, or, msg)
+  limitAdd(sender, limit)
   break
 default:
 			if (!isGroup && isCmd) {

@@ -45,6 +45,7 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}runtime
   ≻ ${prefix}cekprem
   ≻ ${prefix}listprem
+  ≻ ${prefix}listban
   ≻ ${prefix}jo <Text>
   ≻ ${prefix}simi <Text>
   ≻ ${prefix}delete
@@ -137,6 +138,7 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}ytsearch <Pencarian>
   ≻ ${prefix}pinterest <Querry>
   ≻ ${prefix}getpp
+  ≻ ${prefix}kontak
   
   *( 🅰️ )  Edit Vokal*
   ≻ ${prefix}halah
@@ -209,6 +211,8 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}delprem
   ≻ ${prefix}broadcast
   ≻ ${prefix}masuk
+  ≻ ${prefix}ban
+  ≻ ${prefix}unban
 
   *THANKS TO*
   - Allah SWT
