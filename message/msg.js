@@ -88,6 +88,11 @@ let tb = []
 let tebaklagu = []
 let siapaaku = []
 
+//Prefix
+let multi = true
+let nopref = false
+let prefa = 'anjing'
+
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
 let mess = JSON.parse(fs.readFileSync('./message/response.json'));
@@ -96,7 +101,7 @@ let ban = JSON.parse(fs.readFileSync('./database/ban.json'));
 let balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
-/*let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));*/
+let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -146,7 +151,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isUser = pendaftar.includes(sender)
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 		const isBan = cekBannedUser(sender, ban)
-
+		const isAntiLink = isGroup ? antilink.includes(from) : false
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
@@ -304,7 +309,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isQuotedSticker = isQuotedMsg ? content.includes('stickerMessage') ? true : false : false
 
 		// Auto Read & Presence Online
-		conn.sendReadReceipt(from, sender, [msg.key.id])
+		
 		conn.sendPresenceUpdate('available', from)
 		conn.sendPresenceUpdate('composing', from)
 		
@@ -323,6 +328,15 @@ module.exports = async(conn, msg, m, setting, store) => {
         
 		// Tictactoe
 		if (isTicTacToe(from, tictactoe)) tictac(chats, prefix, tictactoe, from, sender, reply, mentions, addBalance, balance)
+
+        // Anti link
+        if (isGroup && isAntiLink && !isOwner && !isGroupAdmins && isBotGroupAdmins){
+            if (chats.match(`://chat.whatsapp.com`)) {
+                reply(`*「 GROUP LINK DETECTOR 」*\n\nSepertinya kamu mengirimkan link grup, maaf kamu akan di kick`)
+                number = sender
+      conn.groupParticipantsUpdate(from, [number], "remove")
+            }
+        }
 
         // Game
 		cekWaktuGame(conn, tebakgambar)
@@ -480,17 +494,7 @@ if (chats.startsWith(`Bot`)){
 		   reply(`${err}`)
 		 }
 		}
-		// Anti Antian
-/*if (isGroup && isAntilink && fromMe) {
-  if (budy.includes("https://chat.whatsapp.com/")) {
-    if (isGroupAdmins)return reply(mess.OnlyAdmin)
-    var caption = `Anti link Detected, kamu jangan share link grup!\nMaaf bot akan kick kamu`
-    reply(caption)
-    conn.groupParticipantsUpdate(from, [sender], "remove")
-    .then( res => reply(`Succes✔️`)
-      .catch( err => reply(jsonformat(err))))
-  }
-}*/
+
 		// Logs;
 		if (!isGroup && isCmd && !fromMe) {
 			addBalance(sender, randomNomor(45), balance)
@@ -654,6 +658,30 @@ case prefix+'githubown':
                 }
                 mentions(txt, men, true)
                 break
+case prefix+'block':
+  case prefix+'blok':
+  if (!isOwner)return reply(mess.OnlyOwner)
+  if (mentioned.length !== 0){
+                    for (let i = 0; i < mentioned.length; i++){
+                        conn.updateBlockStatus(mentioned[0], "block")
+                    }
+                    } else if (isQuotedMsg) {
+                    if (quotedMsg.sender === ownerNumber) return reply(`Tidak bisa block Owner`)
+                    conn.updateBlockStatus(quotedMsg.sender, "block")
+                    reply(`Sukses block target`)}
+  break 
+  case prefix+'unblock':
+    case prefix+'unblok':
+  if (!isOwner)return reply(mess.OnlyOwner)
+  if (mentioned.length !== 0){
+                    for (let i = 0; i < mentioned.length; i++){
+                        conn.updateBlockStatus(mentioned[0], "block")
+                    }
+                    } else if (isQuotedMsg) {
+                    
+                    conn.updateBlockStatus(quotedMsg.sender, "unblock")
+                    reply(`Sukses buka block target`)}
+  break 
 case prefix+'ban':
                 if (!isOwner) return reply(mess.OnlyOwner)
                 if (mentioned.length !== 0){
@@ -1692,22 +1720,6 @@ case prefix+'tebakkimia':
 				  reply(`Kirim perintah ${command} _options_\nOptions : close & open\nContoh : ${command} close`)
 				}
 			    break
-/*case prefix+'antilink':
-		        if (!isGroup) return reply(mess.OnlyGrup)
-				if (!isGroupAdmins) return reply(mess.GrupAdmin)
-				if (!isBotGroupAdmins) return reply(mess.BotAdmin)
-				if (args.length < 2) return reply(`Kirim perintah ${command} _options_\nOptions : on & off\nContoh : ${command} on`)
-				if (args[1] == "on") {
-				  antilink.push(from)
-			fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink, null, 2))
-				  reply(`Sukses Mengaktifkan Anti Link`)
-				} else if (args[1] == "off") {
-				   antilink.splice(from)
-			fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink, null, 2))
-				  reply(`Sukses Menghapus Anti Link`)
-				} else {
-				  reply(`Kirim perintah ${command} _options_\nOptions : on & off\nContoh : ${command} on`)
-				}*/
 			    break
 			case prefix+'revoke':
 			    if (!isGroup) return reply(mess.OnlyGrup)
@@ -1736,6 +1748,25 @@ case prefix+'infogc':
   conn.profilePictureUrl(from, 'image').then( res => conn.sendMessage(from, {caption: caption, image: { url: res }}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: caption, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}, mentions: [mems]}, {quoted: msg}))
   limitAdd(sender, limit)
   break
+case prefix+'antilink':
+                if (!isGroup) return reply(mess.OnlyGrup)
+                if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
+                if (!isBotGroupAdmins) return reply(mess.BotAdmin)
+                if (args.length === 1) return reply(`Pilih enable atau disable\nContoh : ${prefix}antilink enable`)
+                if (args[1].toLowerCase() === 'enable'){
+                    if (isAntiLink) return reply(`Udah aktif`)
+                    antilink.push(from)
+					fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink))
+					reply('Antilink grup aktif')
+                } else if (args[1].toLowerCase() === 'disable'){
+                    let anu = antilink.indexOf(from)
+                    antilink.splice(anu, 1)
+                    fs.writeFileSync('./database/antilink.json', JSON.stringify(antilink))
+                    reply('Antilink grup nonaktif')
+                } else {
+                    reply(`Pilih enable atau disable\nContoh : ${prefix}antilink enable`)
+                }
+                break
 case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)

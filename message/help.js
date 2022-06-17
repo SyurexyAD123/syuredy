@@ -197,6 +197,7 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}promote <@tag>
   ≻ ${prefix}demote <@tag>
   ≻ ${prefix}infogc
+  ≻ ${prefix}antilink enable/disab
   
   *( 🧑🏻‍💻 )  Owner Menu*
   > evalcode
@@ -213,6 +214,8 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
   ≻ ${prefix}masuk
   ≻ ${prefix}ban
   ≻ ${prefix}unban
+  ≻ ${prefix}block
+  ≻ ${prefix}unblock
 
   *THANKS TO*
   - Allah SWT
