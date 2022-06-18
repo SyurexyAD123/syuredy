@@ -87,11 +87,12 @@ let tebakkimia = []
 let tb = []
 let tebaklagu = []
 let siapaaku = []
+let susun = []
 
 //Prefix
 let multi = true
 let nopref = false
-let prefa = 'anjing'
+let prefa = '#'
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -118,15 +119,15 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const from = msg.key.remoteJid
 		const chats = (type === 'conversation' && msg.message.conversation) ? msg.message.conversation : (type === 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type === 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : (type === 'extendedTextMessage') && msg.message.extendedTextMessage.text ? msg.message.extendedTextMessage.text : (type === 'buttonsResponseMessage') && quotedMsg.fromMe && msg.message.buttonsResponseMessage.selectedButtonId ? msg.message.buttonsResponseMessage.selectedButtonId : (type === 'templateButtonReplyMessage') && quotedMsg.fromMe && msg.message.templateButtonReplyMessage.selectedId ? msg.message.templateButtonReplyMessage.selectedId : (type === 'messageContextInfo') ? (msg.message.buttonsResponseMessage?.selectedButtonId || msg.message.listResponseMessage?.singleSelectReply.selectedRowId) : (type == 'listResponseMessage') && quotedMsg.fromMe && msg.message.listResponseMessage.singleSelectReply.selectedRowId ? msg.message.listResponseMessage.singleSelectReply.selectedRowId : ""
                 const toJSON = j => JSON.stringify(j, null,'\t')
-		if (conn.multi) {
-			var prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(chats) ? chats.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi) : '#'
-		} else {
-			if (conn.nopref) {
-				prefix = ''
-			} else {
-				prefix = conn.prefa
-			}
-		}
+		if (multi){
+		    var prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi) : '#'
+        } else {
+            if (nopref){
+                prefix = ''
+            } else {
+                prefix = prefa
+            }
+        }
 		const more = String.fromCharCode(8206)
     const readmore = more.repeat(4001)
 		const args = chats.split(' ')
@@ -509,10 +510,9 @@ if (chats.startsWith(`Bot`)){
 			// Main Menu
 			case prefix+'menu':
 			case prefix+'help':
-			  /*conn.sendMessage(from, { audio: fs.readFileSync('audio/Assalamualaika.m4a'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})*/
+			  case prefix+'m':
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    
-				/*conn.sendMessage(from, { react: { text: `👋`, key: msg.key }})*/
 conn.sendMessage(from, { caption: teks, image: fs.readFileSync('media/Jojo2.jpg'), templateButtons: buttonsDefault, footer: '© Jojo - Bot', mentions: [sender]} )
 				break
 case prefix+'delete':
@@ -675,13 +675,30 @@ case prefix+'block':
   if (!isOwner)return reply(mess.OnlyOwner)
   if (mentioned.length !== 0){
                     for (let i = 0; i < mentioned.length; i++){
-                        conn.updateBlockStatus(mentioned[0], "block")
+                        conn.updateBlockStatus(mentioned[0], "unblock")
                     }
                     } else if (isQuotedMsg) {
                     
                     conn.updateBlockStatus(quotedMsg.sender, "unblock")
                     reply(`Sukses buka block target`)}
   break 
+  case prefix+'setprefix':
+                if (!isOwner) return reply(mess.OnlyOwner)
+                if (args.length < 2) return reply(`Masukkan prefix\nOptions :\n=> multi\n=> nopref`)
+                if (q === 'multi'){
+                    multi = true
+                    reply(`Berhasil mengubah prefix ke ${q}`)
+                } else if (q === 'nopref'){
+                    multi = false
+                    nopref = true
+                    reply(`Berhasil mengubah prefix ke ${q}`)
+                } else {
+                    multi = false
+                    nopref = false
+                    prefa = `${q}`
+                    reply(`Berhasil mengubah prefix ke ${q}`)
+                }
+                break
 case prefix+'ban':
                 if (!isOwner) return reply(mess.OnlyOwner)
                 if (mentioned.length !== 0){
@@ -806,6 +823,44 @@ case prefix+'ban':
                      }).catch((e) => { reply(mess.error.api); fs.unlinkSync(patha) })
                    }
                    break
+case prefix+'toimg':
+  let encmedia = JSON.parse(JSON.stringify(msg).replace('quotedM','m')).message.extendedTextMessage.contextInfo
+				var media = await conn.downloadAndSaveMediaMessage(encmedia)
+				if (quotedMsg.stickerMessage.isAnimated === true){
+                    let outGif = getRandom('.gif')
+                    let outMp4 = getRandom('.mp4')
+                    exec(`convert ${media} ${outGif}`, (err) => {
+                        if (err) {
+                            console.log(err)
+                            fs.unlinkSync(media)
+                            return reply(`Error bruh`)
+                        }
+                        exec(`ffmpeg -i ${outGif} -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p ${outMp4}`, (err) => {
+                            if (err) {
+                                console.log(err)
+                                fs.unlinkSync(media)
+                                fs.unlinkSync(outGif)
+                                return reply(`Error`)
+                            }
+                            conn.sendMessage(from, {caption: `test`, video: fs.readFileSync(outMp4)})
+                            .then(() => {
+                                fs.unlinkSync(outMp4)
+                                limitAdd(sender, limit)
+                            })
+                        })
+                    })
+					} else {
+                    reply(mess.wait)
+					let ran = getRandom('.png')
+					exec(`ffmpeg -i ${media} ${ran}`, (err) => {
+						fs.unlinkSync(media)
+						if (err) return reply('Gagal :V')
+						conn.sendMessage(from, {caption: `test`, image: fs.readFileSync(ran)}, {quoted: msg})
+                        limitAdd(sender,  limit)
+						fs.unlinkSync(ran)
+					})
+					}
+  break
 	        // Downloader Menu
 			/*case prefix+'tiktok':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
@@ -854,6 +909,7 @@ case prefix+'ban':
 				}).catch(() => reply(mess.error.api))
 		        break
 				case prefix+'mediafire':
+				  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
 					if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
