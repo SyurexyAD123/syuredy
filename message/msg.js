@@ -104,6 +104,7 @@ let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
 let autoyt = JSON.parse(fs.readFileSync('./database/autoytdl.json'));
+let simi = JSON.parse(fs.readFileSync('./database/autoytdl.json'));
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -155,6 +156,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isBan = cekBannedUser(sender, ban)
 		const isAntiLink = isGroup ? antilink.includes(from) : false
     const isAutodl = isGroup ? autoyt.includes(from) : false
+    const isCimi = simi ? simi.includes(from) : false
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
@@ -362,6 +364,17 @@ if (chats.match(yutu)) {
 					  })
             }
 }
+// sim.simi
+if (!isGroup){
+  var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
+  conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
+}
+
+if (isGroup && !isCmd && isCimi) {
+  var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
+  conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
+}
+
             // Auto Sticker
 if (!isGroup) {
 if (isImage || isQuotedImage) {
@@ -998,24 +1011,11 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
 			    reply(mess.wait)
 			    xfar.Youtube(args[1]).then( data => {
-			      //var teks = `*Youtube Video Downloader*\n\n*≻ Title :* ${data.title}\n*≻ Quality :* ${data.medias[1].quality}\n*≻ Size :* ${data.medias[1].formattedSize}\n*≻ Url Source :* ${data.url}`
 			      var teks = `Succes`
 			      conn.sendMessage(from, { video: { url: data.medias[1].url }, caption: teks }, { quoted: msg })
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break
-/*case prefix+'ytmp3': case prefix+'mp3':
-			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
-			    if (!isUrl(args[1])) return reply(mess.error.Iv)
-			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
-			    reply(mess.wait)
-			    xfar.Youtube(args[1]).then( data => {
-			      var teks = `*Youtube Audio Downloader*\n\n*≻ Title :* ${data.title}\n*≻ Quality :* ${data.medias[7].quality}\n*≻ Size :* ${data.medias[7].formattedSize}\n*≻ Url Source :* ${data.url}\n\n_wait a minute sending media..._`
-			      conn.sendMessage(from, { audio: { url: data.medias[7].url }, mimetype: 'audio/mp4' }, { quoted: msg })
-			      limitAdd(sender, limit)
-				}).catch(() => reply(mess.error.api))
-			    break*/
 				///SCRAPER YTMP3 BY ARASYA RAFI	
 case prefix+'ytmp3':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
@@ -1919,6 +1919,24 @@ case prefix+'autoytdl':
                     reply(`Pilih on atau off\nContoh : ${command} on`)
                 }
                 break
+case prefix+'simichat':
+                if (!isGroup) return reply(mess.OnlyGrup)
+                if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
+                if (args.length === 1) return reply(`Pilih on atau off\nContoh : ${command} on`)
+                if (args[1].toLowerCase() === 'on'){
+                    if (isCimi) return reply(`Simi kan udah aktif`)
+                    simi.push(from)
+					fs.writeFileSync(`./database/simi.json`, JSON.stringify(simi))
+					reply('Simiii aktifff')
+                } else if (args[1].toLowerCase() === 'off'){
+                    let anu = simi.indexOf(from)
+                    simi.splice(anu, 1)
+                    fs.writeFileSync(`./database/simi.json`, JSON.stringify(simi))
+                    reply('Simi Gak ngechat lagi')
+                } else {
+                    reply(`Pilih on atau off\nContoh : ${command} on`)
+                }
+                break
 case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
@@ -2393,12 +2411,6 @@ case prefix+'readmore':
     var retmor = `${read}${readmore}${morr}`
     conn.sendMessage(from, { text: retmor}, { quoted: msg })
     break
-case prefix+'jo':
-  case prefix+'simi':
- var text = `${q}`
-var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${text}&lc=id`)
-  conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
-  break
 case prefix+'qrcode':
   case prefix+'qr':
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)

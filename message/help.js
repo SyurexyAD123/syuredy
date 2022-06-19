@@ -196,6 +196,7 @@ ${readmore}
 ≻ ${prefix}infogc
 ≻ ${prefix}antilink enable/disable
 ≻ ${prefix}autoytdl on/off
+≻ ${prefix}simichat on/off
   
 *( 🧑🏻‍💻 )  Owner Menu*
 > evalcode
