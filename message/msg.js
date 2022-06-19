@@ -354,7 +354,7 @@ if (chats.match(yutu)) {
             }
 }
             // Auto Sticker
-if (isGroup && isImage && isQuotedImage) {
+if (!isGroup && isImage && isQuotedImage) {
 		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
 			       var buffer = Buffer.from([])
 			       for await(const chunk of stream) {
