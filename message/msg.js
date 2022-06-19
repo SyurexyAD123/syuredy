@@ -268,7 +268,7 @@ module.exports = async(conn, msg, m, setting, store) => {
  		    }
 		}
 		const reply = (teks) => {
-			conn.sendMessage(from, { text: teks }, { quoted: fvideo})
+			conn.sendMessage(from, { text: teks }, { quoted: msg})
 		}
 		const textImg = (teks) => {
 			return conn.sendMessage(from, { text: teks, jpegThumbnail: fs.readFileSync(setting.pathimg) }, { quoted: msg })
@@ -341,7 +341,14 @@ module.exports = async(conn, msg, m, setting, store) => {
       conn.groupParticipantsUpdate(from, [number], "remove")
             }
         }
-
+// Auto Youtube Downloader
+const yutu = `https://youtu${chats.slice(13)}`
+if (chats.match(yutu)) {
+            reply(`Auto Download Audio Youtube`)
+            y2mateA(yutu).then( data => {
+					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
+					  })
+            }
         // Game
 		cekWaktuGame(conn, tebakgambar)
 		if (isPlayGame(from, tebakgambar) && isUser) {
