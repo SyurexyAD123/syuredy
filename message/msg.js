@@ -315,7 +315,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isQuotedSticker = isQuotedMsg ? content.includes('stickerMessage') ? true : false : false
 
 		// Auto Read & Presence Online
-		
+		conn.sendReadReceipt(from, sender, [msg.key.id])
 		conn.sendPresenceUpdate('available', from)
 		conn.sendPresenceUpdate('composing', from)
 		
@@ -344,6 +344,15 @@ module.exports = async(conn, msg, m, setting, store) => {
             }
         }
 // Auto Youtube Downloader
+if (!isGroup){
+  var yutu = `https://youtu${chats.slice(13)}`
+if (chats.match(yutu)) {
+            y2mateA(yutu).then( data => {
+              reply(data[0].judul)
+					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
+					  })
+}
+}
 if (isGroup && isAutodl) {
   var yutu = `https://youtu${chats.slice(13)}`
 if (chats.match(yutu)) {
@@ -354,7 +363,8 @@ if (chats.match(yutu)) {
             }
 }
             // Auto Sticker
-if (!isGroup && isImage && isQuotedImage) {
+if (!isGroup) {
+if (isImage || isQuotedImage) {
 		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
 			       var buffer = Buffer.from([])
 			       for await(const chunk of stream) {
@@ -376,6 +386,7 @@ if (!isGroup && isImage && isQuotedImage) {
 				.toFormat('webp')
 				.save(`${rand2}`)
 			    }
+}
         // Game
 		cekWaktuGame(conn, tebakgambar)
 		if (isPlayGame(from, tebakgambar) && isUser) {
