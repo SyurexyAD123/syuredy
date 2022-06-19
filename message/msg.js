@@ -156,6 +156,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
+
+    const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync('media/Jojo2.jpg')}}}
+    const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`${pushname}`, "h": `Hmm`,'seconds': '1', 'caption': `${ucapanWaktu} ${pushname}`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
 		const mentionByTag = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.mentionedJid : []
                 const mentionByReply = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.participant || "" : ""
                 const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
@@ -265,10 +268,10 @@ module.exports = async(conn, msg, m, setting, store) => {
  		    }
 		}
 		const reply = (teks) => {
-			conn.sendMessage(from, { text: teks }, { quoted: msg })
+			conn.sendMessage(from, { text: teks }, { quoted: fvideo })
 		}
 		const textImg = (teks) => {
-			return conn.sendMessage(from, { text: teks, jpegThumbnail: fs.readFileSync(setting.pathimg) }, { quoted: msg })
+			return conn.sendMessage(from, { text: teks, jpegThumbnail: fs.readFileSync(setting.pathimg) }, { quoted: fvideo })
 		}
 		const sendMess = (hehe, teks) => {
 			conn.sendMessage(hehe, { text, teks })
@@ -427,6 +430,21 @@ module.exports = async(conn, msg, m, setting, store) => {
 		  }
 		}
 		
+		cekWaktuGame(conn, susun)
+		if (isPlayGame(from, susun) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, susun)) {
+		    var htgm = randomNomor(500, 550)
+		    
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, susun)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}susunkata` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'Susun Kata', mentions: [sender]} )  
+		    susun.splice(getGamePosi(from, susun), 1)
+		  }
+		}
+		
 		cekWaktuGame(conn, siapaaku)
 		if (isPlayGame(from, siapaaku) && isUser) {
 		  if (chats.toLowerCase() == getJawabanGame(from, siapaaku)) {
@@ -458,10 +476,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		
 if (chats.startsWith(`bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: fvideo})
 }
 if (chats.startsWith(`Bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: fvideo})
 }
 
 		if (chats.startsWith("> ") && isOwner) {
@@ -596,7 +614,7 @@ Thanks To
 - Hardianto
 - Febri`
 
-conn.sendMessage(from, {caption: caption, image: fs.readFileSync('media/Jojo2.jpg')}, {quoted: msg})
+conn.sendMessage(from, {caption: caption, image: fs.readFileSync('media/Jojo2.jpg')}, {quoted: fvideo})
 break
 			/*case prefix+'donate':
 			case prefix+'donasi':
@@ -904,7 +922,7 @@ case prefix+'toimg':
 			    if (!args[1].includes('tiktok')) return reply(mess.error.Iv)
 			    reply(mess.wait)
 			    hxz.ttdownloader(args[1]).then( data => {
-			      conn.sendMessage(from, { audio: { url: data.nowm }, mimetype: 'audio/mp4' }, { quoted: msg })
+			      conn.sendMessage(from, { audio: { url: data.nowm }, mimetype: 'audio/mp4' }, { quoted: fvideo })
 			       limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 		        break
@@ -916,7 +934,7 @@ case prefix+'toimg':
 			    if (!args[1].includes('mediafire')) return reply(mess.error.Iv)
 			    reply(mess.wait)
 					var data = await fetchJson(`https://docs-jojo.herokuapp.com/api/mediafire?url=${q}`)
-					conn.sendMessage(from, { document: { url: data.url }, fileName: `${data.filename}`, mimetype: 'zip' }, { quoted: msg })
+					conn.sendMessage(from, { document: { url: data.url }, fileName: `${data.filename}`, mimetype: 'zip' }, { quoted: fvideo })
 					limitAdd(sender, limit)
 					break
             case prefix+'play':
@@ -937,7 +955,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    xfar.Youtube(args[1]).then( data => {
 			      //var teks = `*Youtube Video Downloader*\n\n*≻ Title :* ${data.title}\n*≻ Quality :* ${data.medias[1].quality}\n*≻ Size :* ${data.medias[1].formattedSize}\n*≻ Url Source :* ${data.url}`
 			      var teks = `Succes`
-			      conn.sendMessage(from, { video: { url: data.medias[1].url }, caption: teks }, { quoted: msg })
+			      conn.sendMessage(from, { video: { url: data.medias[1].url }, caption: teks }, { quoted: fvideo })
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break
@@ -949,7 +967,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    reply(mess.wait)
 			    xfar.Youtube(args[1]).then( data => {
 			      var teks = `*Youtube Audio Downloader*\n\n*≻ Title :* ${data.title}\n*≻ Quality :* ${data.medias[7].quality}\n*≻ Size :* ${data.medias[7].formattedSize}\n*≻ Url Source :* ${data.url}\n\n_wait a minute sending media..._`
-			      conn.sendMessage(from, { audio: { url: data.medias[7].url }, mimetype: 'audio/mp4' }, { quoted: msg })
+			      conn.sendMessage(from, { audio: { url: data.medias[7].url }, mimetype: 'audio/mp4' }, { quoted: fvideo })
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break*/
@@ -963,7 +981,7 @@ case prefix+'ytmp3':
 			    reply(mess.wait)
 				y2mateA(q).then( data => {
 					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
-					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg}) 
+					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: fvideo}) 
 					
 					conn.sendMessage(from, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
 					  }
@@ -1629,6 +1647,20 @@ case prefix+'tebakkata':
 				  .then( res => {
 					var jawab = kukus.jawaban.toLowerCase()
 					addPlayGame(from, 'TEBAK KATA', jawab, gamewaktu, res, kuiscuy)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'susunkata':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, susun)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, susun[getGamePosi(from, susun)].msg)
+				var ngen = JSON.parse(fs.readFileSync('./fitur/susunkata.json'))
+				var kukus = pickRandom(ngen)
+				  kukus.jawaban = kukus.jawaban.split('Jawaban ').join('')
+				  var teks = `*TEBAK KATA*\n\n`+monospace(`Susunlah Kalimat Berikut :\n${kukus.soal}\nPetunjuk : ${kukus.tipe}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  .then( res => {
+					var jawab = kukus.jawaban.toLowerCase()
+					addPlayGame(from, 'Susun Kalimat', jawab, gamewaktu, res, susun)
 					gameAdd(sender, glimit)
 				  })
 			    break
