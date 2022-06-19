@@ -104,7 +104,6 @@ let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
 let autoyt = JSON.parse(fs.readFileSync('./database/autoytdl.json'));
-let simi = JSON.parse(fs.readFileSync('./database/autoytdl.json'));
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -156,7 +155,6 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isBan = cekBannedUser(sender, ban)
 		const isAntiLink = isGroup ? antilink.includes(from) : false
     const isAutodl = isGroup ? autoyt.includes(from) : false
-    const isCimi = simi ? simi.includes(from) : false
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
@@ -365,11 +363,6 @@ if (chats.match(yutu)) {
 					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
 					  })
             }
-}
-// sim.simi
-if (isGroup && !isCmd && isCimi && !isSticker && !isVideo && !isImage && !isAudio && !isDocument) {
-  var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
-  conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
 }
 
             // Auto Sticker
@@ -1912,24 +1905,6 @@ case prefix+'autoytdl':
                     autoyt.splice(anu, 1)
                     fs.writeFileSync('./database/autoytdl.json', JSON.stringify(autoyt))
                     reply('Auto Ytdl is det')
-                } else {
-                    reply(`Pilih on atau off\nContoh : ${command} on`)
-                }
-                break
-case prefix+'simichat':
-                if (!isGroup) return reply(mess.OnlyGrup)
-                if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
-                if (args.length === 1) return reply(`Pilih on atau off\nContoh : ${command} on`)
-                if (args[1].toLowerCase() === 'on'){
-                    if (isCimi) return reply(`Simi kan udah aktif`)
-                    simi.push(from)
-					fs.writeFileSync(`./database/simi.json`, JSON.stringify(simi))
-					reply('Simiii aktifff')
-                } else if (args[1].toLowerCase() === 'off'){
-                    let anu = simi.indexOf(from)
-                    simi.splice(anu, 1)
-                    fs.writeFileSync(`./database/simi.json`, JSON.stringify(simi))
-                    reply('Simi Gak ngechat lagi')
                 } else {
                     reply(`Pilih on atau off\nContoh : ${command} on`)
                 }
