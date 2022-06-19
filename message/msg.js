@@ -365,7 +365,7 @@ if (chats.match(yutu)) {
             }
 }
 // sim.simi
-if (!isGroup){
+if (!isGroup && !isCmd){
   var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
   conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
 }
