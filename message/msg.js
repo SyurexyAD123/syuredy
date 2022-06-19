@@ -367,11 +367,6 @@ if (chats.match(yutu)) {
             }
 }
 // sim.simi
-if (!isGroup && !isCmd && !isSticker && !isVideo && !isImage && !isAudio && !isDocument){
-  var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
-  conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
-}
-
 if (isGroup && !isCmd && isCimi && !isSticker && !isVideo && !isImage && !isAudio && !isDocument) {
   var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
   conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
