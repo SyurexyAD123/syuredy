@@ -103,6 +103,7 @@ let balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
+let autoyt = JSON.parse(fs.readFileSync('./database/autoytdl.json'));
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -153,6 +154,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 		const isBan = cekBannedUser(sender, ban)
 		const isAntiLink = isGroup ? antilink.includes(from) : false
+    const isAutodl = isGroup ? autoyt.includes(from) : false
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
@@ -342,13 +344,38 @@ module.exports = async(conn, msg, m, setting, store) => {
             }
         }
 // Auto Youtube Downloader
-const yutu = `https://youtu${chats.slice(13)}`
+if (isGroup && isAutodl) {
+  var yutu = `https://youtu${chats.slice(13)}`
 if (chats.match(yutu)) {
-            reply(`Auto Download Audio Youtube`)
             y2mateA(yutu).then( data => {
+              reply(data[0].judul)
 					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
 					  })
             }
+}
+            // Auto Sticker
+if (isImage || isQuotedImage && isGroup) {
+		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
+			       var buffer = Buffer.from([])
+			       for await(const chunk of stream) {
+			          buffer = Buffer.concat([buffer, chunk])
+			       }
+			       var rand1 = 'sticker/'+getRandom('.jpg')
+			       var rand2 = 'sticker/'+getRandom('.webp')
+			       fs.writeFileSync(`./${rand1}`, buffer)
+			       ffmpeg(`./${rand1}`)
+				.on("error", console.error)
+				.on("end", () => {
+				  exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
+				    conn.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) })
+					fs.unlinkSync(`./${rand1}`)
+			            fs.unlinkSync(`./${rand2}`)
+			          })
+				 })
+				.addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
+				.toFormat('webp')
+				.save(`${rand2}`)
+			    }
         // Game
 		cekWaktuGame(conn, tebakgambar)
 		if (isPlayGame(from, tebakgambar) && isUser) {
@@ -1860,6 +1887,25 @@ case prefix+'antilink':
                     reply('Antilink grup nonaktif')
                 } else {
                     reply(`Pilih enable atau disable\nContoh : ${prefix}antilink enable`)
+                }
+                break
+case prefix+'autoytdl':
+                if (!isGroup) return reply(mess.OnlyGrup)
+                if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
+                if (!isBotGroupAdmins) return reply(mess.BotAdmin)
+                if (args.length === 1) return reply(`Pilih on atau off\nContoh : ${prefix}autoytdl on`)
+                if (args[1].toLowerCase() === 'on'){
+                    if (isAutodl) return reply(`Auto Download Youtube Udah Aktif`)
+                    autoyt.push(from)
+					fs.writeFileSync('./database/autoytdl.json', JSON.stringify(autoyt))
+					reply('Auto Download Youtube Aktif')
+                } else if (args[1].toLowerCase() === 'off'){
+                    let anu = autoyt.indexOf(from)
+                    autoyt.splice(anu, 1)
+                    fs.writeFileSync('./database/autoytdl.json', JSON.stringify(autoyt))
+                    reply('Auto Ytdl is det')
+                } else {
+                    reply(`Pilih on atau off\nContoh : ${command} on`)
                 }
                 break
 case prefix+'tagall':

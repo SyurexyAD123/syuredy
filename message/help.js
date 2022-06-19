@@ -20,7 +20,7 @@ function toCommas(x) {
 }
 
 exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount) => {
-	return `${ucapanWaktu} kak ${pushname !== undefined ? pushname : 'No Detect Name'}* 👋
+	return `${ucapanWaktu} kak *${pushname !== undefined ? pushname : 'No Detect Name'}* 👋
 
 Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
 Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
@@ -195,6 +195,7 @@ ${readmore}
 ≻ ${prefix}demote <@tag>
 ≻ ${prefix}infogc
 ≻ ${prefix}antilink enable/disable
+≻ ${prefix}autoytdl on/off
   
 *( 🧑🏻‍💻 )  Owner Menu*
 > evalcode
