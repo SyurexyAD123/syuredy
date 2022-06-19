@@ -160,7 +160,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 
 
     const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync('media/Jojo2.jpg')}}}
-    const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`${pushname}`, "h": `Hmm`,'seconds': '1', 'caption': `${ucapanWaktu} ${pushname}`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
+    const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`*AUTO DOWNLOAD AUDIO YOUTUBE*`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `*AUTO DOWNLOAD AUDIO YOUTUBE*`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
 		const mentionByTag = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.mentionedJid : []
                 const mentionByReply = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.participant || "" : ""
                 const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
@@ -346,25 +346,25 @@ module.exports = async(conn, msg, m, setting, store) => {
             }
         }
 // Auto Youtube Downloader
+let yutu = `https://youtu${chats.slice(13)}`
 if (!isGroup){
-  var yutu = `https://youtu${chats.slice(13)}`
-if (chats.match(yutu)) {
+if (chats.startsWith(yutu)) {
             y2mateA(yutu).then( data => {
-              reply(data[0].judul)
-					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
-					  })
+              conn.sendMessage(from, {document: {url: data[0].link}, fileName: data[0].judul, mimetype: 'audio/mp4'}, {quoted: fvideo})
+})
 }
 }
 if (isGroup && isAutodl) {
-  var yutu = `https://youtu${chats.slice(13)}`
-if (chats.match(yutu)) {
+if (chats.startsWith(yutu)) {
             y2mateA(yutu).then( data => {
-              reply(data[0].judul)
-					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
+              conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
+              conn.sendMessage(sender, {text: `Auto Download Youtube`}, {quoted: fvideo})
+              var caption = `Auto Download Youtube By Jojo - Bot, Merupakan salah satu fitur utama dalam robot whatsapp Jojo, jika kamu mengirim link youtube otomatis akan ke download`
+              var but = [{buttonId: `${yutu}`, buttonText: { displayText: "📃 File Document" }, type: 1 }, {buttonId: `/ytmp3vn ${yutu}`, buttonText: { displayText: "🎧 Voice Not" }, type: 2 }]
+              conn.sendMessage(sender, { text: caption, buttons: but, footer: "Silahkan Pilih Untuk mengubah Tipe Audio", templateButtons: but }, {quoted: fvideo})
 					  })
             }
 }
-
             // Auto Sticker
 if (!isGroup) {
 if (isImage || isQuotedImage) {
@@ -1028,12 +1028,8 @@ limitAdd(sender, limit)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
-			    reply(mess.wait)
 				y2mateA(q).then( data => {
-					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Video :* ${data[0].size}\n⤵️ *Download :* ${data[0].link}\n\n_Tunggu sebentar audio akan di kirim...._`
-					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg}) 
-					
-					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4', ptt: true}, {quoted: fvideo})
 					  }
 					  )
 				limitAdd(sender, limit)
