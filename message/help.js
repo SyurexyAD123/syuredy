@@ -20,9 +20,7 @@ function toCommas(x) {
 }
 
 exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount) => {
-	return `${setting.botName}
-	
-${ucapanWaktu} kak ${pushname !== undefined ? pushname : 'No Detect Name'}* 👋
+	return `${ucapanWaktu} kak ${pushname !== undefined ? pushname : 'No Detect Name'}* 👋
 
 Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
 Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
@@ -217,6 +215,8 @@ $ executor
 ≻ ${prefix}unblock
 ≻ ${prefix}setprefix multi/nopref
 
+*${setting.botName}*
+${readmore}
   *THANKS TO*
 - Allah SWT
 - Baileys-Md (Adiwa Jshing)
