@@ -268,10 +268,10 @@ module.exports = async(conn, msg, m, setting, store) => {
  		    }
 		}
 		const reply = (teks) => {
-			conn.sendMessage(from, { text: teks }, { quoted: fvideo })
+			conn.sendMessage(from, { text: teks }, { quoted: fvideo})
 		}
 		const textImg = (teks) => {
-			return conn.sendMessage(from, { text: teks, jpegThumbnail: fs.readFileSync(setting.pathimg) }, { quoted: fvideo })
+			return conn.sendMessage(from, { text: teks, jpegThumbnail: fs.readFileSync(setting.pathimg) }, { quoted: msg })
 		}
 		const sendMess = (hehe, teks) => {
 			conn.sendMessage(hehe, { text, teks })
@@ -476,10 +476,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		
 if (chats.startsWith(`bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: fvideo})
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 if (chats.startsWith(`Bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: fvideo})
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 
 		if (chats.startsWith("> ") && isOwner) {
@@ -614,7 +614,7 @@ Thanks To
 - Hardianto
 - Febri`
 
-conn.sendMessage(from, {caption: caption, image: fs.readFileSync('media/Jojo2.jpg')}, {quoted: fvideo})
+conn.sendMessage(from, {caption: caption, image: fs.readFileSync('media/Jojo2.jpg')}, {quoted: msg})
 break
 			/*case prefix+'donate':
 			case prefix+'donasi':
@@ -922,7 +922,7 @@ case prefix+'toimg':
 			    if (!args[1].includes('tiktok')) return reply(mess.error.Iv)
 			    reply(mess.wait)
 			    hxz.ttdownloader(args[1]).then( data => {
-			      conn.sendMessage(from, { audio: { url: data.nowm }, mimetype: 'audio/mp4' }, { quoted: fvideo })
+			      conn.sendMessage(from, { audio: { url: data.nowm }, mimetype: 'audio/mp4' }, { quoted: msg })
 			       limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 		        break
@@ -934,7 +934,7 @@ case prefix+'toimg':
 			    if (!args[1].includes('mediafire')) return reply(mess.error.Iv)
 			    reply(mess.wait)
 					var data = await fetchJson(`https://docs-jojo.herokuapp.com/api/mediafire?url=${q}`)
-					conn.sendMessage(from, { document: { url: data.url }, fileName: `${data.filename}`, mimetype: 'zip' }, { quoted: fvideo })
+					conn.sendMessage(from, { document: { url: data.url }, fileName: `${data.filename}`, mimetype: 'zip' }, { quoted: msg })
 					limitAdd(sender, limit)
 					break
             case prefix+'play':
@@ -955,7 +955,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    xfar.Youtube(args[1]).then( data => {
 			      //var teks = `*Youtube Video Downloader*\n\n*≻ Title :* ${data.title}\n*≻ Quality :* ${data.medias[1].quality}\n*≻ Size :* ${data.medias[1].formattedSize}\n*≻ Url Source :* ${data.url}`
 			      var teks = `Succes`
-			      conn.sendMessage(from, { video: { url: data.medias[1].url }, caption: teks }, { quoted: fvideo })
+			      conn.sendMessage(from, { video: { url: data.medias[1].url }, caption: teks }, { quoted: msg })
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break
@@ -967,7 +967,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    reply(mess.wait)
 			    xfar.Youtube(args[1]).then( data => {
 			      var teks = `*Youtube Audio Downloader*\n\n*≻ Title :* ${data.title}\n*≻ Quality :* ${data.medias[7].quality}\n*≻ Size :* ${data.medias[7].formattedSize}\n*≻ Url Source :* ${data.url}\n\n_wait a minute sending media..._`
-			      conn.sendMessage(from, { audio: { url: data.medias[7].url }, mimetype: 'audio/mp4' }, { quoted: fvideo })
+			      conn.sendMessage(from, { audio: { url: data.medias[7].url }, mimetype: 'audio/mp4' }, { quoted: msg })
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break*/
@@ -981,7 +981,7 @@ case prefix+'ytmp3':
 			    reply(mess.wait)
 				y2mateA(q).then( data => {
 					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
-					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: fvideo}) 
+					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg}) 
 					
 					conn.sendMessage(from, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
 					  }
