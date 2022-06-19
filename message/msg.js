@@ -309,6 +309,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isImage = (type == 'imageMessage')
 		const isVideo = (type == 'videoMessage')
 		const isSticker = (type == 'stickerMessage')
+		const isAudio = (type == 'audioMessage')
+		const isDocument = (type == 'documentMessage')
 		const isQuotedMsg = (type == 'extendedTextMessage')
 		const isQuotedImage = isQuotedMsg ? content.includes('imageMessage') ? true : false : false
 		const isQuotedAudio = isQuotedMsg ? content.includes('audioMessage') ? true : false : false
@@ -365,12 +367,12 @@ if (chats.match(yutu)) {
             }
 }
 // sim.simi
-if (!isGroup && !isCmd){
+if (!isGroup && !isCmd && !isSticker && !isVideo && !isImage && !isAudio && !isDocument){
   var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
   conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
 }
 
-if (isGroup && !isCmd && isCimi) {
+if (isGroup && !isCmd && isCimi && !isSticker && !isVideo && !isImage && !isAudio && !isDocument) {
   var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${chats.slice(0)}&lc=id`)
   conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
 }
