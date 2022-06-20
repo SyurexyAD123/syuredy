@@ -103,10 +103,6 @@ ${readmore}
 ≻ ${prefix}coffecup <Text>
 ≻ ${prefix}woodheart <Text>
 ≻ ${prefix}tahta <Text>
-≻ ${prefix}waifumaker <Text>
-≻ ${prefix}lolimaker <Text>
-≻ ${prefix}kanekimaker <Text>
-≻ ${prefix}guramaker <Text>
 ≻ ${prefix}leaves <Text>
 ≻ ${prefix}pornhub <Text>
 ≻ ${prefix}3d <Text>
