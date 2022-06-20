@@ -193,6 +193,7 @@ ${readmore}
 ≻ ${prefix}add <@tag>
 ≻ ${prefix}promote <@tag>
 ≻ ${prefix}demote <@tag>
+≻ ${prefix}listadmin <Pesan>
 ≻ ${prefix}infogc
 ≻ ${prefix}antilink enable/disable
 ≻ ${prefix}autoytdl on/off

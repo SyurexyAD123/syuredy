@@ -158,9 +158,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
-
     const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync('media/Jojo2.jpg')}}}
     const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`*AUTO DOWNLOAD AUDIO YOUTUBE*`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `*AUTO DOWNLOAD AUDIO YOUTUBE*`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
+    const fdoc = {key : {participant : '0@s.whatsapp.net'},message: {documentMessage: {title: `Hidetag Cuy!`,jpegThumbnail: './media/Jojo2.jpg'}}}
 		const mentionByTag = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.mentionedJid : []
                 const mentionByReply = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.participant || "" : ""
                 const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
@@ -1854,7 +1854,7 @@ case prefix+'tebakkimia':
 				if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
 			    let mem = [];
 		        groupMembers.map( i => mem.push(i.id) )
-				conn.sendMessage(from, { text: q ? q : '', mentions: mem })
+				conn.sendMessage(from, { text: q ? q : '', mentions: mem }, {quoted: fdoc})
 			    break
 case prefix+'infogc':
   case prefix+'infogrup':
@@ -1863,8 +1863,9 @@ case prefix+'infogc':
         case prefix+'groupinfo':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   if (!isGroup)return reply(mess.OnlyGrup)
-  var caption = `*[ ${groupMetadata.subject} ]*\n\n*Nama Grup :* ${groupMetadata.subject}\n*Pemilik Grup :* @${groupMetadata.owner}\n*Di Buat Pada :* ${moment(`${groupMetadata.creation}` * 1000).tz('Asia/Jakarta').format('DD/MM/YYYY HH:mm:ss')}\n*Jumlah Member :* ${groupMembers.length}\n*Jumlah Admin :* ${groupAdmins.length}\n*Deskripsi :* ${groupMetadata.desc}`
-  conn.profilePictureUrl(from, 'image').then( res => conn.sendMessage(from, {caption: caption, image: { url: res }}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: caption, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}, mentions: [mems]}, {quoted: msg}))
+  var owngc = groupMetadata.owner
+  var caption = `*[ ${groupMetadata.subject} ]*\n\n*Nama Grup :* ${groupMetadata.subject}\n*Pemilik Grup :* @${owngc.split("@")[0]}\n*Di Buat Pada :* ${moment(`${groupMetadata.creation}` * 1000).tz('Asia/Jakarta').format('DD/MM/YYYY HH:mm:ss')}\n*Jumlah Member :* ${groupMembers.length}\n*Jumlah Admin :* ${groupAdmins.length}\n*Deskripsi :* ${groupMetadata.desc}`
+  conn.profilePictureUrl(from, 'image').then( res => conn.sendMessage(from, {caption: caption, image: { url: res }, mentions: [owngc]}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: caption, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}, mentions: [owngc]}, {quoted: msg}))
   limitAdd(sender, limit)
   break
 case prefix+'antilink':
@@ -1908,12 +1909,23 @@ case prefix+'autoytdl':
 case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
-      if (args.length < 2) return reply(`Kirim perintah ${command} teks`)
+      if (args.length < 2) return reply(`Kirim perintah ${command} Pesan nya yang ingin disampaikan`)
      var mems = []
       var teks = `*[ TAG ALL ]*\nPesan : ${q}\n\n`
       for (let i of groupMembers) {
         teks += `≻ @${i.id.split("@")[0]}\n`
         mems.push(i.id)
+      }
+      conn.sendMessage(from, { text: teks, mentions: mems}, { quoted: msg })
+      break
+case prefix+'listadmin':
+  if (!isGroup) return reply(mess.OnlyGrup)
+      if (!isGroupAdmins) return reply(mess.GrupAdmin)
+   var mems = []
+      var teks = `*[ TAG ADMIN ]*\n${q !== undefined ? q : `Pesan Tidak Ada`}\n`
+      for (let i of groupAdmins) {
+        teks += `≻ @${i.split("@")[0]}\n`
+        mems.push(i)
       }
       conn.sendMessage(from, { text: teks, mentions: mems}, { quoted: msg })
       break
@@ -2593,7 +2605,7 @@ case prefix+'suratto':
   var number = q.split('|')[0] ? q.split('|')[0] : q
                 var text = q.split('|')[1] ? q.split('|')[1] : ''
                 reply(`Pesan Sukses Terkirim`)
-conn.sendMessage(`${number}@s.whatsapp.net`, {text: `*[ FITUR SURAT ]*\n\n*Dari :* @${sender} (${pushname})\n*Pesan :* ${text}`, mentions: [sender]})
+conn.sendMessage(`${number}@s.whatsapp.net`, {text: `*[ FITUR SURAT ]*\n\n*Dari :* @${sender.split("@")[0]} (${pushname})\n*Pesan :* ${text}`, mentions: [sender]})
 limitAdd(sender, limit)
 break
 case prefix+'report':
@@ -2601,7 +2613,7 @@ case prefix+'report':
     case prefix+'chatown':
     if (args.length < 2) return reply(`Silahkan Masukan Laporan nya, Contoh : ${command} Ada Bug Di fitur <fitur>`)
                 reply(`Laporan Telah DibKirimkan Oleh ke Owner, Laporan main² atau palsu akan di banned!`)
-conn.sendMessage(`6281319944917@s.whatsapp.net`, {text: `*[ PANGGILAN USER ]*\n\n*Dari :* @${sender}\n*Pesan :* ${q}`, mentions: [sender]})
+conn.sendMessage(`6281319944917@s.whatsapp.net`, {text: `*[ PANGGILAN USER ]*\n\n*Dari :* @${sender.split("@")[0]}\n*Pesan :* ${q}`, mentions: [sender]}, {quoted: msg})
 break
 case prefix+'gombal':
   case prefix+'gombalan':
