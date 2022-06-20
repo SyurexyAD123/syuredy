@@ -104,7 +104,6 @@ let balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
-let autoyt = JSON.parse(fs.readFileSync('./database/autoytdl.json'));
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -155,7 +154,6 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 		const isBan = cekBannedUser(sender, ban)
 		const isAntiLink = isGroup ? antilink.includes(from) : false
-    const isAutodl = isGroup ? autoyt.includes(from) : false
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
@@ -355,11 +353,11 @@ if (chats.startsWith(yutu)) {
 })
 }
 }
-if (isGroup && isAutodl) {
+if (isGroup) {
 if (chats.startsWith(yutu)) {
             y2mateA(yutu).then( data => {
+              conn.sendMessage(from, {text: monospace(`${data[0].judul}`)}, {quoted: fvideo})
               conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
-              conn.sendMessage(sender, {text: `Auto Download Youtube`}, {quoted: fvideo})
               var caption = `Auto Download Youtube By Jojo - Bot, Merupakan salah satu fitur utama dalam robot whatsapp Jojo, jika kamu mengirim link youtube otomatis akan ke download`
               var but = [{buttonId: `${yutu}`, buttonText: { displayText: "📃 File Document" }, type: 1 }, {buttonId: `/ytmp3vn ${yutu}`, buttonText: { displayText: "🎧 Voice Not" }, type: 2 }]
               conn.sendMessage(sender, { text: caption, buttons: but, footer: "Silahkan Pilih Untuk mengubah Tipe Audio", templateButtons: but }, {quoted: fvideo})
@@ -1886,25 +1884,6 @@ case prefix+'antilink':
                     reply('Antilink grup nonaktif')
                 } else {
                     reply(`Pilih enable atau disable\nContoh : ${prefix}antilink enable`)
-                }
-                break
-case prefix+'autoytdl':
-                if (!isGroup) return reply(mess.OnlyGrup)
-                if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
-                if (!isBotGroupAdmins) return reply(mess.BotAdmin)
-                if (args.length === 1) return reply(`Pilih on atau off\nContoh : ${prefix}autoytdl on`)
-                if (args[1].toLowerCase() === 'on'){
-                    if (isAutodl) return reply(`Auto Download Youtube Udah Aktif`)
-                    autoyt.push(from)
-					fs.writeFileSync('./database/autoytdl.json', JSON.stringify(autoyt))
-					reply('Auto Download Youtube Aktif')
-                } else if (args[1].toLowerCase() === 'off'){
-                    let anu = autoyt.indexOf(from)
-                    autoyt.splice(anu, 1)
-                    fs.writeFileSync('./database/autoytdl.json', JSON.stringify(autoyt))
-                    reply('Auto Ytdl is det')
-                } else {
-                    reply(`Pilih on atau off\nContoh : ${command} on`)
                 }
                 break
 case prefix+'tagall':

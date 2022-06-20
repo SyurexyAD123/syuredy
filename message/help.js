@@ -146,6 +146,7 @@ ${readmore}
 ≻ ${prefix}suit
 ≻ ${prefix}slot
 ≻ ${prefix}tebakgambar
+≻ ${prefix}susunkata
 ≻ ${prefix}kuis
 ≻ ${prefix}tebakkimia
 ≻ ${prefix}tekateki
@@ -192,7 +193,6 @@ ${readmore}
 ≻ ${prefix}listadmin <Pesan>
 ≻ ${prefix}infogc
 ≻ ${prefix}antilink enable/disable
-≻ ${prefix}autoytdl on/off
   
 *( 🧑🏻‍💻 )  Owner Menu*
 > evalcode
