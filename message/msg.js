@@ -159,8 +159,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 
     const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync('media/Jojo2.jpg')}}}
     const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`*AUTO DOWNLOAD AUDIO YOUTUBE*`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `*AUTO DOWNLOAD AUDIO YOUTUBE*`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
+    const fake = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: `41798898139-1429460331@g.us` } : {}) },message: { "videoMessage": { "title":`JOJO [ BOT REBORN ]\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `JOJO [ BOT REBORN ]\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
     const fdoc = {key : {participant : '0@s.whatsapp.net'},message: {documentMessage: {title: `Hidetag Cuy!`,jpegThumbnail: './media/Jojo2.jpg'}}}
-    const fake = {key : {participant : '0@s.whatsapp.net'},message: {documentMessage: {title: `JOJO [ BOT REBORN ]\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`,jpegThumbnail: './media/Jojo2.jpg'}}}
 		const mentionByTag = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.mentionedJid : []
                 const mentionByReply = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.participant || "" : ""
                 const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
@@ -294,7 +294,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 			{ urlButton: { displayText: `GRUP JOJO-BOT`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
 			{ urlButton: { displayText: `Nomer Owner`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `💰 Donasi`, id: `${prefix}donate` } },
-			{ quickReplyButton: { displayText: `Script`, id: `${prefix}sc` } },
+			{ quickReplyButton: { displayText: `Beli Premium`, id: `${prefix}daftarprem` } },
 		]
 		const button5 = [
 			{ callButton: { displayText: `Number Owner`, phoneNumber: `0813-1994-4917` } },
@@ -589,19 +589,25 @@ var teks = `  │
 			    break
 case prefix+'sewa':
   case prefix+'daftarprem':
-  var teks = `*[ LIST HARGA JOJO PREM ]*
+  var teks = monospace(`[ JOJO - PREMIUM/SEWA ]
 
-_Yakin kamu mau daftar ke premium?_
+Premium : Rp.10.000
+Exp : PERMANENT
 
-*Keuntungan :*
-- Limit Unlimited
-- Akses Fitur Premium
-- Bot Join Grup WhatsApp Mu
-- Tidak Ada Kata ~Limit Menurun~
+Keuntungan:
+- Unlimited Limit
+- Unlimited Limit Game
+- Bisa akses fitur premium
+- Terdaftar di list premium
+- Add Ke Grup
 
-*LIST DAFTAR PREMIUM*
-- Rp.5.000 - PERMANENT`
-			    conn.sendMessage(from, { caption: teks, location: { jpegThumbnail: fs.readFileSync('media/Jojo2.jpg') }, templateButtons: button5, footer: '© Jojo - Bot', mentions: [sender] })
+Via :
+- Ovo (088213292687)
+- Gopay (088213292687)
+- Dana (081319944917)
+
+~ Tim Jojo`)
+			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(`./media/Jojo2.jpg`)}, {quoted: fake})
 			    break
 			case prefix+'runtime':
 			    reply(runtime(process.uptime()))
@@ -1482,20 +1488,20 @@ case prefix+'cekme':
 					var takut = pickRandom(mengheikan)
 					var prof = monospace(`==== CEK @${sender.split('@')[0]} ====
 
-*Nama :* ${pushname}
-*Sifat :* ${sipat}
-*Hobby :* ${biho}
-*Bucin :* ${bhucin}%
-*Sange :* ${senga}%
-*Cakep :* ${chakep}
-*Watak :* ${watak}
-*Akhlak Baik :* ${baik}%
-*Akhlak Buruk :* ${burug}%
-*Kecerdasan :* ${cerdas}%
-*Keberanian :* ${berani}%
-*Ketakutan :* ${takut}%
+Nama : ${pushname}
+Sifat : ${sipat}
+Hobby : ${biho}
+Bucin : ${bhucin}%
+Sange : ${senga}%
+Cakep : ${chakep}
+Watak : ${watak}
+Akhlak Baik : ${baik}%
+Akhlak Buruk : ${burug}%
+Kecerdasan : ${cerdas}%
+Keberanian : ${berani}%
+Ketakutan : ${takut}%
 =================`)
-					 conn.profilePictureUrl(sender, 'image').then( res => conn.sendMessage(from, {caption: prof, image: { url: res }, mentions: [sender]}, {quoted: fake})).catch(() => conn.sendMessage(from, {caption: prof, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}, mentions: [sender]}, {quoted: fake}))
+					 conn.profilePictureUrl(sender, 'image').then( res => conn.sendMessage(from, {caption: prof, image: { url: res }, mentions: [sender]}, {quoted: fake})).catch(() => conn.sendMessage(from, {caption: prof, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}, mentions: [sender]}, {quoted: msg}))
 				    limitAdd(sender, limit)
 				    break
 case prefix+'sc':
