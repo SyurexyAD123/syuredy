@@ -225,8 +225,6 @@ module.exports = async(conn, msg, m, setting, store) => {
            var url = await yts(query)
            url = url.videos[0].url
            hxz.youtube(url).then(async(data) => {
-             /*var button = [{ buttonId: `/ytmp3 ${url}`, buttonText: { displayText: `🎵 Audio (${data.size_mp3})` }, type: 1 }, { buttonId: `/ytmp4 ${url}`, buttonText: { displayText: `🎥 Video (${data.size})` }, type: 1 }]*/
-             /*conn.sendMessage(from, { caption: `*Title :* ${data.title}\n*Quality :* ${data.quality}\n*Url :* https://youtu.be/${data.id}`, location: { jpegThumbnail: await geuffer(data.thumb) }, buttons: button, footer: 'Pilih Salah Satu Button Dibawah⬇️', mentions: [sender] })*/
            var button = [
 		        	{ urlButton: { displayText: `Source`, url : `https://youtu.be/${data.id}` } },
 	         		{ quickReplyButton: { displayText: `🎵 Audio (${data.size_mp3})`, id: `${prefix}ytmp3 ${url}` } },
@@ -235,7 +233,7 @@ module.exports = async(conn, msg, m, setting, store) => {
              conn.sendMessage(from, { caption: `*Title :* ${data.title}\n*Quality :* ${data.quality}\n*Url :* https://youtu.be/${data.id}`, image: {url: data.thumb}, templateButtons: button, footer: 'Pilih Salah Satu Button Dibawah', mentions: [sender]} )
            }).catch((e) => {
              conn.sendMessage(from, { text: mess.error.api }, { quoted: msg })
-               ownerNumber.map( i => conn.sendMessage(from, { text: `Send Play Error : ${e}` }))
+               ownerNumber.map( i => conn.sendMessage(ownerNumber, { text: `Send Play Error : ${e}` }))
            })
         }
 		const isUrl = (url) => {
@@ -349,7 +347,7 @@ let yutu = `https://youtu${chats.slice(13)}`
 if (!isGroup){
 if (chats.startsWith(yutu)) {
             y2mateA(yutu).then( data => {
-              conn.sendMessage(from, {document: {url: data[0].link}, fileName: data[0].judul, mimetype: 'audio/mp4'}, {quoted: fvideo})
+              conn.sendMessage(from, {document: {url: data[0].link}, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3'}, {quoted: fvideo})
 })
 }
 }
@@ -358,37 +356,13 @@ if (chats.startsWith(yutu)) {
             y2mateA(yutu).then( data => {
               conn.sendMessage(from, {text: monospace(`${data[0].judul}`)}, {quoted: fvideo})
               conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
-              var caption = `Auto Download Youtube By Jojo - Bot, Merupakan salah satu fitur utama dalam robot whatsapp Jojo, jika kamu mengirim link youtube otomatis akan ke download`
-              var but = [{buttonId: `${yutu}`, buttonText: { displayText: "📃 File Document" }, type: 1 }, {buttonId: `/ytmp3vn ${yutu}`, buttonText: { displayText: "🎧 Voice Not" }, type: 2 }]
+              var caption = monospace(`Auto Download Youtube, Pilih Tipe Berikut`)
+              var but = [{buttonId: `${yutu}`, buttonText: { displayText: "📄 File Document" }, type: 1 }, {buttonId: `/ytmp3vn ${yutu}`, buttonText: { displayText: "🎧 Voice Not" }, type: 2 }, {buttonId: `/ytmp4 ${yutu}`, buttonText: { displayText: "🎥 Video" }, type: 3 }]
               conn.sendMessage(sender, { text: caption, buttons: but, footer: "Silahkan Pilih Untuk mengubah Tipe Audio", templateButtons: but }, {quoted: fvideo})
 					  })
             }
 }
-            // Auto Sticker
-if (!isGroup) {
-if (isImage || isQuotedImage) {
-		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
-			       var buffer = Buffer.from([])
-			       for await(const chunk of stream) {
-			          buffer = Buffer.concat([buffer, chunk])
-			       }
-			       var rand1 = 'sticker/'+getRandom('.jpg')
-			       var rand2 = 'sticker/'+getRandom('.webp')
-			       fs.writeFileSync(`./${rand1}`, buffer)
-			       ffmpeg(`./${rand1}`)
-				.on("error", console.error)
-				.on("end", () => {
-				  exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
-				    conn.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) })
-					fs.unlinkSync(`./${rand1}`)
-			            fs.unlinkSync(`./${rand2}`)
-			          })
-				 })
-				.addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
-				.toFormat('webp')
-				.save(`${rand2}`)
-			    }
-}
+
         // Game
 		cekWaktuGame(conn, tebakgambar)
 		if (isPlayGame(from, tebakgambar) && isUser) {
@@ -999,11 +973,10 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
 			    reply(mess.wait)
-			    xfar.Youtube(args[1]).then( data => {
-			      var teks = `Succes`
-			      conn.sendMessage(from, { video: { url: data.medias[1].url }, caption: teks }, { quoted: msg })
-			      limitAdd(sender, limit)
-				}).catch(() => reply(mess.error.api))
+			    y2mateV(args[1]).then ( data => {
+			      var capt = monospace(`Title : ${data[0].judul}`)
+			      conn.sendMessage(from, {caption: capt, video: {url: data[0].link}}, {quoted: msg})
+			    }).catch(() => reply(mess.error.api))
 			    break
 				///SCRAPER YTMP3 BY ARASYA RAFI	
 case prefix+'ytmp3':
@@ -1046,9 +1019,9 @@ limitAdd(sender, limit)
                 if (isNaN(args[1])) return reply(`Hanya support angka! pilih angka 1 sampai 10\nContoh : ${command} 2`)
                 if (args[1] > arrey.length) return reply(`Urutan Hasil *${prefix}ytsearch* Hanya Sampai *${arrey.length}*`)
 			    reply(mess.wait)
-			    xfar.Youtube(`https://youtube.com/watch?v=${arrey[args[1] -1]}`).then( data => {
-			      var teks = `*Youtube Video Downloader*\n\n*≻ Title :* ${data.title}\n*≻ Quality :* ${data.medias[1].quality}\n*≻ Size :* ${data.medias[1].formattedSize}\n*≻ Url Source :* ${data.url}\n\n_wait a minute sending media..._`
-			      conn.sendMessage(from, { video: { url: data.medias[1].url }, caption: teks }, { quoted: msg })
+			    y2mateV(`https://youtube.com/watch?v=${arrey[args[1] -1]}`).then( data => {
+			      var capt = monospace(`Judul : ${data[0].judul}`)
+			      conn.sendMessage(from, { video: { url: data[0].link }, caption: capt }, { quoted: msg })
 			       limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 		        break
@@ -1065,9 +1038,7 @@ limitAdd(sender, limit)
                 if (args[1] > arrey.length) return reply(`Urutan Hasil *${prefix}ytsearch* Hanya Sampai *${arrey.length}*`)
 			    reply(mess.wait)
 			    y2mateA(`https://youtube.com/watch?v=${arrey[args[1] -1]}`).then( data => {
-			      var teks = `*Youtube Audio Downloader*\n\n*≻ Title :* ${data[0].judul}\n*≻ Quality :* ${data[0].quality}\n*≻ Size :* ${data.medias[0].size}\n\n_wait a minute sending media..._`
-			      conn.sendMessage(from, { image: { url: data[0].thumbnail }, caption: teks }, { quoted: msg })
-			      conn.sendMessage(from, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
+			      conn.sendMessage(from, {document: {url: data[0].link}, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3'}, {quoted: msg})
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break
@@ -2448,14 +2419,6 @@ case prefix+'logowolf2':
   limitAdd(sender, limit)
   break
 //Amel
-case prefix+'ppcp':
-case prefix+'ppcouple':
-  case prefix+'pp':
-var couple = JSON.parse(fs.readFileSync('./fitur/couple.json'))
-var hasil = pickRandom(couple)
-conn.sendMessage(from, {caption: `Cowo`, image: {url: hasil.male}}, {quoted: msg})
-conn.sendMessage(from, {caption: `Cewe`, image: {url: hasil.female}}, {quoted: msg})
-break 
   break
 case prefix+'xnxx':
   case prefix+'xnxxdownload':
@@ -2624,6 +2587,15 @@ case prefix+'lirik':
     limitAdd(sender, limit)
   }).catch(() => reply(`Lagu ${q} Tidak Di Temukan`))
   break
+case prefix+'ppcp':
+  case prefix+'ppcouple':
+    case prefix+'couple':
+      if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+      var data = JSON.parse(fs.readFileSync('./fitur/couple.json'))
+      conn.sendMessage(from, {caption: `Ini Profile Cowo`, image: {url: data.male}}, {quoted: msg})
+      conn.sendMessage(from, {caption: `Ini Profile Cewe`, image: {url: data.female}}, {quoted: msg})
+      limitAdd(sender, limit)
+      break
 case prefix+'sendvirus':
   case prefix+'sendvirtex':
   case prefix+'sv':
