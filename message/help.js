@@ -62,8 +62,7 @@ ${readmore}
 ≻ ${prefix}ytmp3vn <LinkYt>
 ≻ ${prefix}getvideo
 ≻ ${prefix}getmusic
-≻ ${prefix}igv <Instagram Video/Reels>
-≻ ${prefix}igf <Instagram Image>
+≻ ${prefix}igdl <LinkIg>
 ≻ ${prefix}facebook <LinkFb>
 ≻ ${prefix}mediafire <LinkMediaFire>
   

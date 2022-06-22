@@ -1071,33 +1071,33 @@ limitAdd(sender, limit)
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break
-			/*case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
+case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 				if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('instagram.com')) return reply(mess.error.Iv)
 			    reply(mess.wait)
-			    igDownloader(args[1]).then( data => {
+			    hxz.igdl(args[1]).then( data => {
+			     var teks = monospace(`[ IG DOWNLOADER ]\n\nUsername : ${data.user.username}\nFull Name : ${data.user.fullName}\nFollowers : ${data.user.followers}`)
+			     reply(teks)
 			     for (let i of data.medias) {
-				  if (i.extension === "mp4") {
-				   conn.sendMessage(from, { video: { url: i.result.link }})
-				  } else if (i.extension === "jpg") {
-				   conn.sendMessage(from, { image: { url: i.result.link }})
+				  if (i.fileType === "mp4") {
+				   conn.sendMessage(from, { video: { url: i.url }})
+				  } else if (i.fileType === "jpg") {
+				   conn.sendMessage(from, { image: { url: i.url }})
 			      }
 			     }
 				 limitAdd(sender, limit)
-			    }) 
-			    break*/
+			    }).catch(() => reply(mess.error.api))
+			    break
 			case prefix+'facebook': case prefix+'fbdl':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('facebook.com')) return reply(mess.error.Iv)
 			    reply(mess.wait)
-			    xfar.Facebook(args[1]).then( data => {
-			      conn.sendMessage(from, { video: { url: data.medias[0].url }, caption: data.title }, { quoted: msg })
-			      limitAdd(sender, limit)
-				}).catch(() => reply(mess.error.api))
+			    hikki.downloader.facebookDownload(args[1]).then ( data => { conn.sendMessage(from, {video: {url: data.result.hd}})}).catch(() => reply(mess.error.api))
+			    limitAdd(sender, limit)
 			    break
 			// Owner Menu
 			case prefix+'exif':
@@ -2553,32 +2553,6 @@ reply(textnya.replace(/[a|i|u|e|o|A|I|U|E|O]/gi, 'o'))
 var data = await fetchJson(`https://docs-jojo.herokuapp.com/api/translate?text=${quoted}&from=${args[1]}&to=${args[2]}`)
 conn.sendMessage(from, {text: data.translated_text}, {quoted: msg})
 limitAdd(sender, limit)
-break
-case prefix+'igv':
-	case prefix+'igreels':
-		case prefix+'igvideo':
-			if (args.length < 2) return reply(`Kirim perintah ${command} link`)
-			    if (!isUrl(args[1])) return reply(mess.error.Iv)
-			    if (!args[1].includes('instagram.com')) return reply(mess.error.Iv)
-			    reply(mess.wait)
-			if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			igDownloader(args[1]).then ( data => {
-				conn.sendMessage(from, {video: {url: data.result.link}}, {quoted: msg})
-			}).catch(() => reply(mess.error.api))
-			limitAdd(sender, limit)
-break
-case prefix+'igf':
-	case prefix+'igfoto':
-		case prefix+'igpic':
-			if (args.length < 2) return reply(`Kirim perintah ${command} link`)
-			    if (!isUrl(args[1])) return reply(mess.error.Iv)
-			    if (!args[1].includes('instagram.com')) return reply(mess.error.Iv)
-			    reply(mess.wait)
-			if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			igDownloader(args[1]).then ( data => {
-				conn.sendMessage(from, {image: {url: data.result.link}}, {quoted: msg})
-			}).catch(() => reply(mess.error.api))
-			limitAdd(sender, limit)
 break
 case prefix+'wiki':
 	case prefix+'wikipedia':
