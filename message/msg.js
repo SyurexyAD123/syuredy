@@ -47,6 +47,7 @@ const xfar = require('xfarr-api');
 const axios = require("axios");
 const hikki = require("hikki-me");
 const hxz = require("hxz-api");
+const igApi = require("insta-fetcher");
 const ra = require("ra-api");
 const kotz = require("kotz-api");
 const yts = require("yt-search");
@@ -637,13 +638,16 @@ case prefix+'infobot':
     case prefix+'info':
       var caption = `*[ INFO ROBOT JOJO ]*
 
-*Nama Bot :* Jojo
-*Name Owner :* Arasya
-*Nomor Bot :* wa.me/${nobot}
+Haii, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan download lagu yang di udah di program oleh Pemilik Aku *${ownerName}* aku mempunyai lebih dari 100 fitur yang bisa kau gunakan dengan gratis, kamu Bisa melihat fitur fitur tersebut dengan cara ketik /menu.
+
+*Nama Bot :* ${botName}
+*Name Owner :* ${ownerName}
+*Nomor Bot :* wa.me/${botNumber}
 *Nomor Owner :* wa.me/${ownerNumber}
 *Engine :* NodeJs
 *Status :* Aktif
 *Aktif Selama :* ${runtime(process.uptime())}
+*Auto Download :* Aktif
 
 ===================
 Thanks To
