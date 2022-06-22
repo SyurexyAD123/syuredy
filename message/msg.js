@@ -72,8 +72,8 @@ const ovo = "0813-1994-4917"
 const dana = "0813-1994-4917"
 const pulsa = "0813-1994-4917"
 const pulsa2 = "0882-1329-2687"
-const ig = "arsrfi.jpg"
 const github = "GetSya"
+const igown = "arsrfi.jpg"
 
 // Exif
 const Exif = require("../lib/exif")
@@ -593,7 +593,7 @@ var teks = `  │
   ├─ ❏ PULSA2
   ├─ ❏ ${pulsa2}
   ├─ ❏ INSTAGRAM
-  └─ ❏ https://www.instagram.com/${ig}
+  └─ ❏ https://www.instagram.com/${igown}
   
   Donasi Untuk Upgrade Ke Fitur Premium
   Note : Donasi Seikhlasnya`
