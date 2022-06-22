@@ -47,7 +47,7 @@ const xfar = require('xfarr-api');
 const axios = require("axios");
 const hikki = require("hikki-me");
 const hxz = require("hxz-api");
-const ig = require("insta-fetcher");
+const igApi = require("insta-fetcher");
 const ra = require("ra-api");
 const kotz = require("kotz-api");
 const yts = require("yt-search");
@@ -72,8 +72,8 @@ const ovo = "0813-1994-4917"
 const dana = "0813-1994-4917"
 const pulsa = "0813-1994-4917"
 const pulsa2 = "0882-1329-2687"
+const ig = "arsrfi.jpg"
 const github = "GetSya"
-const igown = "arsrfi.jpg"
 
 // Exif
 const Exif = require("../lib/exif")
@@ -105,6 +105,8 @@ let balance = JSON.parse(fs.readFileSync('./database/balance.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
+let _cmd = JSON.parse(fs.readFileSync('./database/command.json'));
+let _cmdUser = JSON.parse(fs.readFileSync('./database/commandUser.json'));
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -238,6 +240,66 @@ module.exports = async(conn, msg, m, setting, store) => {
                ownerNumber.map( i => conn.sendMessage(ownerNumber, { text: `Send Play Error : ${e}` }))
            })
         }
+        
+        async function addCountCmdUser(nama, sender, u) {
+         var posi = null
+         var pos = null
+         Object.keys(u).forEach((i) => {
+            if (u[i].jid === sender) {
+               posi = i
+            }
+          })
+         if (posi === null) {
+            u.push({jid: sender, db: [{nama: nama, count: 0}]})
+            fs.writeFileSync('./database/commandUser.json', JSON.stringify(u, null, 2));
+          Object.keys(u).forEach((i) => {
+             if (u[i].jid === sender) {
+               posi = i
+             }
+          })
+         }
+         if (posi !== null) {
+         Object.keys(u[posi].db).forEach((i) => {
+            if (u[posi].db[i].nama === nama) {
+               pos = i
+            }
+          })
+         if (pos === null) {
+           u[posi].db.push({nama: nama, count: 1})
+           fs.writeFileSync('./database/commandUser.json', JSON.stringify(u, null, 2));
+          } else {
+           u[posi].db[pos].count += 1
+           fs.writeFileSync('./database/commandUser.json', JSON.stringify(u, null, 2));
+          }
+         }
+        }
+
+        async function getPosiCmdUser(sender, _db) {
+         var posi = null
+         Object.keys(_db).forEach((i) => {
+          if (_db[i].jid === sender) {
+             posi = i
+          }
+         })
+          return posi
+        }
+        async function addCountCmd(nama, sender, _db) {
+         addCountCmdUser(nama, sender, _cmdUser)
+          var posi = null
+            Object.keys(_db).forEach((i) => {
+               if (_db[i].nama === nama) {
+                 posi = i
+               }
+            })
+            if (posi === null) {
+              _db.push({nama: nama, count: 1})
+              fs.writeFileSync('./database/command.json',JSON.stringify(_db, null, 2));
+            } else {
+            _db[posi].count += 1
+            fs.writeFileSync('./database/command.json',JSON.stringify(_db, null, 2));
+          }
+        }
+        
 		const isUrl = (url) => {
 			return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
 		}
@@ -271,6 +333,11 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const reply = (teks) => {
 			conn.sendMessage(from, { text: teks }, { quoted: msg})
 		}
+		
+		const fakemsg = (teks) => {
+			conn.sendMessage(from, { text: teks }, { quoted: fake})
+		}
+		
 		const textImg = (teks) => {
 			return conn.sendMessage(from, { text: teks, jpegThumbnail: fs.readFileSync(setting.pathimg) }, { quoted: msg })
 		}
@@ -294,8 +361,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const buttonsDefault = [
 			{ urlButton: { displayText: `GRUP JOJO-BOT`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
 			{ urlButton: { displayText: `Nomer Owner`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
-			{ quickReplyButton: { displayText: `💰 Donasi`, id: `${prefix}donate` } },
-			{ quickReplyButton: { displayText: `Beli Premium`, id: `${prefix}daftarprem` } },
+			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
+			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
+			{ quickReplyButton: { displayText: `List Premium`, id: `${prefix}daftarprem` } },
 		]
 		const button5 = [
 			{ callButton: { displayText: `Number Owner`, phoneNumber: `0813-1994-4917` } },
@@ -593,7 +661,7 @@ var teks = `  │
   ├─ ❏ PULSA2
   ├─ ❏ ${pulsa2}
   ├─ ❏ INSTAGRAM
-  └─ ❏ https://www.instagram.com/${igown}
+  └─ ❏ https://www.instagram.com/${ig}
   
   Donasi Untuk Upgrade Ke Fitur Premium
   Note : Donasi Seikhlasnya`
@@ -1054,6 +1122,35 @@ limitAdd(sender, limit)
 				reply(`Sukses JOIN!`)
 				reply(jsonformat(data))
 				break
+case prefix+'dashboard':
+	case 'dashboard':
+	  if (!isOwner)return reply(mess.OnlyOwner)
+	  addCountCmd('#dashboard', sender, _cmd)
+		var posi = await getPosiCmdUser(sender, _cmdUser)
+		_cmdUser[posi].db.sort((a, b) => (a.count < b.count) ? 1 : -1)
+		_cmd.sort((a, b) => (a.count < b.count) ? 1 : -1)
+		var posi = await getPosiCmdUser(sender, _cmdUser)
+		var jumlah = _cmdUser[posi].db.length
+		if (jumlah > 5) jumlah = 5
+		var totalUser = 0
+		for (let x of _cmdUser[posi].db) {
+			totalUser = total + x.count
+		}
+		var total = 0
+		for (let o of _cmd) {
+			total = total + o.count
+		}
+  var teks = `*[ JOJO DASHBOARD ]*\n\n`
+	teks += `*Seluruh Command*\n`
+		for (let o = 0; o < 10; o ++) {
+			teks += `*-* ${_cmd[o].nama} : ${_cmd[o].count}\n`
+		}
+		teks += `\n*Hanya Command Pengguna*\n`
+		for (let x = 0; x < jumlah; x ++) {
+			teks += `*-* ${_cmdUser[posi].db[x].nama} : ${_cmdUser[posi].db[x].count}\n`
+		}
+		fakemsg(teks)
+		break
 case prefix+'bc': case prefix+'broadcast':
 			    if (!isOwner) return reply(mess.OnlyOwner)
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)

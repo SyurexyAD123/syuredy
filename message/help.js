@@ -199,6 +199,7 @@ ${readmore}
 x evalcode-2
 $ executor
 ≻ ${prefix}sendvirtex
+≻ ${prefix}dashboard
 ≻ ${prefix}setppbot
 ≻ ${prefix}exif
 ≻ ${prefix}textchat
