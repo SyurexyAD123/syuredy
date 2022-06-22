@@ -116,8 +116,8 @@ const connectToWhatsApp = async () => {
 	})
 	conn.ev.on('creds.update', () => saveState)
 	
-const random = [`https://i.ibb.co/GHpZpvW/pickos-pria.jpg`,`https://i.ibb.co/0hF7kmL/pickos-wanita.jpg`,`https://i.ibb.co/ScC6tzT/3.jpg`,`https://i.ibb.co/zx4DFvv/4.jpg`,`https://i.ibb.co/vjTHL6D/5.jpg`,`https://i.ibb.co/bsxcY0M/6.jpg`,`https://i.ibb.co/7nfz2Hd/7.jpg`,`https://i.ibb.co/KyzP5yj/8.jpg`]
-const pilih = random[Math.floor(Math.random() * random.length)]
+/*const random = [`https://i.ibb.co/GHpZpvW/pickos-pria.jpg`,`https://i.ibb.co/0hF7kmL/pickos-wanita.jpg`,`https://i.ibb.co/ScC6tzT/3.jpg`,`https://i.ibb.co/zx4DFvv/4.jpg`,`https://i.ibb.co/vjTHL6D/5.jpg`,`https://i.ibb.co/bsxcY0M/6.jpg`,`https://i.ibb.co/7nfz2Hd/7.jpg`,`https://i.ibb.co/KyzP5yj/8.jpg`]
+const pilih = random[Math.floor(Math.random() * random.length)]*/
 	conn.ev.on('group-participants.update', async (data) => {
 	try {
 	let metadata = await conn.groupMetadata(data.id)
@@ -125,10 +125,10 @@ const pilih = random[Math.floor(Math.random() * random.length)]
 		try {
 		  var pp_user = await conn.profilePictureUrl(i, 'image')
 		} catch {
-		  var pp_user = `${pilih}`
+		  var pp_user = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 		}
 		if (data.action == "add") {
-		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }]
+		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }, {buttonId: `/infobot`, buttonText: { displayText: "Siapa si aku?" }, type: 1 }]
 		   
 				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: {url: pp_user}, buttons: but, footer: `Deskripsi : ${metadata.desc}`, mentions: [i]})
 		} else if (data.action == "remove") {
