@@ -355,7 +355,6 @@ if (chats.startsWith(yutu)) {
 if (isGroup) {
 if (chats.startsWith(yutu)) {
             y2mateA(yutu).then( data => {
-              conn.sendMessage(from, {text: monospace(`${data[0].judul}`)}, {quoted: fvideo})
               conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
               var caption = monospace(`Auto Download Youtube, Pilih Tipe Berikut`)
               var but = [{buttonId: `${yutu}`, buttonText: { displayText: "📄 File Document" }, type: 1 }, {buttonId: `/ytmp3vn ${yutu}`, buttonText: { displayText: "🎧 Voice Not" }, type: 2 }, {buttonId: `/ytmp4 ${yutu}`, buttonText: { displayText: "🎥 Video" }, type: 3 }]
@@ -498,10 +497,25 @@ if (chats.startsWith(yutu)) {
 		}
 		
 if (chats.startsWith(`bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 if (chats.startsWith(`Bot`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+}
+if (chats.startsWith(`test`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+}
+if (chats.startsWith(`Test`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+}
+if (chats.startsWith(`tes`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+}
+if (chats.startsWith(`Tes`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+}
+if (chats.startsWith(`@6288213292687`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 
 		if (chats.startsWith("> ") && isOwner) {
@@ -560,14 +574,11 @@ case prefix+'delete':
     case prefix+'del':
   conn.sendMessage(from, { delete: { fromMe: true, id: quotedMsg.id, remoteJid: from }})
   break
-case prefix+'donasiah':
-  reply(`Jika Ingin Donasi Harap Hubungi Owner\n\nhttps://wa.me/${ownerNumber}`)
-  break
 case prefix+'donasi':
   case prefix+'donate':
   var donasibut = [
 			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
-			{ quickReplyButton: { displayText: `Aku Ingin Donasi`, id: `${prefix}donasiah` } },
+			{ quickReplyButton: { displayText: `Owner`, id: `${prefix}owner` } },
 		]
 var teks = `  │
   ├─ ❏ GOPAY
@@ -664,21 +675,9 @@ break
 			    break*/
 			case prefix+'owner':
 			    for (let x of ownerNumber) {
-			      sendContact(from, x.split('@s.whatsapp.net')[0], 'Arasya Rafi', msg)
+			      sendContact(from, x.split('@s.whatsapp.net')[0], ownerName, msg)
 			    }
-			    /*conn.sendMessage(from, { audio: {url : `https://b.top4top.io/m_2223iin241.mp3`}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})*/
-			    var owncuy = [
-			{ quickReplyButton: { displayText: `♨️ Instagram`, id: `${prefix}igowner` } },
-			{ quickReplyButton: { displayText: `🌐 Github`, id: `${prefix}githubown` } },
-		]
-		conn.sendMessage(from, {text: `Ingin bertanya tanya tentang apa?`, templateButtons: owncuy, footer: `My Name : Arasya Rafi Putra`, mentions: [sender]} )
 			    break
-case prefix+'igowner':
- reply(`INSTAGRAM OWNER : @${ig}\nLINK : https://instagram.com/${ig}`)
- break
-case prefix+'githubown':
- reply(`GITHUB OWNER : ${github}\nLINK : https://github.com/${ig}`)
- break
 			case prefix+'cekprem':
             case prefix+'cekpremium':
                 if (!isPremium) return reply(`Kamu bukan user premium, kirim perintah *${prefix}daftarprem* untuk membeli premium`)
@@ -847,84 +846,35 @@ case prefix+'ban':
 			    }
                 break
 			case prefix+'toimg': case prefix+'toimage':
-                case prefix+'tovid': case prefix+'tovideo':
-                   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-                   if (!isQuotedSticker) return reply(`Reply stikernya!`)
-                   if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
-                     var pathe = './sticker/'+getRandom('.png')
-                     var media = await downloadAndSaveMediaMessage(msg, 'sticker', pathe)
-                     reply(mess.wait)
-                     conn.sendMessage(from, { image: fs.readFileSync(media) }, { quoted: msg })
-                     limitAdd(sender, limit)
-                     fs.unlinkSync(pathe)
-                   } else {
-                     var patha = './sticker/'+getRandom('.webp')
-                     var media = await downloadAndSaveMediaMessage(msg, 'sticker', patha)
-                     reply(mess.wait)
-                     addCountCmd('#tovid', sender, _cmd)
-                     webp2mp4File(`${media}`).then(async(data) => {
-                       fs.unlinkSync(`${media}`)
-                       conn.sendMessage(from, { video: await getBuffer(data.data) }, { quoted: msg })
-                       limitAdd(sender, limit)
-                     }).catch((e) => { reply(mess.error.api); fs.unlinkSync(patha) })
-                   }
-                   break
-case prefix+'toimg':
-  let encmedia = JSON.parse(JSON.stringify(msg).replace('quotedM','m')).message.extendedTextMessage.contextInfo
-				var media = await conn.downloadAndSaveMediaMessage(encmedia)
-				if (quotedMsg.stickerMessage.isAnimated === true){
-                    let outGif = getRandom('.gif')
-                    let outMp4 = getRandom('.mp4')
-                    exec(`convert ${media} ${outGif}`, (err) => {
-                        if (err) {
-                            console.log(err)
-                            fs.unlinkSync(media)
-                            return reply(`Error bruh`)
-                        }
-                        exec(`ffmpeg -i ${outGif} -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p ${outMp4}`, (err) => {
-                            if (err) {
-                                console.log(err)
-                                fs.unlinkSync(media)
-                                fs.unlinkSync(outGif)
-                                return reply(`Error`)
-                            }
-                            conn.sendMessage(from, {caption: `test`, video: fs.readFileSync(outMp4)})
-                            .then(() => {
-                                fs.unlinkSync(outMp4)
-                                limitAdd(sender, limit)
-                            })
-                        })
-                    })
-					} else {
-                    reply(mess.wait)
-					let ran = getRandom('.png')
-					exec(`ffmpeg -i ${media} ${ran}`, (err) => {
-						fs.unlinkSync(media)
-						if (err) return reply('Gagal :V')
-						conn.sendMessage(from, {caption: `test`, image: fs.readFileSync(ran)}, {quoted: msg})
-                        limitAdd(sender,  limit)
-						fs.unlinkSync(ran)
-					})
-					}
-  break
-	        // Downloader Menu
-			/*case prefix+'tiktok':
+			case prefix+'tovid': case prefix+'tovideo':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
-			    if (!isUrl(args[1])) return reply(mess.error.Iv)
-			    if (!args[1].includes('tiktok')) return reply(mess.error.Iv)
+			    if (!isQuotedSticker) return reply(`Reply stikernya!`)
+			    var stream = await downloadContentFromMessage(msg.message.extendedTextMessage?.contextInfo.quotedMessage.stickerMessage, 'sticker')
+			    var buffer = Buffer.from([])
+			    for await(const chunk of stream) {
+			       buffer = Buffer.concat([buffer, chunk])
+			    }
+			    var rand1 = 'sticker/'+getRandom('.webp')
+			    var rand2 = 'sticker/'+getRandom('.png')
+			    fs.writeFileSync(`./${rand1}`, buffer)
+			    if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
+			    exec(`ffmpeg -i ./${rand1} ./${rand2}`, (err) => {
+			      fs.unlinkSync(`./${rand1}`)
+			      if (err) return reply(mess.error.api)
+			      conn.sendMessage(from, { image: { url: `./${rand2}` }}, { quoted: msg })
+			      limitAdd(sender, limit)
+				  fs.unlinkSync(`./${rand2}`)
+			    })
+			    } else {
 			    reply(mess.wait)
-			    xfar.Tiktok(args[1]).then( data => {
-			      conn.sendMessage(from, {
-				   video: { url: data.medias[0].url },
-				   caption: `${data.title}\n\nKamu bisa mengubahnya menjadi Vidio Tanpa Watermark atau Audio, pencet tombol dibawah untuk mengubahnya!`,
-				   buttons: [{buttonId: `${prefix}tiktoknowm ${args[1]}`, buttonText: { displayText: "Without Watermark" }, type: 1 },
-					{buttonId: `${prefix}tiktokaudio ${args[1]}`, buttonText: { displayText: "Audio" }, type: 1 }],
-				   footer: "Create by @yannnnn.zz_"
-			      }, { quoted: msg })
-				  limitAdd(sender, limit)
-			    }).catch(() => reply(mess.error.api))
-			    break*/
+		          webp2mp4File(`./${rand1}`).then( data => {
+			       fs.unlinkSync(`./${rand1}`)
+			       conn.sendMessage(from, { video: { url: data.result }}, { quoted: msg })
+			       limitAdd(sender, limit)
+				  })
+			    }
+			    break
+//downloader
 			case prefix+'tiktoknowm':
 			  case prefix+'tiktok':
 				  case prefix+'tt':
@@ -1734,7 +1684,7 @@ case prefix+'tebaklagu':
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaklagu.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.judul = hayo.judul.split('Judul ').join('')
-				  var teks = `*TEBAK LAGU*\n\n`+monospace(`Tebak Lagu Berikut\nSong : ${hayo.penyanyi}\nPetunjuk : ${hayo.judul.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
+				  var teks = `*TEBAK LAGU*\n\n`+monospace(`Tebak Lagu Berikut\nArtis : ${hayo.penyanyi}\nPetunjuk : ${hayo.judul.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
 				  conn.sendMessage(from, {text: teks}, {quoted: msg})
 				  conn.sendMessage(from, {audio: {url: hayo.link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 				  .then( res => {
