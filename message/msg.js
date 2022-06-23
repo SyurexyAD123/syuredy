@@ -1123,11 +1123,10 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 				var url = args[1]
 			    url = url.split('https://chat.whatsapp.com/')[1]
 				var data = await conn.groupAcceptInvite(url)
-				reply(`Sukses JOIN!`)
 				reply(jsonformat(data))
 				break
-case prefix+'dashboard':
-	case 'dashboard':
+			case prefix+'dashboard':
+			case 'dashboard':
 	  if (!isOwner)return reply(mess.OnlyOwner)
 	  addCountCmd('#dashboard', sender, _cmd)
 		var posi = await getPosiCmdUser(sender, _cmdUser)
