@@ -634,6 +634,7 @@ if (chats.startsWith(`@6288213292687`)){
 			case prefix+'menu':
 			case prefix+'help':
 			  case prefix+'m':
+			    addCountCmd('Command Menu', sender, _cmd)
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    
 conn.sendMessage(from, { caption: teks, image: fs.readFileSync('media/Jojo2.jpg'), templateButtons: buttonsDefault, footer: '© Jojo - Bot', mentions: [sender]} )
@@ -645,6 +646,7 @@ case prefix+'delete':
   break
 case prefix+'donasi':
   case prefix+'donate':
+    addCountCmd('Command Donasi', sender, _cmd)
   var donasibut = [
 			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
 			{ quickReplyButton: { displayText: `Owner`, id: `${prefix}owner` } },
@@ -669,6 +671,7 @@ var teks = `  │
 			    break
 case prefix+'sewa':
   case prefix+'daftarprem':
+    addCountCmd('Command Sewa', sender, _cmd)
   var teks = monospace(`[ JOJO - PREMIUM/SEWA ]
 
 Premium : Rp.10.000
@@ -704,6 +707,7 @@ case prefix+'groupjojo':
 case prefix+'infobot':
   case prefix+'inforobot':
     case prefix+'info':
+      addCountCmd('Command Info', sender, _cmd)
       var caption = `*[ INFO ROBOT JOJO ]*
 
 Haii, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan download lagu yang di udah di program oleh Pemilik Aku *${ownerName}* aku mempunyai lebih dari 100 fitur yang bisa kau gunakan dengan gratis, kamu Bisa melihat fitur fitur tersebut dengan cara ketik /menu.
@@ -869,6 +873,7 @@ case prefix+'ban':
                 break
 	        // Converter & Tools Menu
 			case prefix+'sticker': case prefix+'stiker': case prefix+'s': case prefix+'stickergif': case prefix+'sgif': case prefix+'stikergif': case prefix+'stikgif':
+			  addCountCmd('Command Sticker', sender, _cmd)
 				if (isImage || isQuotedImage) {
 		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
 			       var buffer = Buffer.from([])
@@ -1001,6 +1006,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
+			    addCountCmd('Youtube Mp4', sender, _cmd)
 			    reply(mess.wait)
 			    y2mateV(args[1]).then ( data => {
 			      var capt = monospace(`Title : ${data[0].judul}`)
@@ -1010,6 +1016,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 				///SCRAPER YTMP3 BY ARASYA RAFI	
 case prefix+'ytmp3':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  addCountCmd('Youtube Mp3', sender, _cmd)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
@@ -1698,6 +1705,7 @@ case prefix+'dare':
 			case prefix+'tebakgambar':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tebakgambar)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebakgambar[getGamePosi(from, tebakgambar)].msg)
+			    addCountCmd('#tebakgambar', sender, _cmd)
 				var tg = JSON.parse(fs.readFileSync('./fitur/tebakgambar.json'))
 				var data = pickRandom(tg)
 				  data.jawaban = data.jawaban.split('Jawaban ').join('')
@@ -1712,6 +1720,7 @@ case prefix+'dare':
 case prefix+'tebakkata':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, kuiscuy)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, kuiscuy[getGamePosi(from, kuiscuy)].msg)
+			    addCountCmd('#tebakkata', sender, _cmd)
 				var kuisnya = JSON.parse(fs.readFileSync('./fitur/tebakkata.json'))
 				var kukus = pickRandom(kuisnya)
 				  kukus.jawaban = kukus.jawaban.split('Jawaban ').join('')
@@ -1726,6 +1735,7 @@ case prefix+'tebakkata':
 case prefix+'susunkata':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, susun)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, susun[getGamePosi(from, susun)].msg)
+			    addCountCmd('#susunkata', sender, _cmd)
 				var ngen = JSON.parse(fs.readFileSync('./fitur/susunkata.json'))
 				var kukus = pickRandom(ngen)
 				  kukus.jawaban = kukus.jawaban.split('Jawaban ').join('')
@@ -1741,6 +1751,7 @@ case prefix+'tebakbendera':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tb)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tb[getGamePosi(from, tb)].msg)
 				var teben = JSON.parse(fs.readFileSync('./fitur/tebakbendera.json'))
+				addCountCmd('#tebakbendera', sender, _cmd)
 				var kukus = pickRandom(teben)
 				  kukus.name = kukus.name.split('Jawaban ').join('')
 				  var teks = `*TEBAK BENDERA*\n\n`+monospace(`Petunjuk : ${kukus.name.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nFlag Code : ${kukus.flag}\nWaktu : ${gamewaktu}s`)
@@ -1754,6 +1765,7 @@ case prefix+'tebakbendera':
 case prefix+'kuis':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tebaktebakan)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebaktebakan[getGamePosi(from, tebaktebakan)].msg)
+			    addCountCmd('#kuis', sender, _cmd)
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaktebakan.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
@@ -1768,6 +1780,7 @@ case prefix+'kuis':
 case prefix+'tekateki':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tekateki)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tekateki[getGamePosi(from, tekateki)].msg)
+			    addCountCmd('#tekateki', sender, _cmd)
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tekateki.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
@@ -1782,6 +1795,7 @@ case prefix+'tekateki':
 case prefix+'tebaklagu':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tebaklagu)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebaklagu[getGamePosi(from, tebaklagu)].msg)
+			    addCountCmd('#tebaklagu', sender, _cmd)
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebaklagu.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.judul = hayo.judul.split('Judul ').join('')
@@ -1798,6 +1812,7 @@ case prefix+'siapakahaku':
   case prefix+'siapaaku':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, siapaaku)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, siapaaku[getGamePosi(from, siapaaku)].msg)
+			    addCountCmd('#siapakahaku', sender, _cmd)
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/siapakahaku.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
@@ -1812,6 +1827,7 @@ case prefix+'siapakahaku':
 case prefix+'tebakkimia':
 		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 			    if (isPlayGame(from, tebakkimia)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, tebakkimia[getGamePosi(from, tebakkimia)].msg)
+			    addCountCmd('#tebakkimia', sender, _cmd)
 				var tebaknya = JSON.parse(fs.readFileSync('./fitur/tebakkimia.json'))
 				var hayo = pickRandom(tebaknya)
 				  hayo.unsur = hayo.unsur.split('Jawaban ').join('')
@@ -1894,6 +1910,7 @@ case prefix+'tebakkimia':
 			case prefix+'hidetag':
 		        if (!isGroup) return reply(mess.OnlyGrup)
 				if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
+				addCountCmd('Command Hidetag', sender, _cmd)
 			    let mem = [];
 		        groupMembers.map( i => mem.push(i.id) )
 				conn.sendMessage(from, { text: q ? q : '', mentions: mem }, {quoted: fdoc})
@@ -2093,6 +2110,7 @@ case prefix+'add':
                 break
 			case prefix+'limit': case prefix+'balance':
 			case prefix+'ceklimit': case prefix+'cekbalance':
+			  addCountCmd('View Balance', sender, _cmd)
 			    if (mentioned.length !== 0){
 					var Ystatus = ownerNumber.includes(mentioned[0])
 					var isPrim = Ystatus ? true : _prem.checkPremiumUser(mentioned[0], premium)
