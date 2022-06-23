@@ -63,9 +63,6 @@ const keyanto = "hardianto"
 const jojoapi = "Syaa"
 const ikiapi = "FuckBitch"
 
-//Setting ke 2
-const nobot = "6288213292687"
-
 // Setting Donasi
 const gopay = "0882-1329-2687"
 const ovo = "0813-1994-4917"
@@ -240,7 +237,7 @@ module.exports = async(conn, msg, m, setting, store) => {
                ownerNumber.map( i => conn.sendMessage(ownerNumber, { text: `Send Play Error : ${e}` }))
            })
         }
-        
+        //dashboard
         async function addCountCmdUser(nama, sender, u) {
          var posi = null
          var pos = null
@@ -634,7 +631,7 @@ if (chats.startsWith(`@6288213292687`)){
 			case prefix+'menu':
 			case prefix+'help':
 			  case prefix+'m':
-			    addCountCmd('Command Menu', sender, _cmd)
+			    addCountCmd('#menu', sender, _cmd)
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    
 conn.sendMessage(from, { caption: teks, image: fs.readFileSync('media/Jojo2.jpg'), templateButtons: buttonsDefault, footer: '© Jojo - Bot', mentions: [sender]} )
@@ -646,7 +643,7 @@ case prefix+'delete':
   break
 case prefix+'donasi':
   case prefix+'donate':
-    addCountCmd('Command Donasi', sender, _cmd)
+    addCountCmd('#donasi', sender, _cmd)
   var donasibut = [
 			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
 			{ quickReplyButton: { displayText: `Owner`, id: `${prefix}owner` } },
@@ -671,7 +668,7 @@ var teks = `  │
 			    break
 case prefix+'sewa':
   case prefix+'daftarprem':
-    addCountCmd('Command Sewa', sender, _cmd)
+    addCountCmd('sewa', sender, _cmd)
   var teks = monospace(`[ JOJO - PREMIUM/SEWA ]
 
 Premium : Rp.10.000
@@ -707,7 +704,7 @@ case prefix+'groupjojo':
 case prefix+'infobot':
   case prefix+'inforobot':
     case prefix+'info':
-      addCountCmd('Command Info', sender, _cmd)
+      addCountCmd('#infobot', sender, _cmd)
       var caption = `*[ INFO ROBOT JOJO ]*
 
 Haii, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan download lagu yang di udah di program oleh Pemilik Aku *${ownerName}* aku mempunyai lebih dari 100 fitur yang bisa kau gunakan dengan gratis, kamu Bisa melihat fitur fitur tersebut dengan cara ketik /menu.
@@ -873,7 +870,7 @@ case prefix+'ban':
                 break
 	        // Converter & Tools Menu
 			case prefix+'sticker': case prefix+'stiker': case prefix+'s': case prefix+'stickergif': case prefix+'sgif': case prefix+'stikergif': case prefix+'stikgif':
-			  addCountCmd('Command Sticker', sender, _cmd)
+			  addCountCmd('#sticker', sender, _cmd)
 				if (isImage || isQuotedImage) {
 		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
 			       var buffer = Buffer.from([])
@@ -1006,7 +1003,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
-			    addCountCmd('Youtube Mp4', sender, _cmd)
+			    addCountCmd('#ytmp4', sender, _cmd)
 			    reply(mess.wait)
 			    y2mateV(args[1]).then ( data => {
 			      var capt = monospace(`Title : ${data[0].judul}`)
@@ -1016,7 +1013,7 @@ case prefix+'ytmp4': case prefix+'mp4':
 				///SCRAPER YTMP3 BY ARASYA RAFI	
 case prefix+'ytmp3':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  addCountCmd('Youtube Mp3', sender, _cmd)
+  addCountCmd('#ytmp3', sender, _cmd)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
@@ -1910,7 +1907,7 @@ case prefix+'tebakkimia':
 			case prefix+'hidetag':
 		        if (!isGroup) return reply(mess.OnlyGrup)
 				if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
-				addCountCmd('Command Hidetag', sender, _cmd)
+				addCountCmd('#hidetag', sender, _cmd)
 			    let mem = [];
 		        groupMembers.map( i => mem.push(i.id) )
 				conn.sendMessage(from, { text: q ? q : '', mentions: mem }, {quoted: fdoc})
