@@ -144,7 +144,6 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const groupMetadata = isGroup ? await conn.groupMetadata(from) : ''
 		const groupName = isGroup ? groupMetadata.subject : ''
 		const groupId = isGroup ? groupMetadata.id : ''
-		const groupOwner = isGroup ? groupMetadata.owner : ''
 		const groupDesc = isGroup ? groupMetadata.desc : ''
 		const groupMembers = isGroup ? groupMetadata.participants : ''
 		const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : ''
@@ -427,6 +426,24 @@ if (chats.startsWith(yutu)) {
               conn.sendMessage(sender, { text: caption, buttons: but, footer: "Silahkan Pilih Untuk mengubah Tipe Audio", templateButtons: but }, {quoted: fvideo})
 					  })
             }
+}
+
+// Auto Tiktok Downloader
+let toktok = `https://vt.tiktok/${chats.slice(17)}`
+if (!isGroup){
+if (chats.startsWith(yutu)) {
+       hxz.ttdownloader(toktok).then ( data => {
+         conn.sendMessage(from, {caption: `Auto Tiktok Download`, video: {url: data.nowm}}, {quoted: fake})
+       })
+}
+}
+if (isGroup) {
+if (chats.startsWith(toktok)) {
+            hxz.ttdownloader(toktok).then ( data => {
+         conn.sendMessage(from, {caption: `Auto Tiktok Download`, video: {url: data.nowm}}, {quoted: fake})
+         hxz.ttdownloader(sender, {audio: {url: data.audio}, mimetype: 'audio/mp4'}, {quoted: fake})
+            })
+}
 }
 
         // Game
@@ -979,7 +996,7 @@ case prefix+'ban':
 				}).catch(() => reply(mess.error.api))
 		        break
 				case prefix+'mediafire':
-				  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+				  if (!isPremium)return reply(mess.OnlyPrem)
 					if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
@@ -1117,7 +1134,7 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 				conn.groupLeave(from)
 			    break
 			case prefix+'masuk':
-			  if (!isPremium)return reply("Khusus Pengguna Premium")
+			  if (!isPremium)return reply(mess.OnlyPrem)
 				if (args.length < 2) return reply(`Kirim perintah ${command} _linkgrup_`)
 				if (!isUrl(args[1])) return reply(mess.error.Iv)
 				var url = args[1]
@@ -1125,8 +1142,8 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 				var data = await conn.groupAcceptInvite(url)
 				reply(jsonformat(data))
 				break
-			case prefix+'dashboard':
-			case 'dashboard':
+case prefix+'dashboard':
+	case 'dashboard':
 	  if (!isOwner)return reply(mess.OnlyOwner)
 	  addCountCmd('#dashboard', sender, _cmd)
 		var posi = await getPosiCmdUser(sender, _cmdUser)
@@ -2006,7 +2023,7 @@ case prefix+'demote':
     }
     break
 case prefix+'kick':
-  if (!isPremium)return reply("_Maaf Fitur Ini Di Nonaktifkan Oleh Owner, Karena menyebabkan nomer bot 3 kali ke banned_")
+  if (!isPremium)return reply(mess.OnlyPrem)
     if (!isGroup) return reply(mess.OnlyGrup)
     if (!isGroupAdmins) return reply(mess.GrupAdmin)
     if (!isBotGroupAdmins) return reply(mess.BotAdmin)
@@ -2120,41 +2137,41 @@ case prefix+'add':
 				break
 //nsfw
 case prefix+'pussy':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
 var pussy = JSON.parse(fs.readFileSync('./fitur/nsfw/pussy.json'))
 var hasil = pickRandom(pussy)
 conn.sendMessage(from, {caption: `Sange kok sama gambar`, image: {url: hasil}}, {quoted: msg})
 break
 case prefix+'masturbation':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
 var masturbation = JSON.parse(fs.readFileSync('./fitur/nsfw/masturbation.json'))
 var hasil = pickRandom(masturbation)
 conn.sendMessage(from, {caption: `Sange kok sama gambar`, image: {url: hasil}}, {quoted: msg})
 break 
 case prefix+'hentai':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
 var hentai = JSON.parse(fs.readFileSync('./fitur/nsfw/hentai.json'))
 var hasil = pickRandom(hentai)
 conn.sendMessage(from, {caption: `Sange kok sama gambar`, image: {url: hasil}}, {quoted: msg})
 break 
 case prefix+'blowjob':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
 var bj = JSON.parse(fs.readFileSync('./fitur/nsfw/blowjob.json'))
 var hasil = pickRandom(bj)
 conn.sendMessage(from, {caption: `Sange kok sama gambar`, image: {url: hasil}}, {quoted: msg})
 break 
 case prefix+'bdsm':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
 var bdsm = JSON.parse(fs.readFileSync('./fitur/nsfw/bdsm.json'))
 var hasil = pickRandom(bdsm)
 conn.sendMessage(from, {caption: `Sange kok sama gambar`, image: {url: hasil}}, {quoted: msg})
 break 
-if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+if (!isPremium)return reply(mess.OnlyPrem)
 
   reply(mess.wait)
 
@@ -2163,14 +2180,14 @@ var hasil = pickRandom(hentai)
 conn.sendMessage(from, {caption: `Sange kok sama gambar`, image: {url: hasil}}, {quoted: msg})
 break 
 case prefix+'ass':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
 var ass = JSON.parse(fs.readFileSync('./fitur/nsfw/ass.json'))
 var hasil = pickRandom(ass)
 conn.sendMessage(from, {caption: `Sange kok sama gambar`, image: {url: hasil}}, {quoted: msg})
 break 
 case prefix+'ahegao':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
 var ahegao = JSON.parse(fs.readFileSync('./fitur/nsfw/ahegao.json'))
 var hasil = pickRandom(ahegao)
@@ -2437,7 +2454,7 @@ case prefix+'qrcode':
     limitAdd(sender, limit)
     break
 case prefix+'cersex':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   var data = await fetchJson(`https://docs-jojo.herokuapp.com/api/cersex`)
   var caption = `*[ CERSEX ]*\n\n*Judul* : ${data.result.judul}\n*Cerita* : ${data.result.cersex}\n${readmore} *JOJOBOT*`
@@ -2508,11 +2525,11 @@ case prefix+'logowolf2':
   break
 case prefix+'xnxx':
   case prefix+'xnxxdownload':
-	if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+	if (!isPremium)return reply(mess.OnlyPrem)
 if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 if (!args[1].includes('xnxx')) return reply(mess.error.Iv)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
-if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+if (!isPremium)return reply(mess.OnlyPrem)
 var data = await fetchJson(`https://melcanz.com/xnxxdl?url=${q}&apikey=${apikey}`)
 reply(mess.wait)
 conn.sendMessage(from, {video: {url: data.result.files.high}}, {quoted: msg})
@@ -2580,7 +2597,7 @@ case prefix+'wiki':
 		limitAdd(sender, limit)
 		break
 case prefix+'asupan':
-  if (!isPremium)return reply("Perintah Ini Khusus Pengguna Premium, Upgrade Fitur Premium Ke Owner, Ketik !owner")
+  if (!isPremium)return reply(mess.OnlyPrem)
   reply(mess.wait)
   var asupan = JSON.parse(fs.readFileSync('./fitur/asupan.json'))
 var hasil = pickRandom(asupan)
@@ -2608,7 +2625,8 @@ case prefix+'suratto':
   var number = q.split('|')[0] ? q.split('|')[0] : q
                 var text = q.split('|')[1] ? q.split('|')[1] : ''
                 reply(`Pesan Sukses Terkirim`)
-conn.sendMessage(`${number}@s.whatsapp.net`, {text: `*[ FITUR SURAT ]*\n\n*Dari :* @${sender.split("@")[0]} (${pushname})\n*Pesan :* ${text}`, mentions: [sender]})
+                var caption = `*[ FITUR BOT SURAT ]*\nDari : Tidak Diketahui\nUntuk : Kamu\nPesan : *${text}*`
+conn.sendMessage(`${number}@s.whatsapp.net`, {caption: caption, image : fs.readFileSync('./media/surat.jpeg')})
 limitAdd(sender, limit)
 break
 case prefix+'report':
