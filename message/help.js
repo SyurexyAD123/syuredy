@@ -88,26 +88,8 @@ ${readmore}
 ≻ ${prefix}pussy
   
 *( 🎨 )  Menu Maker*
-≻ ${prefix}glitch <Text> <Text>
-≻ ${prefix}flaming <Text>
-≻ ${prefix}shadow <Text>
-≻ ${prefix}wolftext <Text>
-≻ ${prefix}cup <Text>
-≻ ${prefix}cup2 <Text>
-≻ ${prefix}romantic <Text>
-≻ ${prefix}writetext <Text>
-≻ ${prefix}lovetext <Text>
-≻ ${prefix}lovetext2 <Text>
-≻ ${prefix}undergrass <Text>
-≻ ${prefix}coffecup <Text>
-≻ ${prefix}woodheart <Text>
-≻ ${prefix}tahta <Text>
-≻ ${prefix}leaves <Text>
-≻ ${prefix}pornhub <Text>
-≻ ${prefix}3d <Text>
-≻ ${prefix}christmas <Text>
-≻ ${prefix}logowolf <Text>
-≻ ${prefix}logowolf2 <Text>
+≻ ${prefix}realistic <Text1|Text2>
+≻ ${prefix}neondevil <Text>
   
 *( 🪀 )  Menu Lain Nya*
 ≻ ${prefix}shortlink <Link>
