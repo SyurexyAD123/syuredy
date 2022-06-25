@@ -1178,7 +1178,18 @@ case prefix+'bc': case prefix+'broadcast':
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
                             var data = await store.chats.all()
                             for (let i of data) {
-                               conn.sendMessage(i.id, { text: `*[ JOJO BROADCAST ]*\n\n${q}` })
+                              var capt = `*[ JOJO BROASCAST ]*\n${q}`
+                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg')}, {quoted: fake})
+                               await sleep(1000)
+                            }
+                            break
+case prefix+'bc': case prefix+'broadcast':
+			    if (!isOwner) return reply(mess.OnlyOwner)
+		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
+                            var data = JSON.parse('./database/premium.json')
+                            for (let i of data) {
+                              var capt = `*[ BC PREM USER ]*\n${q}`
+                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg')}, {quoted: fake})
                                await sleep(1000)
                             }
                             break
