@@ -1183,7 +1183,7 @@ case prefix+'bc': case prefix+'broadcast':
                                await sleep(1000)
                             }
                             break
-case prefix+'bc': case prefix+'broadcast':
+case prefix+'bcprem':
 			    if (!isOwner) return reply(mess.OnlyOwner)
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
                             var data = JSON.parse('./database/premium.json')

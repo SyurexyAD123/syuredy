@@ -188,6 +188,7 @@ $ executor
 ≻ ${prefix}addprem
 ≻ ${prefix}delprem
 ≻ ${prefix}broadcast
+≻ ${prefix}bcprem
 ≻ ${prefix}masuk
 ≻ ${prefix}ban
 ≻ ${prefix}unban
