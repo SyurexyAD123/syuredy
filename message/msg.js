@@ -1136,7 +1136,7 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 				conn.groupLeave(from)
 			    break
 			case prefix+'masuk':
-			  if (!isPremium)return reply(mess.OnlyPrem)
+			 if (!isOwner)return reply(mess.OnlyOwner)
 				if (args.length < 2) return reply(`Kirim perintah ${command} _linkgrup_`)
 				if (!isUrl(args[1])) return reply(mess.error.Iv)
 				var url = args[1]
