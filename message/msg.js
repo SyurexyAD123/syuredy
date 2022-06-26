@@ -157,10 +157,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 
-    const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync('media/Jojo2.jpg')}}}
-    const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`*AUTO DOWNLOAD AUDIO YOUTUBE*`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `*AUTO DOWNLOAD AUDIO YOUTUBE*`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
-    const fake = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: `41798898139-1429460331@g.us` } : {}) },message: { "videoMessage": { "title":`JOJO [ BOT REBORN ]\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `JOJO [ BOT REBORN ]\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, 'jpegThumbnail': fs.readFileSync('media/Jojo.jpg')}}}
-    const fdoc = {key : {participant : '0@s.whatsapp.net'},message: {documentMessage: {title: `Hidetag Cuy!`,jpegThumbnail: './media/Jojo2.jpg'}}}
+    const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
+    const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`*AUTO DOWNLOAD AUDIO YOUTUBE*`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `*AUTO DOWNLOAD AUDIO YOUTUBE*`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
+    const fake = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: `41798898139-1429460331@g.us` } : {}) },message: { "videoMessage": { "title":`${botName}\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `${botName}\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
+    const fdoc = {key : {participant : '0@s.whatsapp.net'},message: {documentMessage: {title: `Hidetag Cuy!`,jpegThumbnail: fs.readFileSync(setting.pathimg)}}}
 		const mentionByTag = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.mentionedJid : []
                 const mentionByReply = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.participant || "" : ""
                 const mention = typeof(mentionByTag) == 'string' ? [mentionByTag] : mentionByTag
@@ -356,7 +356,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
-			{ urlButton: { displayText: `GRUP JOJO-BOT`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
+			{ urlButton: { displayText: `GRUP ${botName}`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
 			{ urlButton: { displayText: `Nomer Owner`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
@@ -653,7 +653,7 @@ if (chats.startsWith(`@6288213292687`)){
 			    addCountCmd('#menu', sender, _cmd)
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    
-conn.sendMessage(from, { caption: teks, image: fs.readFileSync('media/Jojo2.jpg'), templateButtons: buttonsDefault, footer: '© Jojo - Bot', mentions: [sender]} )
+conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), templateButtons: buttonsDefault, footer: '© Jojo - Bot', mentions: [sender]} )
 				break
 case prefix+'delete':
   case prefix+'d':
@@ -1136,7 +1136,7 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 				conn.groupLeave(from)
 			    break
 			case prefix+'masuk':
-			 if (!isOwner)return reply(mess.OnlyOwner)
+			  if (!isOwner)return reply(mess.OnlyOwner)
 				if (args.length < 2) return reply(`Kirim perintah ${command} _linkgrup_`)
 				if (!isUrl(args[1])) return reply(mess.error.Iv)
 				var url = args[1]
@@ -1233,6 +1233,7 @@ case prefix+'bcprem':
                     reply('Sukses!')
                 }
                 break
+//Database Pake Json anjing, eror gua entot ni acode
 			// Random Menu
   case prefix+'katagalau':
     case prefix+'galau':
@@ -2036,7 +2037,7 @@ case prefix+'demote':
     }
     break
 case prefix+'kick':
-  if (!isPremium)return reply(mess.OnlyPrem)
+  if (!isOwner)return reply('Fitur Dilarang, Menyebabkan Nomer Bot Terblock!')
     if (!isGroup) return reply(mess.OnlyGrup)
     if (!isGroupAdmins) return reply(mess.GrupAdmin)
     if (!isBotGroupAdmins) return reply(mess.BotAdmin)
@@ -2057,7 +2058,7 @@ case prefix+'kick':
     break
 
 case prefix+'add':
-  if (!isOwner)return reply("_Maaf Fitur Ini Di Nonaktifkan Oleh Owner, Karena menyebabkan nomer bot 3 kali ke banned_")
+  if (!isOwner)return reply('Fitur Dilarang, Menyebabkan Nomer Bot Terblock!')
     if (!isGroup) return reply(mess.OnlyGrup)
     if (!isGroupAdmins) return reply(mess.GrupAdmin)
     if (!isBotGroupAdmins) return reply(mess.BotAdmin)
