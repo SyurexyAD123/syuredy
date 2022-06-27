@@ -88,6 +88,7 @@ let tb = []
 let tebaklagu = []
 let siapaaku = []
 let susun = []
+let ujian = []
 
 //Prefix
 let multi = true
@@ -362,7 +363,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
 			{ quickReplyButton: { displayText: `List Premium`, id: `${prefix}daftarprem` } },
 		]
-		const buttonsDefa = [{buttonId: `/owner`, buttonText: { displayText: "Owner Bot" }, type: 1 }, {buttonId: `/infobot`, buttonText: { displayText: "Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "Sewa Robot Jojo" }, type: 1 }]
+		const buttonsDefa = [{buttonId: `/owner`, buttonText: { displayText: "⋮☰ Owner Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }]
 		
         
 		const isImage = (type == 'imageMessage')
@@ -397,6 +398,11 @@ module.exports = async(conn, msg, m, setting, store) => {
         
 		// Tictactoe
 		if (isTicTacToe(from, tictactoe)) tictac(chats, prefix, tictactoe, from, sender, reply, mentions, addBalance, balance)
+
+        // Mode
+        if (mode === 'self'){
+            if (!fromMe) return
+        }
 
         // Anti link
         if (isGroup && isAntiLink && !isOwner && !isGroupAdmins && isBotGroupAdmins){
@@ -515,6 +521,20 @@ if (chats.match(toktok)) {
 		]
 			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'KUIS By JOJO-BOT', mentions: [sender]} )  
 		    tebaktebakan.splice(getGamePosi(from, tebaktebakan), 1)
+		  }
+		}
+		
+		cekWaktuGame(conn, ujian)
+		if (isPlayGame(from, ujian) && isUser) {
+		  if (chats.toLowerCase() == getJawabanGame(from, ujian)) {
+		    var htgm = randomNomor(500, 550)
+			addBalance(sender, htgm, balance)
+		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, ujian)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var kus = [
+			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}ujian` } },
+		]
+			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'ASAH OTAK', mentions: [sender]} )  
+		    ujian.splice(getGamePosi(from, ujian), 1)
 		  }
 		}
 		
@@ -832,6 +852,18 @@ case prefix+'block':
                     prefa = `${q}`
                     reply(`Berhasil mengubah prefix ke ${q}`)
                 }
+                break
+case prefix+'self':
+                if (!isOwner && !fromMe) return reply(mess.OnlyOwner)
+                mode = 'self'
+                reply('Berhasil berubah ke mode self')
+            
+                break
+            case prefix+'publik': case prefix+'public':
+                if (!isOwner && !fromMe) return reply(mess.OnlyOwner)
+                mode = 'public'
+                reply('Berhasil berubah ke mode public')
+            
                 break
 case prefix+'ban':
                 if (!isOwner) return reply(mess.OnlyOwner)
@@ -1267,7 +1299,6 @@ var hasil = pickRandom(kotes2)
 var quot = [
 			{ quickReplyButton: { displayText: `Next Quotes ➡️`, id: `${prefix}quote` } },
 		]
-		
 		conn.sendMessage(from, {text: hasil.quotes, templateButtons: quot, footer: `~ ${hasil.author}`, mentions: [sender]} )
 		limitAdd(sender, limit)
 break
@@ -1812,6 +1843,21 @@ case prefix+'kuis':
 				  .then( res => {
 					var jawab = hayo.jawaban.toLowerCase()
 					addPlayGame(from, 'KUIS GAME', jawab, gamewaktu, res, tebaktebakan)
+					gameAdd(sender, glimit)
+				  })
+			    break
+case prefix+'ujian': case prefix+'asahotak':
+		        if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+			    if (isPlayGame(from, ujian)) return conn.reply(from, `Masih ada game yang belum diselesaikan`, ujian[getGamePosi(from, ujian)].msg)
+			    addCountCmd('#ujian', sender, _cmd)
+				var tebaknya = JSON.parse(fs.readFileSync('./fitur/asahotak.json'))
+				var hayo = pickRandom(tebaknya)
+				  hayo.jawaban = hayo.jawaban.split('Jawaban ').join('')
+				  var teks = `*ASAH OTAK 🤯*\n\n`+monospace(`Soal : ${hayo.soal}\nPetunjuk : ${hayo.jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')}\nWaktu : ${gamewaktu}s`)
+				  conn.sendMessage(from, {text: teks}, {quoted: msg})
+				  .then( res => {
+					var jawab = hayo.jawaban.toLowerCase()
+					addPlayGame(from, 'ASAH GAME', jawab, gamewaktu, res, ujian)
 					gameAdd(sender, glimit)
 				  })
 			    break

@@ -138,6 +138,7 @@ ${readmore}
 ≻ ${prefix}tebakbendera
 ≻ ${prefix}tebaklagu
 ≻ ${prefix}siapakahaku
+≻ ${prefix}ujian
 ≻ ${prefix}apakah <Query>
 ≻ ${prefix}kapankah <Query>
 ≻ ${prefix}rate <Query>
@@ -195,6 +196,8 @@ $ executor
 ≻ ${prefix}masuk
 ≻ ${prefix}ban
 ≻ ${prefix}unban
+≻ ${prefix}self
+≻ ${prefix}public
 ≻ ${prefix}block
 ≻ ${prefix}unblock
 ≻ ${prefix}setprefix multi/nopref
