@@ -1100,19 +1100,34 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('instagram.com')) return reply(mess.error.Iv)
 			    reply(mess.wait)
+			    let insgram = [
+						{ urlButton: { displayText: `Link`, url : `${q}` } },
+			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}igmp3 ${q}` } },
+				]
 			    hxz.igdl(args[1]).then( data => {
-			     var teks = monospace(`[ IG DOWNLOADER ]\n\nUsername : ${data.user.username}\nFull Name : ${data.user.fullName}\nFollowers : ${data.user.followers}`)
-			     reply(teks)
 			     for (let i of data.medias) {
 				  if (i.fileType === "mp4") {
-				   conn.sendMessage(from, { video: { url: i.url }})
+				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using JOJO-BOT!`, video: {url: i.url}, templateButtons: insgram, footer: '© Jojo - Bot', mentions: [sender]} )
 				  } else if (i.fileType === "jpg") {
-				   conn.sendMessage(from, { image: { url: i.url }})
+				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using JOJO-BOT!`, image: { url: i.url }}, {quoted: msg})
 			      }
 			     }
 				 limitAdd(sender, limit)
 			    }).catch(() => reply(mess.error.api))
 			    break
+case prefix+'igdlaudio':
+  case prefix+'igmp3':
+    case prefix+'igdlmp3':
+      case prefix+'igaudio':
+        if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+				if (args.length < 2) return reply(`Kirim perintah ${command} link`)
+			    if (!isUrl(args[1])) return reply(mess.error.Iv)
+			    if (!args[1].includes('instagram.com')) return reply(mess.error.Iv)
+        hxz.igdl(args[1]).then( data => {
+          conn.sendMessage(from, {audio: {url: data.medias[0].url}, mimetype: 'audio/mp4'}, {quoted: msg})
+        }).catch(() => reply(mess.error.api))
+        limitAdd(sender, limit)
+        break
 			case prefix+'facebook': case prefix+'fbdl':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
@@ -1654,9 +1669,8 @@ case prefix+'sangecek':
           case prefix+'ceklesbi':
             if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 				if (!q) return reply(`Penggunaan ${command} Nama\n\nContoh : ${command} ${pushname}`)
-					const sangeh = ['5', '10', '15','20', '25','30','35','40','45','50','55','60','65','70','75','80','85','90','100']
-					const sange = sangeh[Math.floor(Math.random() * sangeh.length)]
-conn.sendMessage(from, { text: `Nama : ${q}\nJawaban : *${sange}%*` }, { quoted: msg })
+					
+conn.sendMessage(from, { text: `Nama : ${q}\nJawaban : *${randomNomor(1, 100)}%*` }, { quoted: msg })
 limitAdd(sender, limit)
 					break
 case prefix+'kapankah':

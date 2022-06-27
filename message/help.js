@@ -63,6 +63,7 @@ ${readmore}
 ≻ ${prefix}getvideo
 ≻ ${prefix}getmusic
 ≻ ${prefix}igdl <LinkIg>
+≻ ${prefix}igmp3 <LinkVidMp3>
 ≻ ${prefix}facebook <LinkFb>
 ≻ ${prefix}mediafire <LinkMediaFire>
   
