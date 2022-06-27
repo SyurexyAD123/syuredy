@@ -26,9 +26,11 @@ Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
 Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
 
 ❋─────────────────❋
+Nama : ${pushname !== undefined ? pushname : 'No Detect'}
+Tag : @${sender.split("@")[0]}
 Status : ${isOwner ? 'Owner' : isPremium ? 'Premium' : 'Free'}
-Sisa Limit : ${isOwner ? '-' : isPremium ? 'Unlimited' : getLimit(sender, limitCount, limit)}
-Limit Game : ${isOwner ? '-' : cekGLimit(sender, gcount, glimit)}
+Limit : ${isOwner ? 'Unlimited' : isPremium ? 'Unlimited' : getLimit(sender, limitCount, limit)}
+Limit Game : ${isOwner ? 'Unlimited' : cekGLimit(sender, gcount, glimit)}
 Balance : $${toCommas(getBalance(sender, balance))}
 ❋─────────────────❋
 
