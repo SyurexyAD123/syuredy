@@ -362,11 +362,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
 			{ quickReplyButton: { displayText: `List Premium`, id: `${prefix}daftarprem` } },
 		]
-		const button5 = [
-			{ callButton: { displayText: `Number Owner`, phoneNumber: `0813-1994-4917` } },
-			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
-			{ quickReplyButton: { displayText: `Back To Menu 🔙`, id: `${prefix}menu` } },
-		]
+		const buttonsDefa = [{buttonId: `/owner`, buttonText: { displayText: "Owner Bot" }, type: 1 }, {buttonId: `/infobot`, buttonText: { displayText: "Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "Sewa Robot Jojo" }, type: 1 }]
+		
         
 		const isImage = (type == 'imageMessage')
 		const isVideo = (type == 'videoMessage')
@@ -653,7 +650,7 @@ if (chats.startsWith(`@6288213292687`)){
 			    addCountCmd('#menu', sender, _cmd)
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    
-conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), templateButtons: buttonsDefault, footer: '© Jojo - Bot', mentions: [sender]} )
+conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions [sender]}, { quoted: msg })
 				break
 case prefix+'delete':
   case prefix+'d':
@@ -1193,8 +1190,8 @@ case prefix+'bc': case prefix+'broadcast':
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
                             var data = await store.chats.all()
                             for (let i of data) {
-                              var capt = `*[ JOJO BROASCAST ]*\n${q}`
-                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg')}, {quoted: fake})
+                              var capt = `*[ JOJO BROASCAST ]*\n${q}\nInfo : @${ownerNumber.split("@")[0]}`
+                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg'), mentions: [ownerNumber]}, {quoted: fake})
                                await sleep(1000)
                             }
                             break
