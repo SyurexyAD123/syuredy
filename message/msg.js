@@ -95,6 +95,9 @@ let multi = true
 let nopref = false
 let prefa = '#'
 
+// Mode
+let mode = 'public'
+
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
 let mess = JSON.parse(fs.readFileSync('./message/response.json'));
