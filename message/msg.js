@@ -650,7 +650,7 @@ if (chats.startsWith(`@6288213292687`)){
 			    addCountCmd('#menu', sender, _cmd)
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    
-conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions [sender]}, { quoted: msg })
+conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
 				break
 case prefix+'delete':
   case prefix+'d':
