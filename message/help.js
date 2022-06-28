@@ -27,7 +27,6 @@ Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
 
 ❋─────────────────❋
 Nama : ${pushname !== undefined ? pushname : 'No Detect'}
-Tag : @${sender.split("@")[0]}
 Status : ${isOwner ? 'Owner' : isPremium ? 'Premium' : 'Free'}
 Limit : ${isOwner ? 'Unlimited' : isPremium ? 'Unlimited' : getLimit(sender, limitCount, limit)}
 Limit Game : ${isOwner ? 'Unlimited' : cekGLimit(sender, gcount, glimit)}
@@ -189,6 +188,7 @@ $ executor
 ≻ ${prefix}setppbot
 ≻ ${prefix}exif
 ≻ ${prefix}textchat
+≻ ${prefix}setmenu [ 3 Buttons ]
 ≻ ${prefix}leave
 ≻ ${prefix}addprem
 ≻ ${prefix}delprem
@@ -201,6 +201,7 @@ $ executor
 ≻ ${prefix}public
 ≻ ${prefix}block
 ≻ ${prefix}unblock
+≻ ${prefix}getmenu text|image|buttons5|button
 ≻ ${prefix}setprefix multi/nopref
 
 *${setting.botName}*

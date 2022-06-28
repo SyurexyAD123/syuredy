@@ -73,6 +73,9 @@ const pulsa2 = "0882-1329-2687"
 const ig = "arsrfi.jpg"
 const github = "GetSya"
 
+// Type Menu
+const typemenu = 'button'
+
 // Exif
 const Exif = require("../lib/exif")
 const exif = new Exif()
@@ -672,10 +675,52 @@ if (chats.startsWith(`@6288213292687`)){
 			case prefix+'help':
 			  case prefix+'m':
 			    addCountCmd('#menu', sender, _cmd)
+			    if(typemenu == 'button') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-			    
-conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
+			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
+}
+if(typemenu == 'buttons5') {
+			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
+			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), templateButtons: buttonsDefault, footer: monospace(botName), mentions: [sender]} )
+}
+if(typemenu == 'text') {
+			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
+			    conn.sendMessage(from, {text: teks}, {quoted: msg})
+}
+if(typemenu == 'image') {
+			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
+			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(setting.pathimg)}, {quoted: msg})
+}
 				break
+case prefix+'setmenu':
+  if (!isOwner)return reply(mess.OnlyOwner)
+  var menucuy = [{buttonId: `/getmenu button`, buttonText: { displayText: "Button Biasa" }, type: 1 }, {buttonId: `/getmenu buttons5`, buttonText: { displayText: "Buttons Pake Link" }, type: 2 }, {buttonId: `/getmenu image`, buttonText: { displayText: "Image Biasa" }, type: 3}]
+  conn.sendMessage(from, { caption: `Pilih Type Menu Berikut :`, image: fs.readFileSync(setting.pathimg), buttons: menucuy, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'getmenu':
+  if (!args[1])return reply(`Pilih Type Menu Berikut :\n` + monospace(`- button\n- image\n- buttons5\n- text`))
+  if (!isOwner)return reply(mess.OnlyOwner)
+  // Button
+  if (args[1] == "button") {
+  typemenu = 'button'
+  reply(`Sukses Mengubah Menu Menjadi ${q}`)
+  }
+  // Buttons 5
+  else if (args[1] == "buttons5") {
+  typemenu = 'buttons5'
+  reply(`Sukses Mengubah Menu Menjadi ${q}`)
+  }
+  // Text Ajah anjing
+  if (args[1] == "text") {
+  typemenu = 'text'
+  reply(`Sukses Mengubah Menu Menjadi ${q}`)
+  }
+  // Image
+  if (args[1] == "image") {
+  typemenu = 'image'
+  reply(`Sukses Mengubah Menu Menjadi ${q}`)
+  }
+  break
 case prefix+'delete':
   case prefix+'d':
     case prefix+'del':
