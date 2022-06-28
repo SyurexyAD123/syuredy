@@ -153,6 +153,7 @@ ${readmore}
 ≻ ${prefix}dadu
 ≻ ${prefix}truth
 ≻ ${prefix}dare
+≻ ${prefix}mancing
   
 *( 🏦 )  Payment & Bank*
 ≻ ${prefix}buylimit <Jumlah>

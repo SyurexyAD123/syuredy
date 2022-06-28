@@ -89,6 +89,7 @@ let tebaklagu = []
 let siapaaku = []
 let susun = []
 let ujian = []
+let pancing = []
 
 //Prefix
 let multi = true
@@ -404,7 +405,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 
         // Mode
         if (mode === 'self'){
-            if (!fromMe) return
+            if (!fromMe && !isOwner) return
         }
 
         // Anti link
@@ -1280,7 +1281,6 @@ case prefix+'bcprem':
                     reply('Sukses!')
                 }
                 break
-//Database Pake Json anjing, eror gua entot ni acode
 			// Random Menu
   case prefix+'katagalau':
     case prefix+'galau':
@@ -1728,6 +1728,30 @@ case prefix+'dare':
   var caption = pickRandom(dare)
   conn.sendMessage(from, {caption: `[ DARE!! ]\n${caption}`, image: fs.readFileSync('media/truthdare.jpg')}, {quoted: msg})
   limitAdd(sender, limit)
+  break
+case prefix+'mancing':
+  case prefix+'mancingikan':
+    case prefix+'memancing':
+      
+  if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+  if (isPlayGame(from, pancing)) return conn.reply(from, `Ada Yg lagi Mancing!!`, pancing[getGamePosi(from, pancing)].msg)
+   var fishing = ["Yah Kamu Hanya Mendapatkan 🗑️","Yah Kamu Hanya Mendapatkan 🔌","Yah Kamu Hanya Mendapatkan 🧷","Yah Kamu Hanya Mendapatkan 🧤","Yah Kamu Hanya Mendapatkan 👙","Yah Kamu Hanya Mendapatkan 📯","Yah Kamu Hanya Mendapatkan 💣","Yah Kamu Hanya Mendapatkan 🥄","Yah Kamu Hanya Mendapatkan 🐜","Yah Kamu Hanya Mendapatkan 🦗","Yah Kamu Hanya Mendapatkan 🐌","Yah Kamu Hanya Mendapatkan ⚓","Yah Kamu Hanya Mendapatkan 🚽","Yah Kamu Hanya Mendapatkan 🛁","Yah Kamu Hanya Mendapatkan 🎩","Yah Kamu Hanya Mendapatkan 🏓","Yah Kamu Hanya Mendapatkan 🎲","Yah Kamu Hanya Mendapatkan 🎗️","Yah Kamu Hanya Mendapatkan 🎃","Yey Kamu Mendaptakan 🐟","Yey Kamu Mendaptakan 🐠","Yey Kamu Mendaptakan 🐡","Yey Kamu Mendaptakan 🐬","Yey Kamu Mendaptakan 🐳","Yey Kamu Mendaptakan 🦈","Yey Kamu Mendaptakan 🦐","Yey Kamu Mendaptakan 🐙","Yey Kamu Mendaptakan 🐋","Yey Kamu Mendaptakan 🦑","Yey Kamu Mendaptakan 💎","Yey Kamu Mendaptakan 🏅"]
+  var random1 = pickRandom(fishing)
+  reply(`_Siap Memancing!_`)
+  setTimeout( () => {
+   reply(monospace(random1)) // ur cods
+   }, 30000) // 1000 = 1s,
+   setTimeout( () => {
+   reply('_Menunggu Ikan Datang..._') // ur cods
+   }, 20000) // 1000 = 1s,
+   setTimeout( () => {
+   reply('_Melempar Kail_') // ur cods
+   }, 10000) // 1000 = 1s,
+   setTimeout( () => {
+   reply('_Memasang Umpan_') // ur cods
+   }, 2500) // 1000 = 1s,
+   addPlayGame(from, 'Mancing Ikan', pancing)
+   gameAdd(sender, glimit)
   break
 			case prefix+'tictactoe': case prefix+'ttt': case prefix+'ttc':
                 if (!isGroup)return reply(mess.OnlyGrup)
