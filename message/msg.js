@@ -1777,23 +1777,24 @@ case prefix+'dare':
 case prefix+'mancing':
   case prefix+'mancingikan':
     case prefix+'memancing':
-      
   if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
   if (isPlayGame(from, pancing)) return conn.reply(from, `Ada Yg lagi Mancing!!`, pancing[getGamePosi(from, pancing)].msg)
-   var fishing = ["Yah Kamu Hanya Mendapatkan 🗑️","Yah Kamu Hanya Mendapatkan 🔌","Yah Kamu Hanya Mendapatkan 🧷","Yah Kamu Hanya Mendapatkan 🧤","Yah Kamu Hanya Mendapatkan 👙","Yah Kamu Hanya Mendapatkan 📯","Yah Kamu Hanya Mendapatkan 💣","Yah Kamu Hanya Mendapatkan 🥄","Yah Kamu Hanya Mendapatkan 🐜","Yah Kamu Hanya Mendapatkan 🦗","Yah Kamu Hanya Mendapatkan 🐌","Yah Kamu Hanya Mendapatkan ⚓","Yah Kamu Hanya Mendapatkan 🚽","Yah Kamu Hanya Mendapatkan 🛁","Yah Kamu Hanya Mendapatkan 🎩","Yah Kamu Hanya Mendapatkan 🏓","Yah Kamu Hanya Mendapatkan 🎲","Yah Kamu Hanya Mendapatkan 🎗️","Yah Kamu Hanya Mendapatkan 🎃","Yey Kamu Mendaptakan 🐟","Yey Kamu Mendaptakan 🐠","Yey Kamu Mendaptakan 🐡","Yey Kamu Mendaptakan 🐬","Yey Kamu Mendaptakan 🐳","Yey Kamu Mendaptakan 🦈","Yey Kamu Mendaptakan 🦐","Yey Kamu Mendaptakan 🐙","Yey Kamu Mendaptakan 🐋","Yey Kamu Mendaptakan 🦑","Yey Kamu Mendaptakan 💎","Yey Kamu Mendaptakan 🏅"]
+  var duid = randomNomor(100, 500)
+   var fishing = ["Yah Kamu Hanya Mendapatkan 🗑️","Yah Kamu Hanya Mendapatkan 🔌","Yah Kamu Hanya Mendapatkan 🧷","Yah Kamu Hanya Mendapatkan 🧤","Yah Kamu Hanya Mendapatkan 👙","Yah Kamu Hanya Mendapatkan 📯","Yah Kamu Hanya Mendapatkan 💣","Yah Kamu Hanya Mendapatkan 🥄","Yah Kamu Hanya Mendapatkan 🐜","Yah Kamu Hanya Mendapatkan 🦗","Yah Kamu Hanya Mendapatkan 🐌","Yah Kamu Hanya Mendapatkan ⚓","Yah Kamu Hanya Mendapatkan 🚽","Yah Kamu Hanya Mendapatkan 🛁","Yah Kamu Hanya Mendapatkan 🎩","Yah Kamu Hanya Mendapatkan 🏓","Yah Kamu Hanya Mendapatkan 🎲","Yah Kamu Hanya Mendapatkan 🎗️","Yah Kamu Hanya Mendapatkan 🎃","Yey Kamu mendapatkan 🐟","Yey Kamu mendapatkan 🐠","Yey Kamu mendapatkan 🐡","Yey Kamu mendapatkan 🐬","Yey Kamu mendapatkan 🐳","Yey Kamu mendapatkan 🦈","Yey Kamu mendapatkan 🦐","Yey Kamu mendapatkan 🐙","Yey Kamu mendapatkan 🐋","Yey Kamu mendapatkan 🦑","Yey Kamu mendapatkan 💎","Yey Kamu mendapatkan 🏅"]
   var random1 = pickRandom(fishing)
   reply(`_Siap Memancing!_`)
+  addBalance(sender, duid, balance)
   setTimeout( () => {
-   reply(monospace(random1)) // ur cods
-   }, 30000) // 1000 = 1s,
+   reply(monospace(random1) + `\nDan Kamu Mendapatkan $${duid} balance`) // ur cods
+   }, 18000) // 1000 = 1s,
    setTimeout( () => {
-   reply('_Menunggu Ikan Datang..._') // ur cods
-   }, 20000) // 1000 = 1s,
+   reply('_Menunggu Ikan Datang..._ 💤') // ur cods
+   }, 12000) // 1000 = 1s,
    setTimeout( () => {
-   reply('_Melempar Kail_') // ur cods
-   }, 10000) // 1000 = 1s,
+   reply('_Melempar Kail_ 🎣') // ur cods
+   }, 5000) // 1000 = 1s,
    setTimeout( () => {
-   reply('_Memasang Umpan_') // ur cods
+   reply('_Memasang Umpan_ 🐛') // ur cods
    }, 2500) // 1000 = 1s,
    addPlayGame(from, 'Mancing Ikan', pancing)
    gameAdd(sender, glimit)
