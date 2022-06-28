@@ -73,9 +73,6 @@ const pulsa2 = "0882-1329-2687"
 const ig = "arsrfi.jpg"
 const github = "GetSya"
 
-// Type Menu
-const typemenu = 'button'
-
 // Exif
 const Exif = require("../lib/exif")
 const exif = new Exif()
@@ -101,6 +98,9 @@ let prefa = '#'
 
 // Mode
 let mode = 'public'
+
+// Type Menu
+let typemenu = 'button'
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -675,19 +675,19 @@ if (chats.startsWith(`@6288213292687`)){
 			case prefix+'help':
 			  case prefix+'m':
 			    addCountCmd('#menu', sender, _cmd)
-			    if(typemenu == 'button') {
+			    if (typemenu === 'button') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
 }
-if(typemenu == 'buttons5') {
+if (typemenu === 'buttons5') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), templateButtons: buttonsDefault, footer: monospace(botName), mentions: [sender]} )
 }
-if(typemenu == 'text') {
+if (typemenu === 'text') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    conn.sendMessage(from, {text: teks}, {quoted: msg})
 }
-if(typemenu == 'image') {
+if (typemenu === 'image') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(setting.pathimg)}, {quoted: msg})
 }
