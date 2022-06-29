@@ -364,7 +364,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
-			{ urlButton: { displayText: `GRUP ${botName}`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
+			{ urlButton: { displayText: `GRUP ${botName}`, url : `https://chat.whatsapp.com/KcJgyNQs2EOFok8LI1BKhU` } },
 			{ urlButton: { displayText: `Nomer Owner`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
@@ -661,11 +661,11 @@ if (chats.startsWith(`@6288213292687`)){
 
 		// Logs;
 		if (!isGroup && isCmd && !fromMe) {
-			addBalance(sender, randomNomor(45), balance)
+			addBalance(sender, randomNomor(60), balance)
 			console.log('->[\x1b[1;32mCMD\x1b[1;37m]', color(moment(msg.messageTimestamp * 1000).format('DD/MM/YYYY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
 		}
 		if (isGroup && isCmd && !fromMe) {
-			addBalance(sender, randomNomor(45), balance)
+			addBalance(sender, randomNomor(60), balance)
 			console.log('->[\x1b[1;32mCMD\x1b[1;37m]', color(moment(msg.messageTimestamp *1000).format('DD/MM/YYYY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(groupName))
 		}
 
@@ -730,7 +730,7 @@ case prefix+'donasi':
   case prefix+'donate':
     addCountCmd('#donasi', sender, _cmd)
   var donasibut = [
-			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C` } },
+			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/KcJgyNQs2EOFok8LI1BKhU` } },
 			{ quickReplyButton: { displayText: `Owner`, id: `${prefix}owner` } },
 		]
 var teks = `  │
@@ -778,7 +778,7 @@ Via :
 			    reply(runtime(process.uptime()))
 			    break
 case prefix+'groupjojo':
-  reply("Group 1\n\nhttps://chat.whatsapp.com/HECLovHbCI6LVVH4Q8FN2C\nGroup 2\n\nhttps://chat.whatsapp.com/DqM488U5RvmGpsbTMfDbMv\nCobain Bot Telegram Jojo yuk!\nhttps://t.me/docsjojo_bot?start=help")
+  reply("Group 1\n\https://chat.whatsapp.com/KcJgyNQs2EOFok8LI1BKhU\nGroup 2\n\nhttps://chat.whatsapp.com/DqM488U5RvmGpsbTMfDbMv\nCobain Bot Telegram Jojo yuk!\nhttps://t.me/docsjojo_bot?start=help")
   break
 			case prefix+'speed':
 			  reply("Testing Speed...")
@@ -796,8 +796,8 @@ Haii, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan 
 
 *Nama Bot :* ${botName}
 *Name Owner :* ${ownerName}
-*Nomor Bot :* wa.me/${botNumber}
-*Nomor Owner :* wa.me/${ownerNumber}
+*Nomor Bot :* @${botNumber.split("@")[0]}
+*Nomor Owner :* @${ownerNumber.split("@")[0]}
 *Engine :* NodeJs
 *Status :* Aktif
 *Aktif Selama :* ${runtime(process.uptime())}
@@ -811,7 +811,7 @@ Thanks To
 - Hardianto
 - Febri`
 
-conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg)}))
+conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [botNumber, ownerNumber]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber]}))
 break
 			/*case prefix+'donate':
 			case prefix+'donasi':
@@ -1271,7 +1271,7 @@ case prefix+'bc': case prefix+'broadcast':
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
                             var data = await store.chats.all()
                             for (let i of data) {
-                              var capt = `*[ JOJO BROASCAST ]*\n${q}\nInfo : @${ownerNumber.split("@")[0]}`
+                              var capt = `*[ JOJO BROASCAST ]*\n\n${q}\n\nInfo : @${ownerNumber.split("@")[0]}`
                                conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg'), mentions: [ownerNumber]}, {quoted: fake})
                                await sleep(1000)
                             }
@@ -1807,7 +1807,7 @@ case prefix+'mancing':
                 if (mentionByTag.length !== 1) {
 				if (mentionByTag[0] === botNumber) return reply(`Tidak bisa bermain dengan bot!`)
                 if (mentionByTag[0] === sender) return reply(`Sad amat main ama diri sendiri`)
-                     var hadiah = randomNomor(100, 150)
+                     var hadiah = randomNomor(500, 550)
 				     mentions(monospace(`@${sender.split('@')[0]} menantang @${mentionByTag[0].split('@')[0]} untuk bermain TicTacToe\n\nKirim (Y/N) untuk bermain\n\nHadiah : ${hadiah} balance`), [sender, mentionByTag[0]], false)
                      tictactoe.push({
                         id: from,
@@ -2230,7 +2230,7 @@ case prefix+'add':
                 if (args[1].includes('-')) return reply(`Jangan menggunakan -`)
                 if (isNaN(args[1])) return reply(`Harus berupa angka`)
                 if (args[1].toLowerCase() === 'infinity') return reply(`Yahaha saya ndak bisa di tipu`)
-                let ane = Number(parseInt(args[1]) * 150)
+                let ane = Number(parseInt(args[1]) * 500)
                 if (getBalance(sender, balance) < ane) return reply(`Balance kamu tidak mencukupi untuk pembelian ini`)
                 kurangBalance(sender, ane, balance)
                 giveLimit(sender, parseInt(args[1]), limit)
@@ -2745,7 +2745,6 @@ case prefix+'sendvirus':
   case prefix+'sendvirtex':
   case prefix+'sv':
   if (!isOwner)return reply(mess.OnlyOwner)
-  if (!args[1].includes('62')) return reply(`Masukan Nomer mulai dari 62`)
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/1.txt')})
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/2.txt')})
   conn.sendMessage(`${q}@s.whatsapp.net`, {text: fs.readFileSync('fitur/virtex/3.txt')})
