@@ -118,7 +118,7 @@ moment.tz.setDefault("Asia/Jakarta").locale("id");
 
 module.exports = async(conn, msg, m, setting, store) => {
 	try {
-		let { ownerNumber, ownerName, botName, gamewaktu, limitCount } = setting
+		let { ownerNumber, ownerName, botName, gamewaktu, limitCount, gcwa } = setting
 		let { allmenu } = require('./help')
 		const { type, quotedMsg, mentioned, now, fromMe } = msg
 		if (msg.isBaileys) return
@@ -130,7 +130,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const chats = (type === 'conversation' && msg.message.conversation) ? msg.message.conversation : (type === 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type === 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : (type === 'extendedTextMessage') && msg.message.extendedTextMessage.text ? msg.message.extendedTextMessage.text : (type === 'buttonsResponseMessage') && quotedMsg.fromMe && msg.message.buttonsResponseMessage.selectedButtonId ? msg.message.buttonsResponseMessage.selectedButtonId : (type === 'templateButtonReplyMessage') && quotedMsg.fromMe && msg.message.templateButtonReplyMessage.selectedId ? msg.message.templateButtonReplyMessage.selectedId : (type === 'messageContextInfo') ? (msg.message.buttonsResponseMessage?.selectedButtonId || msg.message.listResponseMessage?.singleSelectReply.selectedRowId) : (type == 'listResponseMessage') && quotedMsg.fromMe && msg.message.listResponseMessage.singleSelectReply.selectedRowId ? msg.message.listResponseMessage.singleSelectReply.selectedRowId : ""
                 const toJSON = j => JSON.stringify(j, null,'\t')
 		if (multi){
-		    var prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(chats) ? chats.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi) : '#'
+		    var prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(chats) ? chats.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi) : ''
         } else {
             if (nopref){
                 prefix = ''
@@ -364,7 +364,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
-			{ urlButton: { displayText: `GRUP ${botName}`, url : `https://chat.whatsapp.com/KcJgyNQs2EOFok8LI1BKhU` } },
+			{ urlButton: { displayText: `GRUP ${botName}`, url : `${gcwa}` } },
 			{ urlButton: { displayText: `Nomer Owner`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
@@ -605,17 +605,11 @@ if (chats.match(toktok)) {
 		  }
 		}
 		
-if (chats.startsWith(`bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
 if (chats.startsWith(`Bot`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+}
+if (chats.startsWith(`bot`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
-if (chats.startsWith(`test`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
-if (chats.startsWith(`Test`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 if (chats.startsWith(`tes`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
@@ -730,7 +724,7 @@ case prefix+'donasi':
   case prefix+'donate':
     addCountCmd('#donasi', sender, _cmd)
   var donasibut = [
-			{ urlButton: { displayText: `𝙂𝙧𝙪𝙥 𝙅𝙤𝙟𝙤`, url : `https://chat.whatsapp.com/KcJgyNQs2EOFok8LI1BKhU` } },
+			{ urlButton: { displayText: `Grup Bot`, url : `${gcwa}` } },
 			{ quickReplyButton: { displayText: `Owner`, id: `${prefix}owner` } },
 		]
 var teks = `  │
@@ -749,7 +743,7 @@ var teks = `  │
   
   Donasi Untuk Upgrade Ke Fitur Premium
   Note : Donasi Seikhlasnya`
- conn.sendMessage(from, { caption: teks, image: {url: `https://i.ibb.co/CPcFJ6c/IMG-20220131-WA0504.jpg`}, templateButtons: donasibut, footer: '© Jojo - Bot', mentions: [sender]} )  
+ conn.sendMessage(from, { caption: teks, image: {url: `https://i.ibb.co/CPcFJ6c/IMG-20220131-WA0504.jpg`}, templateButtons: donasibut, footer: botName, mentions: [sender]} )  
 			    break
 case prefix+'sewa':
   case prefix+'daftarprem':
@@ -778,7 +772,7 @@ Via :
 			    reply(runtime(process.uptime()))
 			    break
 case prefix+'groupjojo':
-  reply("Group 1\n\https://chat.whatsapp.com/KcJgyNQs2EOFok8LI1BKhU\nGroup 2\n\nhttps://chat.whatsapp.com/DqM488U5RvmGpsbTMfDbMv\nCobain Bot Telegram Jojo yuk!\nhttps://t.me/docsjojo_bot?start=help")
+  reply(`Group 1\n\${gcwa}\nGroup 2\n\nhttps://chat.whatsapp.com/DqM488U5RvmGpsbTMfDbMv\nCobain Bot Telegram Jojo yuk!\nhttps://t.me/docsjojo_bot?start=help`)
   break
 			case prefix+'speed':
 			  reply("Testing Speed...")
@@ -2283,12 +2277,12 @@ case prefix+'judibalance':
   case prefix+'judi':
     case prefix+'duithoki':
     if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-  var hokinya = ["10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","5","15","25","35","45","55","65","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000","100000000000000000000","100000000000000000000"]
+  var hokinya = ["10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","15","25","35","45","55","65","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000"]
   var data = pickRandom(hokinya)
   addBalance(sender, parseInt(data), balance)
   var cpt = `*[ 🎰 DUIT HOKI 🎰 ]*\n\n*@${sender.split("@")[0]}* Mendapatkan *$${data}* Balance`
   var judi = [{buttonId: `${command}`, buttonText: { displayText: "Next ➡️" }, type: 1 }]
-  conn.sendMessage(from, { text: cpt, buttons: judi, footer: `${pushname}`, mentions: [sender]})
+  conn.sendMessage(from, { text: cpt, buttons: judi, footer: `Jangan Judi!`, mentions: [sender]})
   gameAdd(sender, glimit)
   break
 //nsfw
