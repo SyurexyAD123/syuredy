@@ -2284,10 +2284,10 @@ case prefix+'judibalance':
     if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
   var hokinya = ["10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","5","15","25","35","45","55","65","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000"]
   var data = pickRandom(hokinya)
+  addBalance(sender, parseInt(data), balance)
   var cpt = `*[ 🎰 JUDI BALANCE JOJO 🎰 ]*\n\n*@${sender.split("@")[0]}* Mendapatkan *$${data}* Balance`
   var judi = [{buttonId: `${command}`, buttonText: { displayText: "Judi Lagi" }, type: 1 }]
-  conn.sendMessage(from, { text: cpt, buttons: judi, footer: `${pushname} Melakukan Judi`, mentions: [sender]}, { quoted: fake })
-  addBalance(sender, data, balance)
+  conn.sendMessage(from, { text: cpt, buttons: judi, footer: `${pushname} Melakukan Judi`, mentions: [sender]})
   gameAdd(sender, glimit)
   break
 //nsfw
