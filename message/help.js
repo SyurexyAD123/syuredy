@@ -124,7 +124,7 @@ ${readmore}
 ≻ ${prefix}holoh
   
 *( 🎮 )  Game & Fun Menu*
-≻ ${prefix}judi
+≻ ${prefix}duithoki
 ≻ ${prefix}tictactoe @tag
 ≻ ${prefix}delttc
 ≻ ${prefix}suit
