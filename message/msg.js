@@ -753,7 +753,7 @@ var teks = `  │
 			    break
 case prefix+'sewa':
   case prefix+'daftarprem':
-    addCountCmd('sewa', sender, _cmd)
+    addCountCmd('#sewa', sender, _cmd)
   var teks = monospace(`[ JOJO - PREMIUM/SEWA ]
 
 Premium : Rp.10.000
@@ -790,7 +790,7 @@ case prefix+'infobot':
   case prefix+'inforobot':
     case prefix+'info':
       addCountCmd('#infobot', sender, _cmd)
-      var caption = `*[ INFO ROBOT JOJO ]*
+      var caption = `*[ INFO ${botName} ]*
 
 Haii, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan download lagu yang di udah di program oleh Pemilik Aku *${ownerName}* aku mempunyai lebih dari 100 fitur yang bisa kau gunakan dengan gratis, kamu Bisa melihat fitur fitur tersebut dengan cara ketik /menu.
 
@@ -811,7 +811,7 @@ Thanks To
 - Hardianto
 - Febri`
 
-conn.sendMessage(from, {caption: caption, image: fs.readFileSync('media/Jojo2.jpg')}, {quoted: msg})
+conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg)}))
 break
 			/*case prefix+'donate':
 			case prefix+'donasi':
@@ -2267,7 +2267,7 @@ case prefix+'add':
                 break
 			case prefix+'limit': case prefix+'balance':
 			case prefix+'ceklimit': case prefix+'cekbalance':
-			  addCountCmd('View Balance', sender, _cmd)
+			  addCountCmd('#balance', sender, _cmd)
 			    if (mentioned.length !== 0){
 					var Ystatus = ownerNumber.includes(mentioned[0])
 					var isPrim = Ystatus ? true : _prem.checkPremiumUser(mentioned[0], premium)
@@ -2279,6 +2279,17 @@ case prefix+'add':
                     textImg(`Limit : ${isPremium ? 'Unlimited' : limitPrib}\nLimit Game : ${cekGLimit(sender, gcount, glimit)}/${gcount}\nBalance : $${getBalance(sender, balance)}\n\nKamu dapat membeli limit dengan ${prefix}buylimit dan ${prefix}buyglimit untuk membeli game limit`)
                 }
 				break
+case prefix+'judibalance':
+  case prefix+'judi':
+    if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
+  var hokinya = ["10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","10","10","20","30","40","50","60","5","15","25","35","45","55","65","5","15","25","35","45","55","65","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000"]
+  var data = pickRandom(hokinya)
+  var cpt = `*[ 🎰 JUDI BALANCE JOJO 🎰 ]*\n\n*@${sender.split("@")[0]}* Mendapatkan *$${data}* Balance`
+  var judi = [{buttonId: `${command}`, buttonText: { displayText: "Judi Lagi" }, type: 1 }]
+  conn.sendMessage(from, { text: cpt, buttons: judi, footer: `${pushname} Melakukan Judi`, mentions: [sender]}, { quoted: fake })
+  addBalance(sender, data, balance)
+  gameAdd(sender, glimit)
+  break
 //nsfw
 case prefix+'pussy':
   if (!isPremium)return reply(mess.OnlyPrem)
