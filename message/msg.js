@@ -93,7 +93,7 @@ let pancing = []
 
 //Prefix
 let multi = true
-let nopref = false
+let nopref = true
 let prefa = '#'
 
 // Mode
@@ -2760,9 +2760,7 @@ case prefix+'kontak':
   limitAdd(sender, limit)
   break
 default:
-			if (!isGroup && isCmd) {
-				reply(`Command ${command} Tidak Ada Di Dalam ${prefix}menu`)
-			}
+
 		}
 	} catch (err) {
 		console.log(color('[ERROR]', 'red'), err)
