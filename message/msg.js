@@ -805,7 +805,7 @@ Thanks To
 - Hardianto
 - Febri`
 
-conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [botNumber, ownerNumber]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
+conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [botNumber, ownerNumber[0]]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
 break
 			/*case prefix+'donate':
 			case prefix+'donasi':
