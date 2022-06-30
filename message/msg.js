@@ -791,7 +791,7 @@ Haii, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan 
 *Nama Bot :* ${botName}
 *Name Owner :* ${ownerName}
 *Nomor Bot :* @${botNumber.split("@")[0]}
-*Nomor Owner :* @${ownerNumber.split("@")[0]}
+*Nomor Owner :* @${ownerNumber[0].split("@")[0]}
 *Engine :* NodeJs
 *Status :* Aktif
 *Aktif Selama :* ${runtime(process.uptime())}
@@ -805,7 +805,7 @@ Thanks To
 - Hardianto
 - Febri`
 
-conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [botNumber, ownerNumber]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber]}))
+conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [botNumber, ownerNumber]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
 break
 			/*case prefix+'donate':
 			case prefix+'donasi':
