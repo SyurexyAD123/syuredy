@@ -4,6 +4,7 @@
   "botName": "JOJO - BOT",
   "sessionName": "session",
   "pathimg": "./media/Jojo2.jpg",
+  "gcwa": "https://chat.whatsapp.com/KcJgyNQs2EOFok8LI1BKhU",
   "gamewaktu": 50,
   "limitCount": 20,
   "gcount": {
