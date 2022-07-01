@@ -364,13 +364,12 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
-			{ urlButton: { displayText: `GRUP ${botName}`, url : `${gcwa}` } },
-			{ urlButton: { displayText: `Nomer Owner`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
+			{ urlButton: { displayText: `GRUP ${botName.toUpperCase()}`, url : `${gcwa}` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
 			{ quickReplyButton: { displayText: `List Premium`, id: `${prefix}daftarprem` } },
 		]
-		const buttonsDefa = [{buttonId: `/owner`, buttonText: { displayText: "⋮☰ Owner Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }]
+		const buttonsDefa = [{buttonId: `/info`, buttonText: { displayText: "⋮☰ Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }]
 		
         
 		const isImage = (type == 'imageMessage')
@@ -786,7 +785,7 @@ case prefix+'infobot':
       addCountCmd('#infobot', sender, _cmd)
       var caption = `*[ INFO ${botName} ]*
 
-Haii, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan download lagu yang di udah di program oleh Pemilik Aku *${ownerName}* aku mempunyai lebih dari 100 fitur yang bisa kau gunakan dengan gratis, kamu Bisa melihat fitur fitur tersebut dengan cara ketik /menu.
+Haii @${sender.split("@")[0]}, aku adalah *${botName}*, Yang bisa membantu anda untuk membuat stiker dan download lagu yang di udah di program oleh Pemilik Aku *${ownerName}* aku mempunyai lebih dari 100 fitur yang bisa kau gunakan dengan gratis, kamu Bisa melihat fitur fitur tersebut dengan cara ketik /menu.
 
 *Nama Bot :* ${botName}
 *Name Owner :* ${ownerName}
@@ -805,7 +804,7 @@ Thanks To
 - Hardianto
 - Febri`
 
-conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [botNumber, ownerNumber[0]]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
+conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [sender, botNumber, ownerNumber[0]]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
 break
 			/*case prefix+'donate':
 			case prefix+'donasi':
@@ -1265,8 +1264,8 @@ case prefix+'bc': case prefix+'broadcast':
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
                             var data = await store.chats.all()
                             for (let i of data) {
-                              var capt = `*[ JOJO BROASCAST ]*\n\n${q}\n\nInfo : @${ownerNumber.split("@")[0]}`
-                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg'), mentions: [ownerNumber]}, {quoted: fake})
+                              var capt = `*[ JOJO BROASCAST ]*\n\n${q}\n\nInfo : @${ownerNumber[0].split("@")[0]}`
+                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg'), mentions: [ownerNumber[0]]}, {quoted: fake})
                                await sleep(1000)
                             }
                             break
@@ -2676,7 +2675,7 @@ case prefix+'getprofile':
   case prefix+'getpic':
 if (!isQuotedMsg) return reply(`Reply Message nya!`)
 if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-conn.profilePictureUrl(quotedMsg.sender, 'image').then( res => conn.sendMessage(from, { image: { url: res }}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: `Yah maaf kak, dia ini gak pake foto profile, kayaknya dia depresiiiii/Di Private...\n\nJadiii aku kasih ini ajaaa ya`, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}}, {quoted: msg}))
+conn.profilePictureUrl(quotedMsg.sender, 'image').then( res => conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: { url: res }, mentions: [sender]}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: `No Pict Profile Or Private.`, image: {url: `https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg`}}, {quoted: msg}))
 limitAdd(sender, limit)
 break
 case prefix+'suratto':
@@ -2685,7 +2684,7 @@ case prefix+'suratto':
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   var number = q.split('|')[0] ? q.split('|')[0] : q
                 var text = q.split('|')[1] ? q.split('|')[1] : ''
-                reply(`Pesan Sukses Terkirim`)
+                mentions(`*Succes Sending Message!*\nInfo Bot Please Contact Owner : @${ownerNumber[0].split("@")[0]}`, [ownerNumber[0]])
                 var caption = `*[ FITUR BOT SURAT ]*\nDari : Tidak Diketahui\nUntuk : Kamu\nPesan : *${text}*`
 conn.sendMessage(`${number}@s.whatsapp.net`, {caption: caption, image : fs.readFileSync('./media/surat.jpeg')})
 limitAdd(sender, limit)
