@@ -829,6 +829,7 @@ break
 			    /*for (let x of ownerNumber) {
 			      sendContact(from, x.split('@s.whatsapp.net')[0], ownerName, msg)
 			    }*/
+			    sendContact(from, sender.split("@")[0], pushname, msg)
 			    mentions(monospace(`Nomor Owner : @${ownerNumber[0].split("@")[0]}\nInfo Bot Contact To : @${own2.split("@")[0]}`), [ownerNumber[0], own2])
 			    break
 			case prefix+'cekprem':
@@ -912,7 +913,7 @@ case prefix+'self':
                 if (args.length < 2) return reply(`Kirim perintah ${command} Nomor\nExample : ${command} 6288213292687`)
                 var text = args[1] + '@s.whatsapp.net'
                 own2 = text
-                 mentions(`Sukses Mengganti Nomor Owner Ke Nomor : ${text.split("@")[0]}`, [q])
+                 mentions(`Sukses Mengganti Nomor Owner Ke Nomor : @${text.split("@")[0]}`, [text])
                 break
 case prefix+'ban':
                 if (!isOwner) return reply(mess.OnlyOwner)
