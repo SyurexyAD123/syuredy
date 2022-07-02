@@ -202,8 +202,9 @@ $ executor
 ≻ ${prefix}public
 ≻ ${prefix}block
 ≻ ${prefix}unblock
-≻ ${prefix}getmenu text|image|buttons5|button
-≻ ${prefix}setprefix multi/nopref
+≻ ${prefix}getmenu <text|image|buttons5|button>
+≻ ${prefix}setprefix <multi/nopref>
+≻ ${prefix}setowner <628XXX>
 
 *${setting.botName}*
 ${readmore}

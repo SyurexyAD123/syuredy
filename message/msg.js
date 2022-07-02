@@ -98,6 +98,7 @@ let prefa = '#'
 
 // Mode
 let mode = 'public'
+let own2 = '0@s.whatsapp.net'
 
 // Type Menu
 let typemenu = 'button'
@@ -145,7 +146,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isCmd = command.startsWith(prefix)
 		const isGroup = msg.key.remoteJid.endsWith('@g.us')
 		const sender = isGroup ? (msg.key.participant ? msg.key.participant : msg.participant) : msg.key.remoteJid
-		const isOwner = ownerNumber == sender ? true : [`${ownerNumber}@s.whatsapp.net`, "6281319944917@s.whatsapp.net"].includes(sender) ? true : false
+		const isOwner = ownerNumber == sender ? true : [`${ownerNumber}@s.whatsapp.net`, "6281319944917@s.whatsapp.net", `${own2}@s.whatsapp.net`].includes(sender) ? true : false
 		const pushname = msg.pushName
 		const q = chats.slice(command.length + 1, chats.length)
 		const body = chats.startsWith(prefix) ? chats : ''
@@ -825,9 +826,10 @@ break
   Note : Donasi Seikhlasnya`)
 			    break*/
 			case prefix+'owner':
-			    for (let x of ownerNumber) {
+			    /*for (let x of ownerNumber) {
 			      sendContact(from, x.split('@s.whatsapp.net')[0], ownerName, msg)
-			    }
+			    }*/
+			    mentions(monospace(`Nomor Owner : @${ownerNumber[0].split("@")[0]}\nInfo Bot Contact To : @${own2.split("@")[0]}`), [ownerNumber[0], own2])
 			    break
 			case prefix+'cekprem':
             case prefix+'cekpremium':
@@ -899,13 +901,18 @@ case prefix+'self':
                 if (!isOwner && !fromMe) return reply(mess.OnlyOwner)
                 mode = 'self'
                 reply('Berhasil berubah ke mode self')
-            
                 break
             case prefix+'publik': case prefix+'public':
                 if (!isOwner && !fromMe) return reply(mess.OnlyOwner)
                 mode = 'public'
                 reply('Berhasil berubah ke mode public')
-            
+            case prefix+'setown':
+              case prefix+'setowner':
+                if (!isOwner && !fromMe) return reply(mess.OnlyOwner)
+                if (args.length < 2) return reply(`Kirim perintah ${command} Nomor\nExample : ${command} 6288213292687`)
+                var text = args[1] + '@s.whatsapp.net'
+                own2 = text
+                 mentions(`Sukses Mengganti Nomor Owner Ke Nomor : ${text.split("@")[0]}`, [q])
                 break
 case prefix+'ban':
                 if (!isOwner) return reply(mess.OnlyOwner)
@@ -1264,18 +1271,7 @@ case prefix+'bc': case prefix+'broadcast':
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
                             var data = await store.chats.all()
                             for (let i of data) {
-                              var capt = `*[ JOJO BROASCAST ]*\n\n${q}\n\nInfo : @${ownerNumber[0].split("@")[0]}`
-                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg'), mentions: [ownerNumber[0]]}, {quoted: fake})
-                               await sleep(1000)
-                            }
-                            break
-case prefix+'bcprem':
-			    if (!isOwner) return reply(mess.OnlyOwner)
-		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
-                            var data = JSON.parse('./database/premium.json')
-                            for (let i of data) {
-                              var capt = `*[ BC PREM USER ]*\n${q}`
-                               conn.sendMessage(i.id, {caption: capt, image: fs.readFileSync('./media/Jojo2.jpg')}, {quoted: fake})
+                               conn.sendMessage(i.id, { text: `*[ JOJO BROADCAST ]*\n\n${q}` })
                                await sleep(1000)
                             }
                             break
@@ -2276,7 +2272,7 @@ case prefix+'judibalance':
   case prefix+'judi':
     case prefix+'duithoki':
     if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-  var hokinya = ["10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","15","25","35","45","55","65","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000"]
+  var hokinya = ["10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","15","25","35","45","55","65","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000"]
   var data = pickRandom(hokinya)
   addBalance(sender, parseInt(data), balance)
   var cpt = `*[ 🎰 DUIT HOKI 🎰 ]*\n\n*@${sender.split("@")[0]}* Mendapatkan *$${data}* Balance`
