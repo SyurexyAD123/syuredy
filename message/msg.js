@@ -1,6 +1,6 @@
 /*HELLO BRO TERIMA KASIH SUDAH AMBIL SCRIPT INI JANGAN LUPA IKUTI DAN SUBSCRIBE MEDIA SOSIAL OWNER DAN BOT
 
-Instagram : @arsrfi.jpg
+Instagram : @arsrfii
 Youtube : Channel JOJO
 WhatsApp : 0813-1994-4917
 
@@ -70,7 +70,7 @@ const ovo = "0813-1994-4917"
 const dana = "0813-1994-4917"
 const pulsa = "0813-1994-4917"
 const pulsa2 = "0882-1329-2687"
-const ig = "arsrfi.jpg"
+const ig = "arsrfii"
 const github = "GetSya"
 
 // Exif
@@ -93,12 +93,12 @@ let pancing = []
 
 //Prefix
 let multi = true
-let nopref = true
+let nopref = false
 let prefa = '#'
 
 // Mode
 let mode = 'public'
-let own2 = '0@s.whatsapp.net'
+let own2 = '6281319944917@s.whatsapp.net'
 
 // Type Menu
 let typemenu = 'button'
@@ -365,7 +365,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
-			{ urlButton: { displayText: `GRUP ${botName.toUpperCase()}`, url : `${gcwa}` } },
+			{ urlButton: { displayText: `CHANNEL ${botName.toUpperCase()}`, url : `https://t.me/telejochannel` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
 			{ quickReplyButton: { displayText: `List Premium`, id: `${prefix}daftarprem` } },
@@ -820,7 +820,7 @@ break
   ├─ ❏ PULSA2
   ├─ ❏ 088213292687
   ├─ ❏ INSTAGRAM
-  └─ ❏ https://www.instagram.com/arsrfi.jpg
+  └─ ❏ https://www.instagram.com/arsrfii
   
   Donasi Untuk Upgrade Ke Fitur Premium
   Note : Donasi Seikhlasnya`)
@@ -1323,7 +1323,7 @@ case prefix+'bc': case prefix+'broadcast':
 			var kotes = JSON.parse(fs.readFileSync('./fitur/katagalau.json'))
 var hasil = pickRandom(kotes)
 var quot = [
-			{ quickReplyButton: { displayText: `Next Kata Galau ➡️`, id: `${prefix}katagalau` } },
+			{ quickReplyButton: { displayText: `Next Kata Galau ➡️`, id: `${prefix}katagalau` } }
 		]
 		conn.sendMessage(from, {text: hasil, templateButtons: quot, footer: 'Galau Mulu', mentions: [sender]} )
 		limitAdd(sender, limit)
@@ -1332,11 +1332,10 @@ case prefix+'quotes':
   case prefix+'quote':
     case prefix+'katakata':
       if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			var kotes2 = JSON.parse(fs.readFileSync('./fitur/quotes.json'))
+			 var kotes2 = JSON.parse(fs.readFileSync('./fitur/quotes.json'))
 var hasil = pickRandom(kotes2)
 var quot = [
-			{ quickReplyButton: { displayText: `Next Quotes ➡️`, id: `${prefix}quote` } },
-		]
+			{ quickReplyButton: { displayText: `Next Quotes ➡️`, id: `${prefix}quote` } }, { urlButton: { displayText: `Salin Quotes`, url : `https://www.whatsapp.com/otp/copy/${hasil.quotes}` } },]
 		conn.sendMessage(from, {text: hasil.quotes, templateButtons: quot, footer: `~ ${hasil.author}`, mentions: [sender]} )
 		limitAdd(sender, limit)
 break
@@ -1355,6 +1354,37 @@ case prefix+'shortlink':
 			    reply(`Link : ${data.result.link}`)
 				limitAdd(sender, limit)
 				break
+case prefix+'repeat':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+ if (quotedMsg) {
+  quotedMsg.chats.repeat(args[1])
+} else if (args[1]) {
+  args[1].repeat(args[1])
+} else {
+  reply(`Reply message/Kasih Text setelah command`)
+}
+limitAdd(sender, limit)
+break
+case prefix+'swapmsg':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (args.length < 2) return reply(`Masukan Teksnya!`)
+  if (quotedMsg) {
+  reply(quotesMsg.chats.replace(quotesMsg.chats, q, msg))
+  } else if (args[1]) {
+    var text = q.split('|')[0] ? q.split('|')[0] : q
+                var text2 = q.split('|')[1] ? q.split('|')[1] : ''
+                reply(text.replace(text, text2, msg))
+  } else {
+    reply("Reply Message/Tambahkan Teks Setelah Command")
+  }
+  limitAdd(sender, limit)
+  break
+case prefix+'jo':
+  case prefix+'simi':
+ var text = `${q}`
+var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${text}&lc=id`)
+  conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
+  break
 case prefix+'hitungmundur':
   if (args.length < 2) return reply(`Mana tanggalnya?\nContoh : ${prefix}hitungmundur 12 10 2022`)
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
@@ -1624,7 +1654,7 @@ ${kalahnya2}
 Note : Jika Kamu Mendapatkan Item Yang Sama, Kamu Menang!!!
 Contoh : 🔔 : 🔔 : 🔔`
         var but = [{buttonId: `${command}`, buttonText: { displayText: "Kembali Slot" }, type: 1 }]
-conn.sendMessage(from, { text: slotnya, buttons: but, footer: "© Slot By Arasya\n@arsrfi.jpg", templateButtons: but }, {quoted: msg})
+conn.sendMessage(from, { text: slotnya, buttons: but, footer: "© Slot By Arasya\n@arsrfii", templateButtons: but }, {quoted: msg})
 gameAdd(sender, glimit)
         break
 case prefix+'cekme':
@@ -2701,7 +2731,7 @@ var hasil = pickRandom(gombal)
 var gom = [
 			{ quickReplyButton: { displayText: `Next Gombalan ➡️`, id: `${command}` } },
 		]
-		conn.sendMessage(from, {text: hasil, templateButtons: gom, footer: `Cie Di Gombal Robot\n~ Instagram : @arsrfi.jpg`, mentions: [sender]} )
+		conn.sendMessage(from, {text: hasil, templateButtons: gom, footer: `Cie Di Gombal Robot\n~ Instagram : @arsrfii`, mentions: [sender]} )
 limitAdd(sender, limit)
 break
 case prefix+'textchat':

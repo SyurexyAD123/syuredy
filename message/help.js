@@ -35,7 +35,7 @@ Balance : $${toCommas(getBalance(sender, balance))}
 
 _Ada Bug? Ketik ${prefix}report Bug mu_
 ${readmore}
-*( 📍 )  Main Menu*
+*( 📍 )  Generator Menu*
 ≻ ${prefix}menu
 ≻ ${prefix}owner
 ≻ ${prefix}donasi
@@ -45,8 +45,12 @@ ${readmore}
 ≻ ${prefix}listprem
 ≻ ${prefix}listban
 ≻ ${prefix}jo <Text>
-≻ ${prefix}simi <Text>
 ≻ ${prefix}delete
+≻ ${prefix}repeat
+≻ ${prefix}readmore <Text>|<Text>
+≻ ${prefix}getpp
+≻ ${prefix}kontak
+≻ ${prefix}hitungmundur
 
 *( ✏️ )  Converter/Tools*
 ≻ ${prefix}stiker <ReplyGambar/Caption>
@@ -106,15 +110,11 @@ ${readmore}
 ≻ ${prefix}wiki <Query>
 ≻ ${prefix}say <Text>
 ≻ ${prefix}qr <Text>
-≻ ${prefix}readmore <Text>|<Text>
-≻ ${prefix}hitungmundur 12 10 2022
 ≻ ${prefix}translate <from> <to>
 ≻ ${prefix}lirik <Judul>
 ≻ ${prefix}grupwa <Pencarian>
 ≻ ${prefix}ytsearch <Pencarian>
 ≻ ${prefix}pinterest <Querry>
-≻ ${prefix}getpp
-≻ ${prefix}kontak
   
 *( 🅰️ )  Edit Vokal*
 ≻ ${prefix}halah
@@ -212,7 +212,8 @@ ${readmore}
 - Allah SWT
 - Baileys-Md (Adiwa Jshing)
 - @irfann._x (Iyan)
-- @arsrfi.jpg (Arasya)
+- @arsrfii (Arasya)
+- Febri
 - M Hadi Firmansya (Hadi Api)
 - @melcanz_ (Amel)
 - @hardianto.xyz (Anto)`
