@@ -51,6 +51,8 @@ ${readmore}
 ≻ ${prefix}getpp
 ≻ ${prefix}kontak
 ≻ ${prefix}hitungmundur
+≻ ${prefix}tagme
+≻ ${prefix}towame
 
 *( ✏️ )  Converter/Tools*
 ≻ ${prefix}stiker <ReplyGambar/Caption>

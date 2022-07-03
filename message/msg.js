@@ -1355,7 +1355,6 @@ case prefix+'shortlink':
 				limitAdd(sender, limit)
 				break
 case prefix+'repeat':
-  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   if (isNaN(args[1])) return reply(`Nominal harus berupa angka!`)
  if (quotedMsg) {
    var rply = `${quotedMsg.chats}\n`
@@ -1365,12 +1364,26 @@ case prefix+'repeat':
 }
 limitAdd(sender, limit)
 break
+case prefix+'towame':
+case prefix+'wame':
+var txt1 = q.split('|')[0] ? q.split('|')[0] : q
+var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
+if (!txt1) return reply(`Masukan Text\nContoh ${command} 6288213292687|Hai`)
+if (!txt2) return reply(`Masukan Text 1 Lagi!`)
+if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
+var cpt = `Sukses Bro ${sender.split("@")[0]}!\n\n*Nomer :* ${txt}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}`
+conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
+break
+case prefix+'tagme':
+  case prefix+'tag':
+    mentions(`Woy @` + sender.split("@")[0], [sender], msg)
+    break
 case prefix+'swapmsg':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   if (args.length < 2) return reply(`Masukan Teksnya!`)
   if (!quotedMsg)return reply("Reply Messagenya!")
   if (quotedMsg) {
-  reply(quotesMsg.chats.replace(quotesMsg.chats, q, msg))
+  reply(quotedMsg.chats.replace(quotedMsg.chats, q, msg))
   } else {
     reply("Reply Message & Tambahkan Teks Yang Mau Di Tukar Setelah Command")
   }
@@ -2562,62 +2575,6 @@ var but = [{buttonId: `${command}`, buttonText: { displayText: "Fakta Unik" }, t
 conn.sendMessage(from, { text: caption, buttons: but, footer: "© Jojo Bot", templateButtons: but }, {quoted: msg})
 limitAdd(sender, limit)
 break
-//maker arasya
-case prefix+'leaves':
-  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  var data = await fetchJson(`https://jojo-docsapi.herokuapp.com/api/textpro/natural-leaves?apikey=Joo&text=${q}`)
-  conn.sendMessage(from, {caption: `Succes!`, image: {url: data.result}}, {quoted: msg})
-  limitAdd(sender, limit)
-  break
-case prefix+'pornhub':
-  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  reply("Tunggu Sebentar Sedang Membuat Makernya Sekitar 1 Menit Kurang")
-  var data = await fetchJson(`https://jojo-docsapi.herokuapp.com/api/textpro/porn-hub?apikey=Joo&text1=${args[1]}&text2=${args[2]}`)
-  conn.sendMessage(from, {caption: `Succes!`, image: {url: data.result}}, {quoted: msg})
-  limitAdd(sender, limit)
-  break
-case prefix+'3d':
-  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  reply("Tunggu Sebentar Sedang Membuat Makernya Sekitar 1 Menit Kurang")
-  var data = await fetchJson(`https://jojo-docsapi.herokuapp.com/api/textpro/3d-gradient?apikey=Joo&text=${q}`)
-  conn.sendMessage(from, {caption: `Succes!`, image: {url: data.result}}, {quoted: msg})
-  limitAdd(sender, limit)
-  break
-case prefix+'christmas':
-if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-reply("Tunggu Sebentar Sedang Membuat Makernya Sekitar 1 Menit Kurang")
-  var data = await fetchJson(`https://jojo-docsapi.herokuapp.com/api/textpro/christmas?apikey=Joo&text=${q}`)
-  conn.sendMessage(from, {caption: `Succes!`, image: {url: data.result}}, {quoted: msg})
-  limitAdd(sender, limit)
-  break
-case prefix+'logowolf':
-  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-reply("Tunggu Sebentar Sedang Membuat Makernya Sekitar 1 Menit Kurang")
-  var data = await fetchJson(`https://jojo-docsapi.herokuapp.com/api/textpro/logo-wolf2?apikey=Joo&text=${args[1]}&text2=${args[2]}`)
-
-  conn.sendMessage(from, {caption: `Succes!`, image: {url: data.result}}, {quoted: msg})
-  limitAdd(sender, limit)
-  break
-case prefix+'logowolf2':
-  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  reply("Tunggu Sebentar Sedang Membuat Makernya Sekitar 1 Menit Kurang")
-  var data = await fetchJson(`https://jojo-docsapi.herokuapp.com/api/textpro/logo-wolf ?apikey=Joo&text=${args[1]}&text2=${args[2]}`)
-  conn.sendMessage(from, {caption: `Succes!`, image: {url: data.result}}, {quoted: msg})
-  limitAdd(sender, limit)
-  break
-//Amel
-  break
-case prefix+'xnxx':
-  case prefix+'xnxxdownload':
-	if (!isPremium)return reply(mess.OnlyPrem)
-if (args.length < 2) return reply(`Kirim perintah ${command} link`)
-if (!args[1].includes('xnxx')) return reply(mess.error.Iv)
-			    if (!isUrl(args[1])) return reply(mess.error.Iv)
-if (!isPremium)return reply(mess.OnlyPrem)
-var data = await fetchJson(`https://melcanz.com/xnxxdl?url=${q}&apikey=${apikey}`)
-reply(mess.wait)
-conn.sendMessage(from, {video: {url: data.result.files.high}}, {quoted: msg})
-break
 /*case prefix+'react':
   case prefix+'reaction':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
@@ -2704,10 +2661,12 @@ limitAdd(sender, limit)
 break
 case prefix+'suratto':
   case prefix+'surat':
+    if (isGroup)return reply(`Hanya Bisa Di Gunakan Di Private Message!`)
     if (args.length < 2) return reply(`Kirim perintah ${command} nomer|Suratnya\nContoh ${command} 62813199449171|Anjing\n\nAWALI DENGAN 62!`)
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   var number = q.split('|')[0] ? q.split('|')[0] : q
                 var text = q.split('|')[1] ? q.split('|')[1] : ''
+                if (isNaN(number)) return reply(`Nominal harus berupa angka!`)
                 mentions(`*Succes Sending Message!*\nInfo Bot Please Contact Owner : @${ownerNumber[0].split("@")[0]}`, [ownerNumber[0]])
                 var caption = `*[ FITUR BOT SURAT ]*\nDari : Tidak Diketahui\nUntuk : Kamu\nPesan : *${text}*`
 conn.sendMessage(`${number}@s.whatsapp.net`, {caption: caption, image : fs.readFileSync('./media/surat.jpeg')})
