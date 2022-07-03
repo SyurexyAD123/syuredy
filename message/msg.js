@@ -1358,7 +1358,8 @@ case prefix+'repeat':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   if (isNaN(args[1])) return reply(`Nominal harus berupa angka!`)
  if (quotedMsg) {
-  reply(quotedMsg.chats.repeat(args[1]))
+   var rply = `${quotedMsg.chats}\n`
+  reply(rply.repeat(args[1]))
 } else {
   reply(`Reply message/Kasih Nomor Untuk Repeat setelah command`)
 }
