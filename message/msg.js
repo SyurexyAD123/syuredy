@@ -1356,26 +1356,22 @@ case prefix+'shortlink':
 				break
 case prefix+'repeat':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (isNaN(args[1])) return reply(`Nominal harus berupa angka!`)
  if (quotedMsg) {
-  quotedMsg.chats.repeat(args[1])
-} else if (args[1]) {
-  args[1].repeat(args[1])
+  reply(quotedMsg.chats.repeat(args[1]))
 } else {
-  reply(`Reply message/Kasih Text setelah command`)
+  reply(`Reply message/Kasih Nomor Untuk Repeat setelah command`)
 }
 limitAdd(sender, limit)
 break
 case prefix+'swapmsg':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   if (args.length < 2) return reply(`Masukan Teksnya!`)
+  if (!quotedMsg)return reply("Reply Messagenya!")
   if (quotedMsg) {
   reply(quotesMsg.chats.replace(quotesMsg.chats, q, msg))
-  } else if (args[1]) {
-    var text = q.split('|')[0] ? q.split('|')[0] : q
-                var text2 = q.split('|')[1] ? q.split('|')[1] : ''
-                reply(text.replace(text, text2, msg))
   } else {
-    reply("Reply Message/Tambahkan Teks Setelah Command")
+    reply("Reply Message & Tambahkan Teks Yang Mau Di Tukar Setelah Command")
   }
   limitAdd(sender, limit)
   break
