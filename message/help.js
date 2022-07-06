@@ -215,6 +215,7 @@ ${readmore}
 - Baileys-Md (Adiwa Jshing)
 - @irfann._x (Iyan)
 - @arsrfii (Arasya)
+- @callme_kiro (Kiro)
 - Febri
 - M Hadi Firmansya (Hadi Api)
 - @melcanz_ (Amel)
