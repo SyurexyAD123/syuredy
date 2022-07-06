@@ -10,6 +10,7 @@ THANKS TO
 - Hardianto
 - Affis Junianto
 - Rafli Rusdiana
+- Kiro Fyzu
 - Febri
 - Grup Jojoo
 
@@ -801,6 +802,7 @@ Haii @${sender.split("@")[0]}, aku adalah *${botName}*, Yang bisa membantu anda 
 Thanks To
 - Riyan
 - Arasya
+- KiroFyzu
 - Amel
 - Hardianto
 - Febri`
