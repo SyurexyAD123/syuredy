@@ -146,7 +146,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isCmd = command.startsWith(prefix)
 		const isGroup = msg.key.remoteJid.endsWith('@g.us')
 		const sender = isGroup ? (msg.key.participant ? msg.key.participant : msg.participant) : msg.key.remoteJid
-		const isOwner = ownerNumber == sender ? true : [`${ownerNumber}`, "6281319944917@s.whatsapp.net", `${own2}`].includes(sender) ? true : false
+		const isOwner = ownerNumber == sender ? true : [`${ownerNumber}@s.whatsapp.net`, "6281319944917@s.whatsapp.net", `${own2}`].includes(sender) ? true : false
 		const pushname = msg.pushName
 		const q = chats.slice(command.length + 1, chats.length)
 		const body = chats.startsWith(prefix) ? chats : ''
@@ -617,7 +617,7 @@ if (chats.startsWith(`tes`)){
 if (chats.startsWith(`Tes`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
-if (chats.startsWith(`@6288213292687`)){
+if (chats.startsWith(`@${botNumber.split("@")[0]}`)) {
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 
@@ -967,7 +967,85 @@ case prefix+'ban':
                 mentions(txtx, menx, true)
                 break
 	        // Converter & Tools Menu
-			
+			case prefix+'sticker': case prefix+'stiker': case prefix+'s': case prefix+'stickergif': case prefix+'sgif': case prefix+'stikergif': case prefix+'stikgif':
+			  addCountCmd('#sticker', sender, _cmd)
+				if (isImage || isQuotedImage) {
+		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
+			       var buffer = Buffer.from([])
+			       for await(const chunk of stream) {
+			          buffer = Buffer.concat([buffer, chunk])
+			       }
+			       var rand1 = 'sticker/'+getRandom('.jpg')
+			       var rand2 = 'sticker/'+getRandom('.webp')
+			       fs.writeFileSync(`./${rand1}`, buffer)
+			       ffmpeg(`./${rand1}`)
+				.on("error", console.error)
+				.on("end", () => {
+				  exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
+				    conn.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) })
+				    limitAdd(sender, limit)
+					fs.unlinkSync(`./${rand1}`)
+			            fs.unlinkSync(`./${rand2}`)
+			          })
+				 })
+				.addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
+				.toFormat('webp')
+				.save(`${rand2}`)
+			    } else if (isVideo || isQuotedVideo) {
+				 var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.videoMessage, 'video')
+				 var buffer = Buffer.from([])
+				 for await(const chunk of stream) {
+				   buffer = Buffer.concat([buffer, chunk])
+				 }
+			     var rand1 = 'sticker/'+getRandom('.mp4')
+				 var rand2 = 'sticker/'+getRandom('.webp')
+			         fs.writeFileSync(`./${rand1}`, buffer)
+			         ffmpeg(`./${rand1}`)
+				  .on("error", console.error)
+				  .on("end", () => {
+				    exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
+				      conn.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: msg })
+				      limitAdd(sender, limit)
+					  fs.unlinkSync(`./${rand1}`)
+				      fs.unlinkSync(`./${rand2}`)
+				    })
+				  })
+				 .addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
+				 .toFormat('webp')
+				 .save(`${rand2}`)
+                } else {
+			       reply(`Kirim gambar/vidio dengan caption ${command} atau balas gambar/vidio yang sudah dikirim\nNote : Maximal vidio 10 detik!`)
+			    }
+                break
+			case prefix+'toimg': case prefix+'toimage':
+			case prefix+'tovid': case prefix+'tovideo':
+			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+			    if (!isQuotedSticker) return reply(`Reply stikernya!`)
+			    var stream = await downloadContentFromMessage(msg.message.extendedTextMessage?.contextInfo.quotedMessage.stickerMessage, 'sticker')
+			    var buffer = Buffer.from([])
+			    for await(const chunk of stream) {
+			       buffer = Buffer.concat([buffer, chunk])
+			    }
+			    var rand1 = 'sticker/'+getRandom('.webp')
+			    var rand2 = 'sticker/'+getRandom('.png')
+			    fs.writeFileSync(`./${rand1}`, buffer)
+			    if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
+			    exec(`ffmpeg -i ./${rand1} ./${rand2}`, (err) => {
+			      fs.unlinkSync(`./${rand1}`)
+			      if (err) return reply(mess.error.api)
+			      conn.sendMessage(from, { image: { url: `./${rand2}` }}, { quoted: msg })
+			      limitAdd(sender, limit)
+				  fs.unlinkSync(`./${rand2}`)
+			    })
+			    } else {
+			    reply(mess.wait)
+		          webp2mp4File(`./${rand1}`).then( data => {
+			       fs.unlinkSync(`./${rand1}`)
+			       conn.sendMessage(from, { video: { url: data.result }}, { quoted: msg })
+			       limitAdd(sender, limit)
+				  })
+			    }
+			    break
 //downloader
 			case prefix+'tiktoknowm':
 			  case prefix+'tiktok':
@@ -1293,7 +1371,7 @@ var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
 if (!txt1) return reply(`Masukan Text\nContoh ${command} 6288213292687|Hai`)
 if (!txt2) return reply(`Masukan Text 1 Lagi!`)
 if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
-var cpt = `Sukses Bro ${sender.split("@")[0]}!\n\n*Nomer :* ${txt}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}`
+var cpt = `Sukses Bro ${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}`
 conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
 break
 case prefix+'tagme':
@@ -1301,15 +1379,15 @@ case prefix+'tagme':
     mentions(`Woy @` + sender.split("@")[0], [sender], msg)
     break
 case prefix+'swapmsg':
-  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+var txt1 = q.split('|')[0] ? q.split('|')[0] : q
+var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
   if (args.length < 2) return reply(`Masukan Teksnya!`)
   if (!quotedMsg)return reply("Reply Messagenya!")
   if (quotedMsg) {
-  reply(quotedMsg.chats.replace(quotedMsg.chats, q, msg))
+  reply(quotedMsg.chats.replace(txt1, txt2, msg))
   } else {
     reply("Reply Message & Tambahkan Teks Yang Mau Di Tukar Setelah Command")
   }
-  limitAdd(sender, limit)
   break
 case prefix+'jo':
   case prefix+'simi':
