@@ -186,7 +186,7 @@ ${readmore}
   
 *( 🔧 )  Encrypt & Decrypt*
 ≻ ${prefix}encode <Text>
-≻ ${prefix}decode <Text]
+≻ ${prefix}decode <Text>
   
 *( 🧑🏻‍💻 )  Owner Menu*
 > evalcode
