@@ -10,7 +10,6 @@ THANKS TO
 - Hardianto
 - Affis Junianto
 - Rafli Rusdiana
-- Kiro Fyzu
 - Febri
 - Grup Jojoo
 
@@ -802,10 +801,10 @@ Haii @${sender.split("@")[0]}, aku adalah *${botName}*, Yang bisa membantu anda 
 Thanks To
 - Riyan
 - Arasya
-- KiroFyzu
 - Amel
 - Hardianto
-- Febri`
+- Febri
+- KiroFyzu`
 
 conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [sender, botNumber, ownerNumber[0]]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
 break
@@ -914,6 +913,7 @@ case prefix+'self':
                 if (!isOwner && !fromMe) return reply(mess.OnlyOwner)
                 if (args.length < 2) return reply(`Kirim perintah ${command} Nomor\nExample : ${command} 6288213292687`)
                 var text = args[1] + '@s.whatsapp.net'
+                if (isNaN(text)) return reply(`Harus Pake Nomer Coeg`)
                 own2 = text
                  mentions(`Sukses Mengganti Nomor Owner Ke Nomor : @${text.split("@")[0]}`, [text])
                 break
@@ -1373,7 +1373,7 @@ var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
 if (!txt1) return reply(`Masukan Text\nContoh ${command} 6288213292687|Hai`)
 if (!txt2) return reply(`Masukan Text 1 Lagi!`)
 if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
-var cpt = `Sukses Bro ${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}`
+var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}`
 conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
 break
 case prefix+'tagme':
@@ -2394,7 +2394,41 @@ break
 case prefix+'neondevil':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 reply(mess.wait)
+if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
 thiccysapi.textpro(`https://textpro.me/create-neon-devil-wings-text-effect-online-free-1014.html`, q).then ( data => { conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data}, mentions: [sender]}, {quoted: msg})}).catch(() => reply(mess.error.api))
+limitAdd(sender, limit)
+break
+case prefix+'blackpink':
+  case prefix+'bp':
+    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+    if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+    reply(mess.wait)
+    xfar.maker.textpro(`https://textpro.me/create-neon-light-blackpink-logo-text-effect-online-1081.html`, q).then ( data => {
+conn.sendMessage(from, {caption : `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})})
+limitAdd(sender, limit)
+break
+case prefix+'glitch':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+    reply(mess.wait)
+xfar.maker.ephoto(`https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html`, q).then ( data => {
+conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})})
+limitAdd(sender, limit)
+break
+case prefix+'skyshadow':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+    reply(mess.wait)
+xfar.maker.photooxy(`https://photooxy.com/logo-and-text-effects/shadow-text-effect-in-the-sky-394.html`, q).then ( data => {
+conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]})})
+limitAdd(sender, limit)
+break
+case prefix+'ttp':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+    reply(mess.wait)
+xfar.maker.ttp(q).then ( data => { 
+conn.sendMessage(from, {caption: `Text To Png`, image: {url: data.result}}, {quoted: msg})})
 limitAdd(sender, limit)
 break
 /*case prefix+'listquran':
@@ -2743,6 +2777,25 @@ case prefix+'kontak':
   sendContact(from, `${nom}@s.whatsapp.net`, or, msg)
   limitAdd(sender, limit)
   break
+case prefix+'ebinary':
+if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}ebinary *text*\nContoh: ${prefix}ebinary hello world`)
+if (q.length > 2048) return reply('Maximal 2.048 String!')
+function encodeBinary(char) {
+return char.split("").map(str => {
+const converted = str.charCodeAt(0).toString(2);
+return converted.padStart(8, "0");
+}).join(" ")
+}
+reply(encodeBinary(q))
+break
+case prefix+'debinary':
+if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}debinary *text*\nContoh: ${prefix}debinary 01110100 01100101 01110011`)
+if (q.length > 2048) return reply('Maximal 2.048 String!')
+function decodebinary(char) {
+return char.split(" ").map(str => String.fromCharCode(Number.parseInt(str, 2))).join("");
+}
+reply(decodebinary(q))
+break
 default:
 
 		}

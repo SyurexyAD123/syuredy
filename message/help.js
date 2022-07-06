@@ -54,11 +54,6 @@ ${readmore}
 ≻ ${prefix}tagme
 ≻ ${prefix}towame
 
-*( ✏️ )  Converter/Tools*
-≻ ${prefix}stiker <ReplyGambar/Caption>
-≻ ${prefix}toimg <ReplyStiker>
-≻ ${prefix}tovid <ReplyStiker>
-
 *( ⌛ )  Downloader*
 ≻ ${prefix}play <Querry>
 ≻ ${prefix}youtube <LinkYt>
@@ -96,8 +91,15 @@ ${readmore}
 ≻ ${prefix}pussy
   
 *( 🎨 )  Menu Maker*
+≻ ${prefix}stiker <ReplyGambar/Caption>
+≻ ${prefix}toimg <ReplyStiker>
+≻ ${prefix}tovid <ReplyStiker>
 ≻ ${prefix}realistic <Text1|Text2>
 ≻ ${prefix}neondevil <Text>
+≻ ${prefix}glitch <Text>
+≻ ${prefix}skyshadow <Text>
+≻ ${prefix}blackpink <Text>
+≻ ${prefix}ttp <Text>
   
 *( 🪀 )  Menu Lain Nya*
 ≻ ${prefix}shortlink <Link>
@@ -182,6 +184,10 @@ ${readmore}
 ≻ ${prefix}infogc
 ≻ ${prefix}antilink enable/disable
   
+*( 🔧 )  Encrypt & Decrypt*
+≻ ${prefix}encode <Text>
+≻ ${prefix}decode <Text]
+  
 *( 🧑🏻‍💻 )  Owner Menu*
 > evalcode
 x evalcode-2
@@ -215,8 +221,8 @@ ${readmore}
 - Baileys-Md (Adiwa Jshing)
 - @irfann._x (Iyan)
 - @arsrfii (Arasya)
-- @callme_kiro (Kiro)
 - Febri
+- @callme_kiro (Kiro)
 - M Hadi Firmansya (Hadi Api)
 - @melcanz_ (Amel)
 - @hardianto.xyz (Anto)`
