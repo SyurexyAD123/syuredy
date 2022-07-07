@@ -116,6 +116,7 @@ let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
 let _cmd = JSON.parse(fs.readFileSync('./database/command.json'));
 let _cmdUser = JSON.parse(fs.readFileSync('./database/commandUser.json'));
 const commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
+let mute = JSON.parse(fs.readFileSync('./database/mute.json'))
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -162,6 +163,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isGroupAdmins = groupAdmins.includes(sender)
 		const isUser = pendaftar.includes(sender)
+		const isMuted = isGroup ? mute.includes(from) : false
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 		const isBan = cekBannedUser(sender, ban)
 		const isAntiLink = isGroup ? antilink.includes(from) : false
@@ -397,6 +399,17 @@ module.exports = async(conn, msg, m, setting, store) => {
 			pendaftar.push(sender)
 			fs.writeFileSync('./database/user.json', JSON.stringify(pendaftar, null, 2))
 		  }
+
+        // MUTE
+        if (isMuted){
+            if (!isGroupAdmins && !isOwner) return
+            if (chats.toLowerCase().startsWith(prefix+'unmute')){
+                let anu = mute.indexOf(from)
+                mute.splice(anu, 1)
+                fs.writeFileSync('./database/mute.json', JSON.stringify(mute))
+                reply(`Bot telah diunmute di group ini`)
+            }
+        }
 
 		// Premium
 		_prem.expiredCheck(conn, premium)
@@ -951,6 +964,15 @@ teks += `❏ *Balasan:* ${commandsDB[i].balasan}\n\n`
 }
 reply(teks)
 break
+case prefix+'mute':
+if (!isGroup) return reply(mess.OnlyGrup)
+if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
+if (!isBotGroupAdmins) return reply(mess.BotAdmin)
+if (isMuted) return reply(`udah mute`)
+mute.push(from)
+fs.writeFileSync('./database/mute.json', JSON.stringify(mute))
+reply(`Bot berhasil dimute di chat ini`)
+break
 case prefix+'ban':
                 if (!isOwner) return reply(mess.OnlyOwner)
                 if (mentioned.length !== 0){
@@ -1407,7 +1429,7 @@ var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
 if (!txt1) return reply(`Masukan Text\nContoh ${command} 6288213292687|Hai`)
 if (!txt2) return reply(`Masukan Text 1 Lagi!`)
 if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
-var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}\nApi : https://api.whatsapp.com/send?phone=${txt1}`
+var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}\n*Api :* https://api.whatsapp.com/send?phone=${txt1}`
 conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
 break
 case prefix+'tagme':
@@ -1532,8 +1554,8 @@ case prefix+'husbu':
 					}
 				    limitAdd(sender, limit)
 				  } else {
-					var but = [{buttonId: `/pinterest ${q}`, buttonText: { displayText: 'Next Photo' }, type: 1 }]
-					conn.sendMessage(from, { caption: `Hasil pencarian dari ${q}`, image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
+					var but = [{buttonId: `/pinterest ${q}`, buttonText: { displayText: 'Next Photo ➡️' }, type: 1 }]
+					conn.sendMessage(from, { caption: `Hasil pencarian dari ${q}\nResult : ${data.result}`, image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 				    limitAdd(sender, limit)
 				  }
 				})
