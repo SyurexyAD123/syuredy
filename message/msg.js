@@ -1407,7 +1407,7 @@ var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
 if (!txt1) return reply(`Masukan Text\nContoh ${command} 6288213292687|Hai`)
 if (!txt2) return reply(`Masukan Text 1 Lagi!`)
 if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
-var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+" + `Api : https://api.whatsapp.com/send?phone=${txt1}`)}`
+var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}\nApi : https://api.whatsapp.com/send?phone=${txt1}`
 conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
 break
 case prefix+'tagme':
