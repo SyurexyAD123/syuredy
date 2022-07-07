@@ -44,6 +44,7 @@ ${readmore}
 ≻ ${prefix}cekprem
 ≻ ${prefix}listprem
 ≻ ${prefix}listban
+≻ ${prefix}listrespon
 ≻ ${prefix}jo <Text>
 ≻ ${prefix}delete
 ≻ ${prefix}repeat
@@ -201,8 +202,9 @@ $ executor
 ≻ ${prefix}leave
 ≻ ${prefix}addprem
 ≻ ${prefix}delprem
+≻ ${prefix}addrespon
+≻ ${prefix}delrespon
 ≻ ${prefix}broadcast
-≻ ${prefix}bcprem
 ≻ ${prefix}masuk
 ≻ ${prefix}ban
 ≻ ${prefix}unban

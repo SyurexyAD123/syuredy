@@ -35,6 +35,7 @@ const { wikiSearch } = require("../lib/wiki")
 const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("../lib/limit");
 const { isTicTacToe, getPosTic } = require("../lib/tictactoe");
 const { addPlayGame, getJawabanGame, isPlayGame, cekWaktuGame, getGamePosi } = require("../lib/game");
+const { addCommands, checkCommands, deleteCommands } = require("../lib/autoresp");
 const { addBanned, unBanned, BannedExpired, cekBannedUser } = require("../lib/banned");
 const tictac = require("../lib/tictac");
 const _prem = require("../lib/premium");
@@ -114,6 +115,7 @@ let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
 let _cmd = JSON.parse(fs.readFileSync('./database/command.json'));
 let _cmdUser = JSON.parse(fs.readFileSync('./database/commandUser.json'));
+const commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
@@ -410,6 +412,13 @@ module.exports = async(conn, msg, m, setting, store) => {
         if (mode === 'self'){
             if (!fromMe && !isOwner) return
         }
+        
+        //Auto Respon
+        for (var i = 0; i < commandsDB.length ; i++) {
+				if (chats.toLowerCase() === commandsDB[i].pesan) {
+					reply(commandsDB[i].balasan)
+				}
+				  }
 
         // Anti link
         if (isGroup && isAntiLink && !isOwner && !isGroupAdmins && isBotGroupAdmins){
@@ -606,10 +615,10 @@ if (chats.match(toktok)) {
 		}
 		
 if (chats.startsWith(`Bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
 }
 if (chats.startsWith(`bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
 }
 if (chats.startsWith(`tes`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
@@ -917,6 +926,31 @@ case prefix+'self':
                 own2 = text
                  mentions(`Sukses Mengganti Nomor Owner Ke Nomor : @${text.split("@")[0]}`, [text])
                 break
+case prefix+'addrespon':
+case prefix+'addresp':
+ if (!isOwner)return reply(mess.OnlyOwner)
+var pesan = q.split('|')[0] ? q.split('|')[0] : q
+var balas = q.split('|')[1] ? q.split('|')[1] : ''
+if (checkCommands(pesan, commandsDB) === true) return reply(`Udah ada`)
+addCommands(pesan, balas, sender, commandsDB)
+reply(`Pesan : ${pesan}\nBalas : ${balas}\nSuskes Di Tambahankan!`)
+break
+case prefix+'delrespon':
+case prefix+'delresp':
+if (!isOwner)return reply(mess.OnlyOwner)
+if (!checkCommands(q, commandsDB)) return reply(`Ga ada di database`)
+deleteCommands(q, commandsDB)
+reply(`Respon ${q} telah di hapus`)
+break
+case prefix+'listrespon':
+case prefix+'listresp':
+var teks = `\`\`\`「 LIST RESPON  」\`\`\`\n\n`
+for (let i = 0; i < commandsDB.length; i ++){
+teks += `❏ *Tanya:* ${commandsDB[i].pesan}\n`
+teks += `❏ *Balasan:* ${commandsDB[i].balasan}\n\n`
+}
+reply(teks)
+break
 case prefix+'ban':
                 if (!isOwner) return reply(mess.OnlyOwner)
                 if (mentioned.length !== 0){
@@ -1373,24 +1407,13 @@ var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
 if (!txt1) return reply(`Masukan Text\nContoh ${command} 6288213292687|Hai`)
 if (!txt2) return reply(`Masukan Text 1 Lagi!`)
 if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
-var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}`
+var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+" + `Api : https://api.whatsapp.com/send?phone=${txt1}`)}`
 conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
 break
 case prefix+'tagme':
   case prefix+'tag':
     mentions(`Woy @` + sender.split("@")[0], [sender], msg)
     break
-case prefix+'swapmsg':
-var txt1 = q.split('|')[0] ? q.split('|')[0] : q
-var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
-  if (args.length < 2) return reply(`Masukan Teksnya!`)
-  if (!quotedMsg)return reply("Reply Messagenya!")
-  if (quotedMsg) {
-  reply(quotedMsg.chats.replace(txt1, txt2, msg))
-  } else {
-    reply("Reply Message & Tambahkan Teks Yang Mau Di Tukar Setelah Command")
-  }
-  break
 case prefix+'jo':
   case prefix+'simi':
  var text = `${q}`
@@ -2034,7 +2057,7 @@ case prefix+'tebakkimia':
 				if (!isBotGroupAdmins) return reply(mess.BotAdmin)
 				var url = await conn.groupInviteCode(from).catch(() => reply(mess.error.api))
 			    url = 'https://chat.whatsapp.com/'+url
-				reply(url)
+				reply(`Link Grup *${groupMetadata.subject}* ` + url)
 				break
 			case prefix+'setppgrup': case prefix+'setppgc':
 			    if (!isGroup) return reply(mess.OnlyGrup)
@@ -2732,7 +2755,7 @@ case prefix+'textchat':
   var nomorcuy = q.split('|')[0] ? q.split('|')[0] : q
                 var okecuy = q.split('|')[1] ? q.split('|')[1] : ''
                 reply(`Pesan Sukses Terkirim`)
-conn.sendMessage(`${nomorcuy}@s.whatsapp.net`, {text: `*[ DARI OWNER ]*\nPesan Dari Owner : *${okecuy}*\nThanks For Using JOJO-BOT! ( ${sender} )`, mentions: [sender]})
+conn.sendMessage(`${nomorcuy}@s.whatsapp.net`, {text: `*[ DARI OWNER ]*\nPesan Dari Owner : *${okecuy}*\nThanks For Using JOJO-BOT!`, mentions: [sender]})
 break
 case prefix+'lirik':
   if (args.length < 2) return reply(`kirim Perintah ${command} Judul Lagu`)
@@ -2777,7 +2800,7 @@ case prefix+'kontak':
   sendContact(from, `${nom}@s.whatsapp.net`, or, msg)
   limitAdd(sender, limit)
   break
-case prefix+'ebinary':
+case prefix+'encode':
 if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}ebinary *text*\nContoh: ${prefix}ebinary hello world`)
 if (q.length > 2048) return reply('Maximal 2.048 String!')
 function encodeBinary(char) {
@@ -2788,7 +2811,7 @@ return converted.padStart(8, "0");
 }
 reply(encodeBinary(q))
 break
-case prefix+'debinary':
+case prefix+'decode':
 if (!q) return reply(`Format salah!\n\nKirim perintah: ${prefix}debinary *text*\nContoh: ${prefix}debinary 01110100 01100101 01110011`)
 if (q.length > 2048) return reply('Maximal 2.048 String!')
 function decodebinary(char) {
