@@ -54,6 +54,7 @@ ${readmore}
 ≻ ${prefix}hitungmundur
 ≻ ${prefix}tagme
 ≻ ${prefix}towame
+≻ fetch
 
 *( ⌛ )  Downloader*
 ≻ ${prefix}play <Querry>
