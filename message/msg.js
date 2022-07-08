@@ -23,6 +23,7 @@ const { getBuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sle
 const { webp2mp4File } = require("../lib/convert")
 const { toAudio, toPTT, toVideo } = require('../lib/converter')
 const { y2mateA, y2mateV } = require('../lib/y2mate')
+const { upload, formatDate } = require("../lib/uploads");
 const { pinterest } = require("../lib/pinterest")
 const { darkjokes } = require("../lib/darkjokes")
 const { igstalk } = require("../lib/igstalk")
@@ -180,7 +181,31 @@ module.exports = async(conn, msg, m, setting, store) => {
                 mention != undefined ? mention.push(mentionByReply) : []
                 const mentionUser = mention != undefined ? mention.filter(n => n) : []
                 
-		
+		const sendStickerFromUrl = async (to, url) => {
+      var names = Date.now() / 10000;
+      var download = function (uri, filename, callback) {
+        request.head(uri, function (err, res, chats) {
+          request(uri)
+            .pipe(fs.createWriteStream(filename))
+            .on("close", callback);
+        });
+      };
+      download(url, "./stik" + names + ".png", async function () {
+        console.log("selesai");
+        let filess = "./stik" + names + ".png";
+        let asw = "./stik" + names + ".webp";
+        exec(
+          `ffmpeg -i ${filess} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${asw}`,
+          (err) => {
+            let media = fs.readFileSync(asw);
+            conn.sendMessage(to, {sticker: fs.readFileSync(media)}, {quoted: msg})
+            fs.unlinkSync(filess);
+            fs.unlinkSync(asw);
+          }
+        );
+      });
+    };
+    //
 		async function downloadAndSaveMediaMessage (type_file, path_file) {
 			if (type_file === 'image') {
 				var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
@@ -442,6 +467,8 @@ module.exports = async(conn, msg, m, setting, store) => {
       conn.groupParticipantsUpdate(from, [number], "remove")
             }
         }
+        
+
 // Auto Youtube Downloader
 let yutu = `https://youtu${chats.slice(13)}`
 if (!isGroup){
@@ -839,29 +866,8 @@ Thanks To
 
 conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [sender, botNumber, ownerNumber[0]]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
 break
-			/*case prefix+'donate':
-			case prefix+'donasi':
-			    reply(`◪ DONASI
-  │
-  ├─ ❏ GOPAY
-  ├─ ❏ 088213292687
-  ├─ ❏ OVO
-  ├─ ❏ 088213292687
-  ├─ ❏ PULSA
-  ├─ ❏ 081319944917
-  ├─ ❏ PULSA2
-  ├─ ❏ 088213292687
-  ├─ ❏ INSTAGRAM
-  └─ ❏ https://www.instagram.com/arsrfii
-  
-  Donasi Untuk Upgrade Ke Fitur Premium
-  Note : Donasi Seikhlasnya`)
-			    break*/
 			case prefix+'owner':
-			    /*for (let x of ownerNumber) {
-			      sendContact(from, x.split('@s.whatsapp.net')[0], ownerName, msg)
-			    }*/
-			    sendContact(from, sender.split("@")[0], pushname, msg)
+			    sendContact(from, ownerNumber[0].split("@")[0], ownerName, msg)
 			    break
 			case prefix+'cekprem':
             case prefix+'cekpremium':
@@ -2160,6 +2166,21 @@ case prefix+'tebakkimia':
 		        groupMembers.map( i => mem.push(i.id) )
 				conn.sendMessage(from, { text: q ? q : '', mentions: mem }, {quoted: fdoc})
 			    break
+case prefix+'tovn':
+  if (!isQuotedAudio)return reply(`Reply Audionya!`)
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  reply(mess.wait)
+if (isQuotedAudio) {
+var media = await downloadAndSaveMediaMessage('audio', 'audio.mp3')
+conn.sendMessage(from, {audio: {url: media}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})}
+limitAdd(sender, limit)
+break
+case prefix+'tourl':
+  if (isQuotedImage) {
+var media = await downloadAndSaveMediaMessage('audio', 'audio.mp3')
+var res = await upload(media)
+reply(res)
+}
 case prefix+'infogc':
   case prefix+'infogrup':
     case prefix+'grupinfo':

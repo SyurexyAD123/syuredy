@@ -54,6 +54,7 @@ ${readmore}
 ≻ ${prefix}hitungmundur
 ≻ ${prefix}tagme
 ≻ ${prefix}towame
+≻ ${prefix}tovn
 ≻ fetch
 
 *( ⌛ )  Downloader*
