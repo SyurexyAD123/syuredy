@@ -19,7 +19,7 @@ const {
 	downloadContentFromMessage
 } = require("@adiwajshing/baileys")
 const { color, bgcolor } = require('../lib/color')
-const { geuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid } = require("../lib/myfunc");
+const { getBuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid } = require("../lib/myfunc");
 const { webp2mp4File } = require("../lib/convert")
 const { toAudio, toPTT, toVideo } = require('../lib/converter')
 const { y2mateA, y2mateV } = require('../lib/y2mate')
@@ -102,7 +102,7 @@ let mode = 'public'
 let own2 = '6281319944917@s.whatsapp.net'
 
 // Type Menu
-let typemenu = 'button'
+let typemenu = 'buttons5'
 
 // Database
 let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -222,16 +222,16 @@ module.exports = async(conn, msg, m, setting, store) => {
 		    mime = res.headerd["content-type"]
 		    let type = mime.split("/")[0]+"Message"
 		    if (mime.split("/")[0] === "image") {
-		       var img = await geuffer(url)
+		       var img = await getBuffer(url)
 		       return conn.sendMessage(from, { image: img, caption: caption }, options)
 		    } else if (mime.split("/")[0] === "video") {
-		       var vid = await geuffer(url)
+		       var vid = await getBuffer(url)
 		       return conn.sendMessage(from, { video: vid, caption: caption }, options)
 		    } else if (mime.split("/")[0] === "audio") {
-		       var aud = await geuffer(url)
+		       var aud = await getBuffer(url)
 		       return conn.sendMessage(from, { audio: aud, mimetype: 'audio/mp3' }, options)
 		    } else {
-		       var doc = await geuffer(url)
+		       var doc = await getBuffer(url)
 		       return conn.sendMessage(from, { document: doc, mimetype: mime, caption: caption }, options)
 		    }
 		}
@@ -370,9 +370,10 @@ module.exports = async(conn, msg, m, setting, store) => {
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
 			{ urlButton: { displayText: `CHANNEL ${botName.toUpperCase()}`, url : `https://t.me/telejochannel` } },
+			{ urlButton: { displayText: `OWNER BOT`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
-			{ quickReplyButton: { displayText: `List Premium`, id: `${prefix}daftarprem` } },
+			{ quickReplyButton: { displayText: `Daftar Premium`, id: `${prefix}daftarprem` } },
 		]
 		const buttonsDefa = [{buttonId: `/info`, buttonText: { displayText: "⋮☰ Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }]
 		
@@ -643,6 +644,12 @@ if (chats.startsWith(`@${botNumber.split("@")[0]}`)) {
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 
+if (chats.startsWith("fetch ")) {
+  if (!q)return reply(`Masukan Fetch Link!`)
+  var data = await fetchText(q)
+  reply(data)
+}
+
 		if (chats.startsWith("> ") && isOwner) {
 		console.log(color('[EVAL]'), color(moment(msg.messageTimestamp * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`Dari Owner aowkoakwoak`))
 		  const ev = (sul) => {
@@ -787,8 +794,10 @@ Via :
 - Gopay (088213292687)
 - Dana (081319944917)
 
-~ Tim Jojo`)
-			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(`./media/Jojo2.jpg`)}, {quoted: fake})
+~ Tim Jojo
+${readmore}
+Owner : @${ownerNumber[0].split("@")[0]}`)
+			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(`./media/Jojo2.jpg`), mentions: [ownerNumber[0]]}, {quoted: fake})
 			    break
 			case prefix+'runtime':
 			    reply(runtime(process.uptime()))
@@ -853,7 +862,6 @@ break
 			      sendContact(from, x.split('@s.whatsapp.net')[0], ownerName, msg)
 			    }*/
 			    sendContact(from, sender.split("@")[0], pushname, msg)
-			    mentions(monospace(`Nomor Owner : @${ownerNumber[0].split("@")[0]}\nInfo Bot Contact To : @${own2.split("@")[0]}`), [ownerNumber[0], own2])
 			    break
 			case prefix+'cekprem':
             case prefix+'cekpremium':
@@ -1162,9 +1170,10 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    addCountCmd('#ytmp4', sender, _cmd)
 			    reply(mess.wait)
 			    y2mateV(args[1]).then ( data => {
-			      var capt = monospace(`Title : ${data[0].judul}`)
-			      conn.sendMessage(from, {caption: capt, video: {url: data[0].link}}, {quoted: msg})
-			    }).catch(() => reply(mess.error.api))
+			      conn.sendMessage(from, {caption: monospace(data[0].judul).toUpperCase(), video: {url: data[0].link}}, {quoted: msg})
+			    }).catch(() => xfar.downloader.youtube(args[1]).then ( data => {
+					    conn.sendMessage(from, {video: {url: data.download_url}, caption: monospace(data.title).toUpperCase()}, {quoted: msg})
+					  }))
 			    break
 				///SCRAPER YTMP3 BY ARASYA RAFI	
 case prefix+'ytmp3':
@@ -1175,13 +1184,15 @@ case prefix+'ytmp3':
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
 			    reply(mess.wait)
-				y2mateA(q).then( data => {
+				y2mateA(args[1]).then( data => {
 					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
-					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg}) 
-					
+					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg})
 					conn.sendMessage(from, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
-					  }
-					  )
+					  }).catch(() => xfar.downloader.youtube(args[1]).then ( data => {
+					    var capt = `📛 *Title :* ${data.title}\n🔰 *Size Audio :* ${data.size}\n\n_Tunggu sebentar audio akan di kirim...._`
+					conn.sendMessage(from, {caption: capt, image: {url: data.thumbnail}}, {quoted: msg})
+					    conn.sendMessage(from, {document: {url: data.download_url}, fileName: `${data.title}.mp3`, mimetype: 'audio/mp3'}, {quoted: msg})
+					  }))
 limitAdd(sender, limit)
               break
 			  case prefix+'ytmp3vn':
@@ -1189,7 +1200,7 @@ limitAdd(sender, limit)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
-				y2mateA(q).then( data => {
+				y2mateA(args[1]).then( data => {
 					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4', ptt: true}, {quoted: fvideo})
 					  }
 					  )
@@ -2794,8 +2805,9 @@ case prefix+'ppcp':
     case prefix+'couple':
       if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
       var data = JSON.parse(fs.readFileSync('./fitur/couple.json'))
-      conn.sendMessage(from, {caption: `Ini Profile Cowo`, image: {url: data.male}}, {quoted: msg})
-      conn.sendMessage(from, {caption: `Ini Profile Cewe`, image: {url: data.female}}, {quoted: msg})
+      var data2 = pickRandom(data)
+      conn.sendMessage(from, {image: {url: data2.male}, caption: `Cowo`}, {quoted: msg})
+      conn.sendMessage(from, {image: {url: data2.female}, caption: `Cewe`}, {quoted: msg})
       limitAdd(sender, limit)
       break
 case prefix+'sendvirus':

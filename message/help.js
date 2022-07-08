@@ -184,6 +184,8 @@ ${readmore}
 ≻ ${prefix}listadmin <Pesan>
 ≻ ${prefix}infogc
 ≻ ${prefix}antilink enable/disable
+≻ ${prefix}mute
+≻ Unmute
   
 *( 🔧 )  Encrypt & Decrypt*
 ≻ ${prefix}encode <Text>
