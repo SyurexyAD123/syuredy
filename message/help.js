@@ -92,7 +92,13 @@ ${readmore}
 ≻ ${prefix}hentai
 ≻ ${prefix}masturbation
 ≻ ${prefix}pussy
-  
+
+*( 💾 )  Storage Menu*
+≻ ${prefix}addimage <Text>
+≻ ${prefix}getimage <List Image>
+≻ ${prefix}listimage
+≻ ${prefix}delimage <List Image>
+
 *( 🎨 )  Menu Maker*
 ≻ ${prefix}stiker <ReplyGambar/Caption>
 ≻ ${prefix}toimg <ReplyStiker>

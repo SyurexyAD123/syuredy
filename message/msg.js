@@ -655,10 +655,10 @@ if (chats.match(toktok)) {
 		  }
 		}
 		
-if (chats.startsWith(`Bot`)){
+if (chats.includes(`Bot`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
 }
-if (chats.startsWith(`bot`)){
+if (chats.includes(`bot`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
 }
 if (chats.startsWith(`tes`)){
@@ -667,7 +667,7 @@ if (chats.startsWith(`tes`)){
 if (chats.startsWith(`Tes`)){
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
-if (chats.startsWith(`@${botNumber.split("@")[0]}`)) {
+if (chats.includes(`@${botNumber.split("@")[0]}`)) {
  conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
 
@@ -1038,6 +1038,52 @@ case prefix+'ban':
                 }
                 mentions(txtx, menx, true)
                 break
+//storage menu
+case prefix+'addimage':
+  case prefix+'addimg':
+if (!isPremium)return reply(mess.OnlyPrem)
+if (!q)return reply(`Masukan Text!`)
+if (!isQuotedImage)return reply(`Reply Imagenya!`)
+if (isQuotedImage) {
+var gambar = JSON.parse(fs.readFileSync("./database/storage/image.json"))
+var media = await downloadAndSaveMediaMessage("image", `./database/storage/Image/${q}.jpeg`)
+gambar.push(q)
+fs.writeFileSync('./database/storage/image.json', JSON.stringify(gambar))
+reply(`Sukses Menambahkan Gambar ${q}\nCek Gambar Ketik ${prefix}listimage`)
+} else {
+  reply(`Reply Gambarnya Dengan Caption ${command} Text`)
+}
+  break
+case prefix+'getimage':
+  case prefix+'getimg':
+  try {
+  conn.sendMessage(from, {image: fs.readFileSync(`./database/storage/Image/${q + ".jpeg"}`), caption: q + ".jpeg"}, {quoted: msg})
+  } catch {
+    reply(`Image ${q + ".jpeg"} Gada di database`)
+  }
+  break
+case prefix+'listimg':
+  case prefix+'listimage':
+    var list = JSON.parse(fs.readFileSync('./database/storage/image.json'))
+    var teks = `*⟨ LIST IMAGE ⟩*\nTotal Image:` + monospace(list.length + `\n\n`)
+      for (let i of list) {
+        teks += monospace(`» ${i.toUpperCase()}\n`)
+      }
+      reply(teks)
+    break
+case prefix+'delimg':
+  case prefix+'delimage':
+  if (!isPremium)return reply(mess.OnlyPrem)
+  try {
+  var list = JSON.parse(fs.readFileSync('./database/storage/image.json'))
+  var anu = list.indexOf(q)
+list.splice(anu, 1)
+fs.writeFileSync('./database/storage/image.json', JSON.stringify(list))
+reply(`Sukses Menghapus Gambar ${q.toUpperCase()}`)
+  } catch {
+  reply(`Image ${q} Gada Di Database`)
+}
+  break
 	        // Converter & Tools Menu
 			case prefix+'sticker': case prefix+'stiker': case prefix+'s': case prefix+'stickergif': case prefix+'sgif': case prefix+'stikergif': case prefix+'stikgif':
 			  addCountCmd('#sticker', sender, _cmd)
