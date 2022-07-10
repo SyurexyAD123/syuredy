@@ -19,7 +19,7 @@ const {
 	downloadContentFromMessage
 } = require("@adiwajshing/baileys")
 const { color, bgcolor } = require('../lib/color')
-const { getBuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid } = require("../lib/myfunc");
+const { getBuffer, fetchJson, fetchText, getRandom, getGroupAdmins, runtime, sleep, makeid, serialize} = require("../lib/myfunc");
 const { webp2mp4File } = require("../lib/convert")
 const { toAudio, toPTT, toVideo } = require('../lib/converter')
 const { y2mateA, y2mateV } = require('../lib/y2mate')
@@ -472,14 +472,12 @@ module.exports = async(conn, msg, m, setting, store) => {
 // Auto Youtube Downloader
 let yutu = `https://youtu${chats.slice(13)}`
 if (!isGroup){
-if (chats.startsWith(yutu)) {
+if (chats.includes(yutu)) {
             y2mateA(yutu).then( data => {
               conn.sendMessage(from, {document: {url: data[0].link}, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3'}, {quoted: fvideo})
-})
-}
-}
+})}}
 if (isGroup) {
-if (chats.startsWith(yutu)) {
+if (chats.includes(yutu)) {
             y2mateA(yutu).then( data => {
               conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
               var caption = monospace(`Auto Download Youtube, Pilih Tipe Berikut`)
@@ -487,25 +485,6 @@ if (chats.startsWith(yutu)) {
               conn.sendMessage(sender, { text: caption, buttons: but, footer: "Silahkan Pilih Untuk mengubah Tipe Audio", templateButtons: but }, {quoted: fvideo})
 					  })
             }
-}
-
-// Auto Tiktok Downloader
-let toktok = `https://vt.tiktok.com/${chats.slice(21)}`
-if (!isGroup){
-if (chats.startsWith(toktok)) {
-  reply(data.nowm)
-       hxz.ttdownloader(toktok).then ( data => {
-         conn.sendMessage(from, {caption: `Auto Tiktok Download`, video: {url: data.nowm}}, {quoted: fake})
-       })
-}
-}
-if (isGroup) {
-if (chats.match(toktok)) {
-            hxz.ttdownloader(toktok).then ( data => {
-         conn.sendMessage(from, {caption: `Auto Tiktok Download`, video: {url: data.nowm}}, {quoted: fake})
-         hxz.ttdownloader(sender, {audio: {url: data.audio}, mimetype: 'audio/mp4'}, {quoted: fake})
-            })
-}
 }
 
         // Game
@@ -2426,7 +2405,7 @@ case prefix+'judibalance':
   case prefix+'judi':
     case prefix+'duithoki':
     if (isGame(sender, isOwner, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
-  var hokinya = ["10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","15","25","35","45","55","65","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","1000","1000","1000","1000","1000","1000","1000","1000","1000","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000"]
+  var hokinya = ["10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","10","20","30","40","50","60","10","15","25","35","45","55","65","10","15","25","35","45","55","65","1000","2000","2000","2000","2000","3000","10000","2000","2000","2000","2000","3000","10000","10000","100000","100000","100000","100000","100000","100000","100000000000000000000","100000000000000000000"]
   var data = pickRandom(hokinya)
   addBalance(sender, parseInt(data), balance)
   var cpt = `*[ 🎰 DUIT HOKI 🎰 ]*\n\n*@${sender.split("@")[0]}* Mendapatkan *$${data}* Balance`
@@ -2515,7 +2494,7 @@ case prefix+'blackpink':
     if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
     reply(mess.wait)
     xfar.maker.textpro(`https://textpro.me/create-neon-light-blackpink-logo-text-effect-online-1081.html`, q).then ( data => {
-conn.sendMessage(from, {caption : `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})})
+conn.sendMessage(from, {caption : `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})}).catch(() => reply(mess.error.lv))
 limitAdd(sender, limit)
 break
 case prefix+'glitch':
@@ -2523,15 +2502,16 @@ case prefix+'glitch':
   if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
     reply(mess.wait)
 xfar.maker.ephoto(`https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html`, q).then ( data => {
-conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})})
+conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})}).catch(() => reply(mess.error.lv))
 limitAdd(sender, limit)
 break
 case prefix+'skyshadow':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+  if (!q) return reply(`Masukan Text!\n${command} Arasya`)
+  if (args.length < 7) return reply(`Minimal 5 Huruf!`)
     reply(mess.wait)
 xfar.maker.photooxy(`https://photooxy.com/logo-and-text-effects/shadow-text-effect-in-the-sky-394.html`, q).then ( data => {
-conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]})})
+conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]})}).catch(() => reply(mess.error.lv))
 limitAdd(sender, limit)
 break
 case prefix+'ttp':
@@ -2539,7 +2519,7 @@ case prefix+'ttp':
   if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
     reply(mess.wait)
 xfar.maker.ttp(q).then ( data => { 
-conn.sendMessage(from, {caption: `Text To Png`, image: {url: data.result}}, {quoted: msg})})
+conn.sendMessage(from, {caption: `Text To Png`, image: {url: data.result}}, {quoted: msg})}).catch(() => reply(mess.error.lv))
 limitAdd(sender, limit)
 break
 /*case prefix+'listquran':
