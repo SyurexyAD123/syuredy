@@ -461,7 +461,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 
         // Anti link
         if (isGroup && isAntiLink && !isOwner && !isGroupAdmins && isBotGroupAdmins){
-            if (chats.match(`://chat.whatsapp.com`)) {
+            if (chats.includes(`https://chat.whatsapp.com`)) {
                 reply(`*「 GROUP LINK DETECTOR 」*\n\nSepertinya kamu mengirimkan link grup, maaf kamu akan di kick`)
                 number = sender
       conn.groupParticipantsUpdate(from, [number], "remove")
@@ -790,10 +790,6 @@ var teks = `  │
   ├─ ❏ ${ovo}
   ├─ ❏ DANA
   ├─ ❏ ${dana}
-  ├─ ❏ PULSA
-  ├─ ❏ ${pulsa}
-  ├─ ❏ PULSA2
-  ├─ ❏ ${pulsa2}
   ├─ ❏ INSTAGRAM
   └─ ❏ https://www.instagram.com/${ig}
   
@@ -1049,7 +1045,9 @@ var gambar = JSON.parse(fs.readFileSync("./database/storage/image.json"))
 var media = await downloadAndSaveMediaMessage("image", `./database/storage/Image/${q}.jpeg`)
 gambar.push(q)
 fs.writeFileSync('./database/storage/image.json', JSON.stringify(gambar))
-reply(`Sukses Menambahkan Gambar ${q}\nCek Gambar Ketik ${prefix}listimage`)
+var imgnye = [
+			{ quickReplyButton: { displayText: `Melihat Gambar 🔎`, id: `${prefix}listimg` } }, { urlButton: { displayText: `Instagram`, url : `https://instagram.com/arsrfii` } },]
+		conn.sendMessage(from, {text: `Menambahkan Gambar *${q.toUpperCase()}*\nCek Gambar Pencet Dibawah`, templateButtons: imgnye, footer: `💾`, mentions: [sender]} )
 } else {
   reply(`Reply Gambarnya Dengan Caption ${command} Text`)
 }
@@ -1649,15 +1647,6 @@ case prefix+'husbu':
 				}).catch(() => reply(mess.error.api))
 			    break
 //report
-/*case prefix+'report':
-    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-        if (args.length < 2) return reply(`Kirim perintah ${command} laporan`)
-        reply(`Sukses Kirim Ke Owner, Main² banned!`)
-        for (let i of ownerNumber) {
-            conn.reply(i, `*[ PANGGILAN USER ]*\nMessage nya : ${q}`, msg)
-        }
-        limitAdd(sender, limit)
-        break*/
 case prefix+'join':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
         if (args.length < 2) return reply(`Kirim perintah ${command} Link Grup Kamu`)
@@ -2142,7 +2131,7 @@ case prefix+'tebakkimia':
 				if (!isBotGroupAdmins) return reply(mess.BotAdmin)
 				var url = await conn.groupInviteCode(from).catch(() => reply(mess.error.api))
 			    url = 'https://chat.whatsapp.com/'+url
-				reply(`Link Grup *${groupMetadata.subject}* ` + url)
+				reply(`Link Grup *${groupMetadata.subject}*\n` + url)
 				break
 			case prefix+'setppgrup': case prefix+'setppgc':
 			    if (!isGroup) return reply(mess.OnlyGrup)
@@ -2261,7 +2250,6 @@ case prefix+'antilink':
 case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
-      if (args.length < 2) return reply(`Kirim perintah ${command} Pesan nya yang ingin disampaikan`)
      var mems = []
       var teks = `*[ TAG ALL ]*\nPesan : ${q}\n\n`
       for (let i of groupMembers) {
@@ -2835,8 +2823,11 @@ case prefix+'report':
   case prefix+'lapor':
     case prefix+'chatown':
     if (args.length < 2) return reply(`Silahkan Masukan Laporan nya, Contoh : ${command} Ada Bug Di fitur <fitur>`)
-                reply(`Laporan Telah DibKirimkan Oleh ke Owner, Laporan main² atau palsu akan di banned!`)
+    var salin = [
+      { urlButton: { displayText: `Salin Nomor`, url : `https://www.whatsapp.com/otp/copy/${sender.split("@")[0]}` } },]
+                reply(`Laporan Telah Di Kirimkan Oleh ke Owner, Laporan main² atau palsu akan di banned!`)
 conn.sendMessage(`6281319944917@s.whatsapp.net`, {text: `*[ PANGGILAN USER ]*\n\n*Dari :* @${sender.split("@")[0]}\n*Pesan :* ${q}`, mentions: [sender]}, {quoted: msg})
+conn.sendMessage(from, {text: `Tempat Salinan`, templateButtons: salin, footer: `Tch Nandayo`, mentions: [sender]} )
 break
 case prefix+'gombal':
   case prefix+'gombalan':
