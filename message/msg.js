@@ -2508,8 +2508,7 @@ break
 case prefix+'skyshadow':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   if (!q) return reply(`Masukan Text!\n${command} Arasya`)
-  if (args.length < 7) return reply(`Minimal 5 Huruf!`)
-    reply(mess.wait)
+reply(mess.wait)
 xfar.maker.photooxy(`https://photooxy.com/logo-and-text-effects/shadow-text-effect-in-the-sky-394.html`, q).then ( data => {
 conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]})}).catch(() => reply(mess.error.lv))
 limitAdd(sender, limit)
