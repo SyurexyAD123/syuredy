@@ -67,13 +67,13 @@ const jojoapi = "Syaa"
 const ikiapi = "FuckBitch"
 
 // Setting Donasi
-const gopay = "0882-1329-2687"
-const ovo = "0813-1994-4917"
-const dana = "0813-1994-4917"
-const pulsa = "0813-1994-4917"
-const pulsa2 = "0882-1329-2687"
-const ig = "arsrfii"
-const github = "GetSya"
+const gopay = "0858-0408-1500"
+const ovo = "0858-0408-1500"
+const dana = "0858-0408-1500"
+const pulsa = "0858-0408-1500"
+const pulsa2 = "0858-0408-1500"
+const ig = "-"
+const github = "-"
 
 // Exif
 const Exif = require("../lib/exif")
@@ -150,7 +150,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isCmd = command.startsWith(prefix)
 		const isGroup = msg.key.remoteJid.endsWith('@g.us')
 		const sender = isGroup ? (msg.key.participant ? msg.key.participant : msg.participant) : msg.key.remoteJid
-		const isOwner = ownerNumber == sender ? true : [`${ownerNumber}@s.whatsapp.net`, "6281319944917@s.whatsapp.net", `${own2}`].includes(sender) ? true : false
+		const isOwner = ownerNumber == sender ? true : [`${ownerNumber}`, "6281319944917@s.whatsapp.net", `${own2}`].includes(sender) ? true : false
 		const pushname = msg.pushName
 		const q = chats.slice(command.length + 1, chats.length)
 		const body = chats.startsWith(prefix) ? chats : ''
@@ -394,8 +394,8 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
-			{ urlButton: { displayText: `CHANNEL ${botName.toUpperCase()}`, url : `https://t.me/telejochannel` } },
-			{ urlButton: { displayText: `OWNER BOT`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
+			{ urlButton: { displayText: `GRUP ${botName.toUpperCase()}`, url : gcwa } },
+			{ urlButton: { displayText: `OWNER BOT`, url : `https://wa.me/${ownerNumber[0].split("@")[0]}?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
 			{ quickReplyButton: { displayText: `Daftar Premium`, id: `${prefix}daftarprem` } },
@@ -634,20 +634,17 @@ if (chats.includes(yutu)) {
 		  }
 		}
 		
-if (chats.includes(`Bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
+if (chats.startsWith(`bot`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/sound2.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
-if (chats.includes(`bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
+if (chats.startsWith(`Bot`)){
+ conn.sendMessage(from, { audio: fs.readFileSync('audio/sound2.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 }
-if (chats.startsWith(`tes`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
-if (chats.startsWith(`Tes`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
-if (chats.includes(`@${botNumber.split("@")[0]}`)) {
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+
+if (chats.startsWith(`@6281363484604`)){
+  var baten = `Iya sayang? Ada yang bisa bot bantu`
+ var but = [{buttonId: `#menu`, buttonText: { displayText: "Menu" }, type: 1 }, {buttonId: `#owner`, buttonText: { displayText: "Owner Bot" }, type: 2 }]
+conn.sendMessage(from, { text: baten, buttons: but, footer: `${ucapanWaktu} ${pushname}`, templateButtons: but }, {quoted: msg})
 }
 
 if (chats.startsWith("fetch ")) {
@@ -779,7 +776,7 @@ var teks = `  │
 case prefix+'sewa':
   case prefix+'daftarprem':
     addCountCmd('#sewa', sender, _cmd)
-  var teks = monospace(`[ JOJO - PREMIUM/SEWA ]
+  var teks = monospace(`[ ${botName} - PREMIUM/SEWA ]
 
 Premium : Rp.10.000
 Exp : PERMANENT
@@ -796,7 +793,7 @@ Via :
 - Gopay (088213292687)
 - Dana (081319944917)
 
-~ Tim Jojo
+~ Tim ${botName}
 ${readmore}
 Owner : @${ownerNumber[0].split("@")[0]}`)
 			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(`./media/Jojo2.jpg`), mentions: [ownerNumber[0]]}, {quoted: fake})
@@ -804,8 +801,6 @@ Owner : @${ownerNumber[0].split("@")[0]}`)
 			case prefix+'runtime':
 			    reply(runtime(process.uptime()))
 			    break
-case prefix+'groupjojo':
-  reply(`Group 1\n\${gcwa}\nGroup 2\n\nhttps://chat.whatsapp.com/DqM488U5RvmGpsbTMfDbMv\nCobain Bot Telegram Jojo yuk!\nhttps://t.me/docsjojo_bot?start=help`)
   break
 			case prefix+'speed':
 			  reply("Testing Speed...")
@@ -833,11 +828,11 @@ Haii @${sender.split("@")[0]}, aku adalah *${botName}*, Yang bisa membantu anda 
 ===================
 Thanks To
 - Riyan
+- Galuh
 - Arasya
 - Amel
 - Hardianto
-- Febri
-- KiroFyzu`
+- Febri`
 
 conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [sender, botNumber, ownerNumber[0]]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
 break
@@ -1155,7 +1150,7 @@ reply(`Sukses Menghapus Gambar ${q.toUpperCase()}`)
 			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}tiktokaudio ${q}` } },
 				]
 				reply(mess.wait)
-				conn.sendMessage(from, { caption: `Succes Download Video Tiktok, Thanks For Using JOJO-BOT!`, video: {url: data.nowm}, templateButtons: tidtod, footer: '© Jojo - Bot', mentions: [sender]} )
+				conn.sendMessage(from, { caption: `Succes Download Video Tiktok, Thanks For Using ${botName}`, video: {url: data.nowm}, templateButtons: tidtod, footer: botName, mentions: [sender]} )
 			}).catch(() => reply(mess.error.api))
 			limitAdd(sender, limit)
 			    break
@@ -1284,9 +1279,9 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 			    hxz.igdl(args[1]).then( data => {
 			     for (let i of data.medias) {
 				  if (i.fileType === "mp4") {
-				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using JOJO-BOT!`, video: {url: i.url}, templateButtons: insgram, footer: '© Jojo - Bot', mentions: [sender]} )
+				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.url}, templateButtons: insgram, footer: botName, mentions: [sender]} )
 				  } else if (i.fileType === "jpg") {
-				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using JOJO-BOT!`, image: { url: i.url }}, {quoted: msg})
+				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.url }}, {quoted: msg})
 			      }
 			     }
 				 limitAdd(sender, limit)
@@ -1354,10 +1349,10 @@ case prefix+'dashboard':
 		for (let o of _cmd) {
 			total = total + o.count
 		}
-  var teks = `*[ JOJO DASHBOARD ]*\n\n`
+  var teks = `*[ ${botName} ]*\n\n`
 	teks += `*Seluruh Command*\n`
 		for (let o = 0; o < 10; o ++) {
-			teks += `*-* ${_cmd[o].nama} : ${_cmd[o].count}\n`
+			teks += `*=>* ${_cmd[o].nama} : ${_cmd[o].count}\n`
 		}
 		teks += `\n*Hanya Command Pengguna*\n`
 		for (let x = 0; x < jumlah; x ++) {
@@ -1370,7 +1365,7 @@ case prefix+'bc': case prefix+'broadcast':
 		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
                             var data = await store.chats.all()
                             for (let i of data) {
-                               conn.sendMessage(i.id, { text: `*[ JOJO BROADCAST ]*\n\n${q}` })
+                               conn.sendMessage(i.id, { text: `*[ ${botName} BROADCAST ]*\n\n${q}` })
                                await sleep(1000)
                             }
                             break
@@ -1476,7 +1471,6 @@ case prefix+'tagme':
   case prefix+'tag':
     mentions(`Woy @` + sender.split("@")[0], [sender], msg)
     break
-case prefix+'jo':
   case prefix+'simi':
  var text = `${q}`
 var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${text}&lc=id`)
@@ -1742,7 +1736,7 @@ ${kalahnya2}
 Note : Jika Kamu Mendapatkan Item Yang Sama, Kamu Menang!!!
 Contoh : 🔔 : 🔔 : 🔔`
         var but = [{buttonId: `${command}`, buttonText: { displayText: "Kembali Slot" }, type: 1 }]
-conn.sendMessage(from, { text: slotnya, buttons: but, footer: "© Slot By Arasya\n@arsrfii", templateButtons: but }, {quoted: msg})
+conn.sendMessage(from, { text: slotnya, buttons: but, footer: ":>", templateButtons: but }, {quoted: msg})
 gameAdd(sender, glimit)
         break
 case prefix+'cekme':
@@ -2475,7 +2469,7 @@ case prefix+'realistic':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 var text1 = q.split('|')[0] ? q.split('|')[0] : q
 var text2 = q.split('|')[1] ? q.split('|')[1] : ''
-if (!text1 && !text2) return reply(`Masukan Text, Contoh : ${command} Arasya|Rafi`)
+if (!text1 && !text2) return reply(`Masukan Text, Contoh : ${command} ${botName}|${pushname}`)
 if (!text2) return reply(`Masukan Text Satu Lagi`)
 reply(mess.wait)
 thiccysapi.textpro(`https://textpro.me/create-realistic-vintage-style-light-bulb-1000.html`, [text1,text2]).then ( data => { conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data}, mentions: [sender]}, {quoted: msg})}).catch(() => reply(mess.error.api))
@@ -2484,14 +2478,14 @@ break
 case prefix+'neondevil':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 reply(mess.wait)
-if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+if (args.length < 2) return reply(`Masukan Text!\n${command} ${pushname}`)
 thiccysapi.textpro(`https://textpro.me/create-neon-devil-wings-text-effect-online-free-1014.html`, q).then ( data => { conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data}, mentions: [sender]}, {quoted: msg})}).catch(() => reply(mess.error.api))
 limitAdd(sender, limit)
 break
 case prefix+'blackpink':
   case prefix+'bp':
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-    if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+    if (args.length < 2) return reply(`Masukan Text!\n${command} ${pushname}`)
     reply(mess.wait)
     xfar.maker.textpro(`https://textpro.me/create-neon-light-blackpink-logo-text-effect-online-1081.html`, q).then ( data => {
 conn.sendMessage(from, {caption : `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})}).catch(() => reply(mess.error.lv))
@@ -2499,7 +2493,7 @@ limitAdd(sender, limit)
 break
 case prefix+'glitch':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+  if (args.length < 2) return reply(`Masukan Text!\n${command} ${pushname}`)
     reply(mess.wait)
 xfar.maker.ephoto(`https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html`, q).then ( data => {
 conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]}, {quoted: msg})}).catch(() => reply(mess.error.lv))
@@ -2507,15 +2501,16 @@ limitAdd(sender, limit)
 break
 case prefix+'skyshadow':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  if (!q) return reply(`Masukan Text!\n${command} Arasya`)
-reply(mess.wait)
+  if (!q) return reply(`Masukan Text!\n${command} ${botName}`)
+  if (args.length < 7) return reply(`Minimal 5 Huruf!`)
+    reply(mess.wait)
 xfar.maker.photooxy(`https://photooxy.com/logo-and-text-effects/shadow-text-effect-in-the-sky-394.html`, q).then ( data => {
 conn.sendMessage(from, {caption: `Done @${sender.split("@")[0]}`, image: {url: data.result}, mentions: [sender]})}).catch(() => reply(mess.error.lv))
 limitAdd(sender, limit)
 break
 case prefix+'ttp':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  if (args.length < 2) return reply(`Masukan Text!\n${command} Arasya`)
+  if (args.length < 2) return reply(`Masukan Text!\n${command} ${botName}`)
     reply(mess.wait)
 xfar.maker.ttp(q).then ( data => { 
 conn.sendMessage(from, {caption: `Text To Png`, image: {url: data.result}}, {quoted: msg})}).catch(() => reply(mess.error.lv))
@@ -2671,7 +2666,7 @@ case prefix+'readmore':
 case prefix+'qrcode':
   case prefix+'qr':
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-    if (args.length < 2) return reply(`Kirim perintah ${command} Text\nContoh : ${command} Jojo bot`)
+    if (args.length < 2) return reply(`Kirim perintah ${command} Text\nContoh : ${command} ${botName}`)
     reply(`Membuat Qr Code`)
     conn.sendMessage(from, {caption: `*QR CODE*`, image: {url: `https://docs-jojo.herokuapp.com/api/qrcode?text=${q}`}}, {quoted: msg})
     limitAdd(sender, limit)
@@ -2698,7 +2693,7 @@ case prefix+'faktaunik':
 var caption = `Tahukah kamu?
 ${data.result}`
 var but = [{buttonId: `${command}`, buttonText: { displayText: "Fakta Unik" }, type: 1 }]
-conn.sendMessage(from, { text: caption, buttons: but, footer: "© Jojo Bot", templateButtons: but }, {quoted: msg})
+conn.sendMessage(from, { text: caption, buttons: but, footer: botName, templateButtons: but }, {quoted: msg})
 limitAdd(sender, limit)
 break
 /*case prefix+'react':
@@ -2825,7 +2820,7 @@ case prefix+'textchat':
   var nomorcuy = q.split('|')[0] ? q.split('|')[0] : q
                 var okecuy = q.split('|')[1] ? q.split('|')[1] : ''
                 reply(`Pesan Sukses Terkirim`)
-conn.sendMessage(`${nomorcuy}@s.whatsapp.net`, {text: `*[ DARI OWNER ]*\nPesan Dari Owner : *${okecuy}*\nThanks For Using JOJO-BOT!`, mentions: [sender]})
+conn.sendMessage(`${nomorcuy}@s.whatsapp.net`, {text: `*[ DARI OWNER ]*\nPesan Dari Owner : *${okecuy}*\nThanks For Using ${botName}!`, mentions: [sender]})
 break
 case prefix+'lirik':
   if (args.length < 2) return reply(`kirim Perintah ${command} Judul Lagu`)
@@ -2864,7 +2859,7 @@ case prefix+'sendvirus':
   reply(`succes mengirim virus ke nomer ${q}`)
   break
 case prefix+'kontak':
-  if (args.length < 2) return reply(`kirim Perintah ${command} Nomer Kontak|Nama Kontak\nContoh ${command} 62882938293|Jojo`)
+  if (args.length < 2) return reply(`kirim Perintah ${command} Nomer Kontak|Nama Kontak\nContoh ${command} 62882938293|${pushname}`)
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   var nom = q.split('|')[0] ? q.split('|')[0] : q
                 var or = q.split('|')[1] ? q.split('|')[1] : ''
