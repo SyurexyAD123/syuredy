@@ -110,6 +110,7 @@ ${readmore}
 ≻ ${prefix}blackpink <Text>
 ≻ ${prefix}ttp <Text>
 ≻ ${prefix}memegen <Text1>|<Text2>
+≻ ${prefix}bajingan <Text>
   
 *( 🪀 )  Menu Lain Nya*
 ≻ ${prefix}shortlink <Link>
