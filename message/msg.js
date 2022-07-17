@@ -1485,16 +1485,16 @@ if ( isQuotedImage ) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
 var njay = await imgbb(imgbbapi, media)
 var pea = await getBuffer(`https://api.memegen.link/images/custom/${sya}/${rfi}.png?background=${njay.display_url}`)
-conn.sendMessage(from, {caption: `Sukses Membuat Fitur Meme Generator!\n@${sender.split("@")[0]} Follow My Instagram : @arsrfii`, image: pea, mentions: [sender]}, {quoted, msg})}
+conn.sendMessage(from, {caption: `Sukses Membuat Fitur Meme Generator!\n@${sender.split("@")[0]} Follow My Instagram : @arsrfii`, image: pea, mentions: [sender]}, {quoted: msg})}
 limitAdd(sender, limit)
 break
 case prefix+'bajingan':
 case prefix+'bajinganlu':
 if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-if (!q)return reply( `Mana textnya?\nContoh : ${command} Setan`)
+if (!q)return reply( `Mana textnya?\nContoh : ${command} ${pushname}`)
 reply(mess.wait)
 var pea = await getBuffer(`https://api.memegen.link/images/custom/Bajingan_Lu/${q}.png?background=https://telegra.ph/file/d608ec3cb57ff6b9ac708.jpg`)
-conn.sendMessage(from, {caption: `Sukses Membuat Fitur Bajingan\n@${sender.split("@")[0]} Follow My Instagram : @arsrfii`, image: pea, mentions: [sender]}, {quoted, msg})
+conn.sendMessage(from, {caption: `Sukses Membuat Fitur Bajingan\n@${sender.split("@")[0]} Follow My Instagram : @arsrfii`, image: pea, mentions: [sender]}, {quoted: msg})
 limitAdd(sender, limit)
 break
 case prefix+'imgbb':
@@ -1503,7 +1503,7 @@ if (!isQuotedImage)return reply(`Reply Imagenya!`)
 if ( isQuotedImage && isImage ) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
 var njay = await imgbb(imgbbapi, media)
-reply(`Sukses!!\nLink : ${njay.display_url}`)}
+reply(`_Sukses Membuat Link Image Bb_!\n*Link :* ${njay.display_url}`)}
 break
 case prefix+'tagme':
   case prefix+'tag':
