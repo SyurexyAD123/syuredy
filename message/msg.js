@@ -50,6 +50,7 @@ const axios = require("axios");
 const hikki = require("hikki-me");
 const hxz = require("hxz-api");
 const igApi = require("insta-fetcher");
+const imgbb = require("imgbb-uploader");
 const ra = require("ra-api");
 const thiccysapi = require("textmaker-lasi");
 const kotz = require("kotz-api");
@@ -937,7 +938,7 @@ case prefix+'addresp':
 var pesan = q.split('|')[0] ? q.split('|')[0] : q
 var balas = q.split('|')[1] ? q.split('|')[1] : ''
 if (checkCommands(pesan, commandsDB) === true) return reply(`Udah ada`)
-addCommands(pesan, balas, sender, commandsDB)
+nds(pesan, balas, sender, commandsDB)
 reply(`Pesan : ${pesan}\nBalas : ${balas}\nSuskes Di Tambahankan!`)
 break
 case prefix+'delrespon':
@@ -1474,6 +1475,30 @@ if (!txt2) return reply(`Masukan Text 1 Lagi!`)
 if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
 var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}\n*Api :* https://api.whatsapp.com/send?phone=${txt1}`
 conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
+break
+case prefix+'memeg':
+case prefix+'memegen':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+if (!isQuotedImage)return reply(`Reply Imagenya!`)
+var sya = q.split('|')[0] ? q.split('|')[0] : q
+var rfi = q.split('|')[1] ? q.split('|')[1] : ''
+if (!q)return reply( `Mana textnya?\nContoh : ${command} Jojo|Bot`)
+if (!rfi)return reply(`Masukan Text Kedua\nContoh : ${command} ${pushname}|${botName}`)
+reply(mess.wait)
+if ( isQuotedImage ) {
+var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
+var njay = await imgbb('f7cd522752481ff1d53af32f10ee552e', media)
+var pea = await getBuffer(`https://api.memegen.link/images/custom/${sya}/${rfi}.png?background=${njay.display_url}`)
+conn.sendMessage(from, {caption: `Done ${pushname}`, image: pea}, {quoted, msg})}
+limitAdd(sender, limit)
+break
+case prefix+'imgbb':
+case prefix+'tourl':
+if (!isQuotedImage)return reply(`Reply Imagenya!`)
+if ( isQuotedImage ) {
+var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
+var njay = await imgbb('f7cd522752481ff1d53af32f10ee552e', media)
+reply(`Sukses!!\nLink : ${njay.display_url}`)}
 break
 case prefix+'tagme':
   case prefix+'tag':
