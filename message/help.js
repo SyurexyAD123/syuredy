@@ -109,6 +109,7 @@ ${readmore}
 ≻ ${prefix}skyshadow <Text>
 ≻ ${prefix}blackpink <Text>
 ≻ ${prefix}ttp <Text>
+≻ ${prefix}memegen <Text1>|<Text2>
   
 *( 🪀 )  Menu Lain Nya*
 ≻ ${prefix}shortlink <Link>
@@ -128,6 +129,7 @@ ${readmore}
 ≻ ${prefix}grupwa <Pencarian>
 ≻ ${prefix}ytsearch <Pencarian>
 ≻ ${prefix}pinterest <Querry>
+> ${prefix}tourl
   
 *( 🅰️ )  Edit Vokal*
 ≻ ${prefix}halah

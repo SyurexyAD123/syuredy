@@ -60,12 +60,10 @@ const request = require("request");
 const ms = require("parse-ms");
 
 //Apikey melcanz, Search aja melcanz.com
-//Apikey Anto = hardianto
 //Apikey jojo = Syaa
 const apikey = "melcantik"
-const keyanto = "hardianto"
 const jojoapi = "Syaa"
-const ikiapi = "FuckBitch"
+const imgbbapi = "f7cd522752481ff1d53af32f10ee552e"
 
 // Setting Donasi
 const gopay = "0882-1329-2687"
@@ -1152,14 +1150,13 @@ reply(`Sukses Menghapus Gambar ${q.toUpperCase()}`)
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
-			    const link = `${q}`
-				hxz.ttdownloader(link).then( data => {
+				xfar.downloader.tiktok(q).then( data => {
 					var tidtod = [
 						{ urlButton: { displayText: `Link`, url : `${q}` } },
 			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}tiktokaudio ${q}` } },
 				]
 				reply(mess.wait)
-				conn.sendMessage(from, { caption: `Succes Download Video Tiktok, Thanks For Using ${botName}`, video: {url: data.nowm}, templateButtons: tidtod, footer: botName, mentions: [sender]} )
+				conn.sendMessage(from, { caption: `Succes Download Video Tiktok, Thanks For Using ${botName}`, video: {url: data.media[1].url}, templateButtons: tidtod, footer: botName, mentions: [sender]} )
 			}).catch(() => reply(mess.error.api))
 			limitAdd(sender, limit)
 			    break
@@ -1170,8 +1167,8 @@ reply(`Sukses Menghapus Gambar ${q.toUpperCase()}`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('tiktok')) return reply(mess.error.Iv)
 			    reply(mess.wait)
-			    hxz.ttdownloader(args[1]).then( data => {
-			      conn.sendMessage(from, { audio: { url: data.nowm }, mimetype: 'audio/mp4' }, { quoted: msg })
+			    xfar.downloader.tiktok(args[1]).then( data => {
+			      conn.sendMessage(from, { audio: { url: data.media[1].url }, mimetype: 'audio/mp4' }, { quoted: msg })
 			       limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 		        break
@@ -1483,11 +1480,10 @@ if (!isQuotedImage)return reply(`Reply Imagenya!`)
 var sya = q.split('|')[0] ? q.split('|')[0] : q
 var rfi = q.split('|')[1] ? q.split('|')[1] : ''
 if (!q)return reply( `Mana textnya?\nContoh : ${command} Jojo|Bot`)
-if (!rfi)return reply(`Masukan Text Kedua\nContoh : ${command} ${pushname}|${botName}`)
 reply(mess.wait)
 if ( isQuotedImage ) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
-var njay = await imgbb('f7cd522752481ff1d53af32f10ee552e', media)
+var njay = await imgbb(imgbbapi, media)
 var pea = await getBuffer(`https://api.memegen.link/images/custom/${sya}/${rfi}.png?background=${njay.display_url}`)
 conn.sendMessage(from, {caption: `Done ${pushname}`, image: pea}, {quoted, msg})}
 limitAdd(sender, limit)
@@ -1497,7 +1493,7 @@ case prefix+'tourl':
 if (!isQuotedImage)return reply(`Reply Imagenya!`)
 if ( isQuotedImage ) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
-var njay = await imgbb('f7cd522752481ff1d53af32f10ee552e', media)
+var njay = await imgbb(imgbbapi, media)
 reply(`Sukses!!\nLink : ${njay.display_url}`)}
 break
 case prefix+'tagme':
