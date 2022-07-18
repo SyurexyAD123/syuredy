@@ -1500,7 +1500,7 @@ break
 case prefix+'imgbb':
 case prefix+'tourl':
 if (!isQuotedImage)return reply(`Reply Imagenya!`)
-if ( isQuotedImage && isImage ) {
+if ( isQuotedImage ) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
 var njay = await imgbb(imgbbapi, media)
 reply(`_Sukses Membuat Link Image Bb_!\n*Link :* ${njay.display_url}`)}
