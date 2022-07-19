@@ -100,6 +100,7 @@ let prefa = '#'
 // Mode
 let mode = 'public'
 let own2 = '6281319944917@s.whatsapp.net'
+let autoyt = true
 
 // Type Menu
 let typemenu = 'buttons5'
@@ -472,6 +473,7 @@ module.exports = async(conn, msg, m, setting, store) => {
         
 
 // Auto Youtube Downloader
+if (autoyt) {
 let yutu = `https://youtu${chats.slice(13)}`
 if (!isGroup){
 if (chats.includes(yutu)) {
@@ -487,6 +489,7 @@ if (chats.includes(yutu)) {
               conn.sendMessage(sender, { text: caption, buttons: but, footer: "Silahkan Pilih Untuk mengubah Tipe Audio", templateButtons: but }, {quoted: fvideo})
 					  })
             }
+}
 }
 
         // Game
@@ -926,7 +929,7 @@ case prefix+'self':
                 if (!isOwner && !fromMe) return reply(mess.OnlyOwner)
                 if (args.length < 2) return reply(`Kirim perintah ${command} Nomor\nExample : ${command} 6288213292687`)
                 var text = args[1] + '@s.whatsapp.net'
-                if (isNaN(text)) return reply(`Harus Pake Nomer Coeg`)
+                
                 own2 = text
                  mentions(`Sukses Mengganti Nomor Owner Ke Nomor : @${text.split("@")[0]}`, [text])
                 break
@@ -1469,7 +1472,7 @@ var txt1 = q.split('|')[0] ? q.split('|')[0] : q
 var txt2 = q.split('|')[1] ? q.split('|')[1] : ''
 if (!txt1) return reply(`Masukan Text\nContoh ${command} 6288213292687|Hai`)
 if (!txt2) return reply(`Masukan Text 1 Lagi!`)
-if (isNaN(txt1)) return reply(`Harus Pake Nomer Coeg`)
+
 var cpt = `Sukses Bro @${sender.split("@")[0]}!\n\n*Nomer :* ${txt1}\n*Result :* https://wa.me/${txt1.replace(/[+|-| ]/gi, '')}?text=${txt2.replace(/[ |_|-|+]/gi, "+")}\n*Api :* https://api.whatsapp.com/send?phone=${txt1}`
 conn.sendMessage(from, {text: cpt, mentions: [sender]}, {quoted: fake})
 break
@@ -1628,7 +1631,7 @@ case prefix+'husbu':
 				    limitAdd(sender, limit)
 				  } else {
 					var but = [{buttonId: `/pinterest ${q}`, buttonText: { displayText: 'Next Photo ➡️' }, type: 1 }]
-					conn.sendMessage(from, { caption: `Hasil pencarian dari ${q}\nResult : ${data.result}`, image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
+					conn.sendMessage(from, { caption: `Hasil pencarian dari ${q}`, image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: msg })
 				    limitAdd(sender, limit)
 				  }
 				})
@@ -2263,7 +2266,7 @@ case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
      var mems = []
-      var teks = `*[ TAG ALL ]*\nPesan : ${q}\n\n`
+      var teks = `*[ TAG ALL ]*\nPesan : ${q !== undefined ? q : `Pesan Tidak Ada`}\n\n`
       for (let i of groupMembers) {
         teks += `≻ @${i.id.split("@")[0]}\n`
         mems.push(i.id)
@@ -2283,6 +2286,7 @@ case prefix+'listadmin':
       break
 case prefix+'promote':
   case prefix+'admin':
+    case prefix+'pm':
     if (!isGroup) return reply(mess.OnlyGrup)
     if (!isGroupAdmins) return reply(mess.GrupAdmin)
     if (!isBotGroupAdmins) return reply(mess.BotAdmin)
@@ -2301,6 +2305,7 @@ case prefix+'promote':
       reply(`Tag atau balas pesan member yang ingin dijadikan admin grup`)
     }
     break
+
 case prefix+'demote':
   case prefix+'unadmin':
     if (!isGroup) return reply(mess.OnlyGrup)
@@ -2404,7 +2409,7 @@ case prefix+'add':
                  if (anu < args[2] || anu == 'undefined') return reply(`Balance Kamu Tidak Mencukupi Untuk Transfer Sebesar $${args[2]}, Kumpulkan Terlebih Dahulu\nKetik ${prefix}balance, untuk mengecek Balance mu!`)
                  kurangBalance(sender, parseInt(args[2]), balance)
                  addBalance(mentioned[0], parseInt(args[2]), balance)
-                 reply(`Sukses transfer balance sebesar $${args[2]} kepada @${mentioned[0].split("@")[0]}`)
+                 mentions(`Sukses transfer balance sebesar $${args[2]} kepada @${mentioned[0].split("@")[0]}`, [mentioned[0]])
             }
                  break
             case prefix+'buygamelimit':
