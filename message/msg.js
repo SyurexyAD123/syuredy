@@ -26,7 +26,6 @@ const { y2mateA, y2mateV } = require('../lib/y2mate')
 const { upload, formatDate } = require("../lib/uploads");
 const { pinterest } = require("../lib/pinterest")
 const { darkjokes } = require("../lib/darkjokes")
-const { igstalk } = require("../lib/igstalk")
 const { lirikLagu } =require("../lib/lirik.js")
 const { igstory } = require("../lib/igstory")
 const { ephoto } = require("../lib/ephoto")
@@ -49,7 +48,7 @@ const xfar = require('xfarr-api');
 const axios = require("axios");
 const hikki = require("hikki-me");
 const hxz = require("hxz-api");
-const igApi = require("insta-fetcher");
+const igApi = require("@phaticusthiccy/open-apis");
 const brainly = require("brainly-scraper");
 const imgbb = require("imgbb-uploader");
 const ra = require("ra-api");
@@ -1278,6 +1277,15 @@ limitAdd(sender, limit)
 			      limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break
+case prefix+'igstalk':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+if (!q)return reply(`Kirim Perintah ${command} Username mu`)
+reply(`Mengambil Data ${q}`)
+igApi.insta_profile(args[1]).then ( data => {
+var caption = `*_INSTAGRAM DOWNLOADER_*\n\n➠ *Username :* @${q}\n➠ *Postingan :* ${data.post_count}\n➠ *Followers :* ${data.followers}\n➠ *Following :* ${data.following}\n➠ *Bio :* ${data.bio}\n➠ *Terakhir Posting :* ${data.avarage_post_time}`
+conn.sendMessage(from, {caption: caption, image: {url: data.profile_pic}}, {quoted: msg})}).catch(() => reply(`Akun Tersebut Di Privat Atau Username Gak Valid!`))
+limitAdd(sender, limit)
+  break
 case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 				if (args.length < 2) return reply(`Kirim perintah ${command} link`)
