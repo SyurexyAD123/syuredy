@@ -29,7 +29,6 @@ const { darkjokes } = require("../lib/darkjokes")
 const { igstalk } = require("../lib/igstalk")
 const { lirikLagu } =require("../lib/lirik.js")
 const { igstory } = require("../lib/igstory")
-const { mediafire } = require("../lib/mediafire")
 const { ephoto } = require("../lib/ephoto")
 const { igDownloader } = require("../lib/igdown")
 const { wikiSearch } = require("../lib/wiki")
@@ -43,6 +42,7 @@ const _prem = require("../lib/premium");
 const fs = require ("fs");
 const moment = require("moment-timezone");
 const util = require("util");
+const w5botapi = require("w5-textmaker");
 const { exec, spawn } = require("child_process");
 const ffmpeg = require("fluent-ffmpeg");
 const xfar = require('xfarr-api');
@@ -50,6 +50,7 @@ const axios = require("axios");
 const hikki = require("hikki-me");
 const hxz = require("hxz-api");
 const igApi = require("insta-fetcher");
+const brainly = require("brainly-scraper");
 const imgbb = require("imgbb-uploader");
 const ra = require("ra-api");
 const thiccysapi = require("textmaker-lasi");
@@ -1181,9 +1182,11 @@ reply(`Sukses Menghapus Gambar ${q.toUpperCase()}`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('mediafire')) return reply(mess.error.Iv)
-			    reply(mess.wait)
-					var data = await fetchJson(`https://docs-jojo.herokuapp.com/api/mediafire?url=${q}`)
-					conn.sendMessage(from, { document: { url: data.url }, fileName: `${data.filename}`, mimetype: 'zip' }, { quoted: msg })
+					 w5botapi.mediafire(args[1]).then ( data => {
+					   var text = monospace(`Name File : ${data[0].name}\nFormat File : ${data[0].mime}\nSize : ${data[0].size}\n\nTunggu Sebentar File Akan Segera Dikirim!`)
+					   reply(text)
+					   conn.sendMessage(from, {document: {url: data[0].link}, fileName: data[0].name, mimetype: `${data[0].mime}`}, {quoted: msg})
+					 })
 					limitAdd(sender, limit)
 					break
             case prefix+'play':
@@ -1285,8 +1288,8 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 						{ urlButton: { displayText: `Link`, url : `${q}` } },
 			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}igmp3 ${q}` } },
 				]
-			    hxz.igdl(args[1]).then( data => {
-			     for (let i of data.medias) {
+			    w5botapi.instagram(args[1]).then( data => {
+			     for (let i of data) {
 				  if (i.fileType === "mp4") {
 				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.url}, templateButtons: insgram, footer: botName, mentions: [sender]} )
 				  } else if (i.fileType === "jpg") {
@@ -1304,8 +1307,8 @@ case prefix+'igdlaudio':
 				if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('instagram.com')) return reply(mess.error.Iv)
-        hxz.igdl(args[1]).then( data => {
-          conn.sendMessage(from, {audio: {url: data.medias[0].url}, mimetype: 'audio/mp4'}, {quoted: msg})
+        w5botapi.instagram(args[1]).then( data => {
+          conn.sendMessage(from, {audio: {url: data[0].url}, mimetype: 'audio/mp4'}, {quoted: msg})
         }).catch(() => reply(mess.error.api))
         limitAdd(sender, limit)
         break
