@@ -131,6 +131,7 @@ ${readmore}
 ≻ ${prefix}ytsearch <Pencarian>
 ≻ ${prefix}pinterest <Querry>
 > ${prefix}tourl
+≻ ${prefix}igstalk <Username>
   
 *( 🅰️ )  Edit Vokal*
 ≻ ${prefix}halah
