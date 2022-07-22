@@ -401,9 +401,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 			{ urlButton: { displayText: `OWNER BOT`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
-			{ quickReplyButton: { displayText: `Daftar Premium`, id: `${prefix}daftarprem` } },
+			{ quickReplyButton: { displayText: `Rate Bot ⭐`, id: `${prefix}getrating` } },
 		]
-		const buttonsDefa = [{buttonId: `/info`, buttonText: { displayText: "⋮☰ Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }]
+		const buttonsDefa = [{buttonId: `/info`, buttonText: { displayText: "⋮☰ Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }, {buttonId: `/getrating`, buttonText: { displayText: "☰  Rate Bot" }, type: 2 }]
 		
         
 		const isImage = (type == 'imageMessage')
@@ -973,6 +973,26 @@ teks += `❏ *Tanya:* ${commandsDB[i].pesan}\n`
 teks += `❏ *Balasan:* ${commandsDB[i].balasan}\n\n`
 }
 reply(teks)
+break
+case prefix+'getrate1-25':
+reply(`Makasih Udah Memberi Rating Pada Bot ^_^`)
+var caption = `${ucapanWaktu} ${ownerName} 👋\n\nNama Pengirim : *${pushname}*\nNomor Rating : *1 - 25 ⭐*\nNomor Pengirim : @${sender.split("@")[0]}\nTanggal : *${moment.tz('Asia/Jakarta').format('DD/MM/YY')}*\nWaktu : *${moment.tz('Asia/Jakarta').format('HH:mm:ss')}* WIB\nPesan Dari Bot : Tingkatkan Lebih Baik Lagi`
+conn.profilePictureUrl(sender, 'image').then( res => conn.sendMessage(ownerNumber[0], { caption: caption, image: { url: res }, mentions: [sender]}, {quoted: fake})).catch(() => conn.sendMessage(ownerNumber[0], {caption: caption, image: fs.readFileSync('./media/profile/1.jpg'), mentions: [sender]}, {quoted: fake}))
+break
+case prefix+'getrate25-60':
+reply(`Makasih Udah Memberi Rating Pada Bot ^_^`)
+var caption = `${ucapanWaktu} ${ownerName} 👋\n\nNama Pengirim : *${pushname}*\nNomor Rating : *25 - 60 ⭐⭐*\nNomor Pengirim : @${sender.split("@")[0]}\nTanggal : *${moment.tz('Asia/Jakarta').format('DD/MM/YY')}*\nWaktu : *${moment.tz('Asia/Jakarta').format('HH:mm:ss')} WIB*\nPesan Dari Bot : mungkin mau Lebih Baik Lagi`
+conn.profilePictureUrl(sender, 'image').then( res => conn.sendMessage(ownerNumber[0], { caption: caption, image: { url: res }, mentions: [sender]}, {quoted: fake})).catch(() => conn.sendMessage(ownerNumber[0], {caption: caption, image: fs.readFileSync('./media/profile/1.jpg'), mentions: [sender]}, {quoted: fake}))
+break
+case prefix+'getrate60-100':
+reply(`Makasih Udah Memberi Rating Pada Bot ^_^`)
+var caption = `${ucapanWaktu} ${ownerName} 👋\n\nNama Pengirim : *${pushname}*\nNomor Rating : *60 - 100 ⭐⭐⭐*\nNomor Pengirim : @${sender.split("@")[0]}\nTanggal : *${moment.tz('Asia/Jakarta').format('DD/MM/YY')}*\nWaktu : *${moment.tz('Asia/Jakarta').format('HH:mm:ss')} WIB*\nPesan Dari Bot : Sudah Pas, Ayo Semangat`
+conn.profilePictureUrl(sender, 'image').then( res => conn.sendMessage(ownerNumber[0], { caption: caption, image: { url: res }, mentions: [sender]}, {quoted: fake})).catch(() => conn.sendMessage(ownerNumber[0], {caption: caption, image: fs.readFileSync('./media/profile/1.jpg'), mentions: [sender]}, {quoted: fake}))
+break
+case prefix+'getrating':
+var caption = `Hallo ${pushname}\n\nBantu Rating Bot Yukk!!, dengan cara menekan Tombol Berikut, Pilih Salah satu yaaa terima kasii`
+const buttonsDefa = [{buttonId: `/getrate1-25`, buttonText: { displayText: "Rating 1 - 25 ⭐" }, type: 1 }, {buttonId: `/getrate25-60`, buttonText: { displayText: "Rating 25 - 60 ⭐⭐" }, type: 2 }, {buttonId: `/getrate60-100`, buttonText: { displayText: "Rating 60 - 100 ⭐⭐⭐" }, type: 2 }]
+conn.sendMessage(from, { caption: caption, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: botName, mentions: [sender]}, { quoted: msg })
 break
 case prefix+'mute':
 if (!isGroup) return reply(mess.OnlyGrup)
@@ -2880,7 +2900,8 @@ case prefix+'report':
     case prefix+'chatown':
     if (args.length < 2) return reply(`Silahkan Masukan Laporan nya, Contoh : ${command} Ada Bug Di fitur <fitur>`)
     var salin = [
-      { urlButton: { displayText: `Salin Nomor`, url : `https://www.whatsapp.com/otp/copy/${sender.split("@")[0]}` } },]
+      { urlButton: { displayText: `Salin Nomor`, url : `https://www.whatsapp.com/otp/copy/${sender.split("@")[0]}`}},
+            { urlButton: { displayText: `Salin Laporan`, url : `https://www.whatsapp.com/otp/copy/${q}`}}]
                 reply(`Laporan Telah Di Kirimkan Oleh ke Owner, Laporan main² atau palsu akan di banned!`)
 conn.sendMessage(ownerNumber[0], {text: `*[ PANGGILAN USER ]*\n\n*Dari :* @${sender.split("@")[0]}\n*Pesan :* ${q}`, mentions: [sender]}, {quoted: msg})
 conn.sendMessage(ownerNumber[0], {text: `Tempat Salinan`, templateButtons: salin, footer: botName, mentions: [sender]} )
