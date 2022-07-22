@@ -1192,7 +1192,6 @@ reply(`Sukses Menghapus Gambar ${q.toUpperCase()}`)
 				}).catch(() => reply(mess.error.api))
 		        break
 				case prefix+'mediafire':
-				  if (!isPremium)return reply(mess.OnlyPrem)
 					if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
