@@ -6,9 +6,9 @@
   "pathimg": "./media/Jojo2.jpg",
   "gcwa": "https://chat.whatsapp.com/BZErDUmOde44LmufXO4Wda",
   "gamewaktu": 50,
-  "limitCount": 20,
+  "limitCount": 25,
   "gcount": {
 	"prem": 100000000000,
-	"user": 30
+	"user": 20
   }
 }
