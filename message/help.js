@@ -85,13 +85,7 @@ ${readmore}
 ≻ ${prefix}yaoi
   
 *( ⚠️ )  Premium User*
-≻ ${prefix}asupan
-≻ ${prefix}xnxx link
-≻ ${prefix}ahegao
-≻ ${prefix}bloewjob
-≻ ${prefix}hentai
-≻ ${prefix}masturbation
-≻ ${prefix}pussy
+≻ ${prefix}menu-premium
 
 *( 💾 )  Storage Menu*
 ≻ ${prefix}addimage <Text>
@@ -132,6 +126,7 @@ ${readmore}
 ≻ ${prefix}pinterest <Querry>
 > ${prefix}tourl
 ≻ ${prefix}igstalk <Username>
+≻ ${prefix}film <Pencarian>
   
 *( 🅰️ )  Edit Vokal*
 ≻ ${prefix}halah

@@ -48,7 +48,7 @@ const xfar = require('xfarr-api');
 const axios = require("axios");
 const hikki = require("hikki-me");
 const hxz = require("hxz-api");
-const igApi = require("@phaticusthiccy/open-apis");
+const SyaApi = require("@phaticusthiccy/open-apis");
 const brainly = require("brainly-scraper");
 const imgbb = require("imgbb-uploader");
 const ra = require("ra-api");
@@ -757,6 +757,22 @@ case prefix+'getmenu':
   reply(`Sukses Mengubah Menu Menjadi ${q}`)
   }
   break
+case prefix+'menu-premium':
+  case prefix+'premiummenu':
+    case prefix+'menupremium':
+      if (!isPremium)return reply(mess.OnlyPrem)
+      var menunya = `*( ⚠️ )  Premium User*
+
+≻ ${prefix}asupan
+≻ ${prefix}xnxx link
+≻ ${prefix}ahegao
+≻ ${prefix}bloewjob
+≻ ${prefix}hentai
+≻ ${prefix}masturbation
+≻ ${prefix}pussy`
+var but = [{buttonId: `${prefix}menu`, buttonText: { displayText: "Kembali Ke Menu" }, type: 1 }]
+conn.sendMessage(from, { text: menunya, buttons: but, footer: botName, templateButtons: but }, {quoted: fake})
+  break
 case prefix+'delete':
   case prefix+'d':
     case prefix+'del':
@@ -1205,9 +1221,9 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    addCountCmd('#ytmp4', sender, _cmd)
 			    reply(mess.wait)
 			    y2mateV(args[1]).then ( data => {
-			      conn.sendMessage(from, {caption: monospace(data[0].judul).toUpperCase(), video: {url: data[0].link}}, {quoted: msg})
+			      conn.sendMessage(from, {document: {url: data[0].link}, fileName: data[0].judul, mimetype: 'video/mp4'}, {quoted: msg})
 			    }).catch(() => xfar.downloader.youtube(args[1]).then ( data => {
-					    conn.sendMessage(from, {video: {url: data.download_url}, caption: monospace(data.title).toUpperCase()}, {quoted: msg})
+					    conn.sendMessage(from, {document: {url: data.download_url}, fileName: data.title, mimetype: 'video/mp4'}, {quoted: msg})
 					  }))
 			    break
 				///SCRAPER YTMP3 BY ARASYA RAFI	
@@ -1281,8 +1297,8 @@ case prefix+'igstalk':
 if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 if (!q)return reply(`Kirim Perintah ${command} Username mu`)
 reply(`Mengambil Data ${q}`)
-igApi.insta_profile(args[1]).then ( data => {
-var caption = `*_INSTAGRAM DOWNLOADER_*\n\n➠ *Username :* @${q}\n➠ *Postingan :* ${data.post_count}\n➠ *Followers :* ${data.followers}\n➠ *Following :* ${data.following}\n➠ *Bio :* ${data.bio}\n➠ *Terakhir Posting :* ${data.avarage_post_time}`
+SyaApi.insta_profile(args[1]).then ( data => {
+var caption = `*_INSTAGRAM STALKER_*\n\n➠ *Username :* @${q}\n➠ *Postingan :* ${data.post_count}\n➠ *Followers :* ${data.followers}\n➠ *Following :* ${data.following}\n➠ *Bio :* ${data.bio}\n➠ *Terakhir Posting :* ${data.avarage_post_time}`
 conn.sendMessage(from, {caption: caption, image: {url: data.profile_pic}}, {quoted: msg})}).catch(() => reply(`Akun Tersebut Di Privat Atau Username Gak Valid!`))
 limitAdd(sender, limit)
   break
@@ -1869,8 +1885,8 @@ limitAdd(sender, limit)
 case prefix+'rate':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 				if (!q) return reply(`Penggunaan ${command} text\n\nContoh : ${command} Gambar aku`)
-					const ra = ['5', '10', '15' ,'20', '25','30','35','40','45','50','55','60','65','70','75','80','85','90','100']
-					const te = ra[Math.floor(Math.random() * ra.length)]
+					var raa = ['5', '10', '15' ,'20', '25','30','35','40','45','50','55','60','65','70','75','80','85','90','100']
+					const te = raa[Math.floor(Math.random() * raa.length)]
 conn.sendMessage(from, { text: `Rate : ${q}\nJawaban : *${te}%*` }, { quoted: msg })
 limitAdd(sender, limit)
 					break
@@ -2734,12 +2750,22 @@ case prefix+'cersex':
   limitAdd(sender, limit)
   break
 case prefix+'cerpen':
+  case prefix+'randomcerpen':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-  var data = await fetchJson(`https://docs-jojo.herokuapp.com/api/cerpen`)
-  var text = `*[ CERPEN ]*\n\n*Judul* : ${data.result.title}\n*Kategori* : ${data.result.kategori}\n*Cerritanya* : ${data.result.cerpen}`
-  conn.sendMessage(from, {text: text}, {quoted: msg})
+  ra.RandomCerpen().then ( data => {
+    var capt = `*[ CERPEN ]*\n*Judul :* ` + monospace(data.data.judul) + `\n*Cerita :* ${data.data.cerita}`
+reply(capt)}).catch(() => reply(mess.error.api))
   limitAdd(sender, limit)
   break
+case prefix+'searchfilm':
+  case prefix+'film':
+    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+    ra.SearchFilm(q).then ( data => {
+      reply(`Mencari Film ${q}`)
+      conn.sendMessage(from, {caption: `*[ SEARCH FILM ]*\nNama Film : ${q}\nLink Nonton : ${data[0].link}\nQuality : ${data[0].quality}`, image: {url: data[0].thumb}}, {quoted: msg})
+    }).catch(() => reply(`Film ${q} Tidak Ditemukan`))
+    limitAdd(sender, limit)
+break
 case prefix+'faktaunik':
   case prefix+'faktamenarik':
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
