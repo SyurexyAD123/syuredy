@@ -9,6 +9,9 @@
 const {
 	default: makeWASocket,
 	BufferJSON,
+	WA_DEFAULT_EPHEMERAL,
+	generateWAMessageFromContent,
+	proto,
 	initInMemoryKeyStore,
 	DisconnectReason,
 	AnyMessageContent,
@@ -23,7 +26,7 @@ const chalk = require('chalk')
 const logg = require('pino')
 const clui = require('clui')
 const { Spinner } = clui
-const { serialize } = require("./lib/myfunc");
+const { getBuffer, serialize} = require("./lib/myfunc");
 const { color, mylog, infolog } = require("./lib/color");
 const time = moment(new Date()).format('HH:mm:ss DD/MM/YYYY')
 let setting = JSON.parse(fs.readFileSync('./config.json'));
@@ -116,8 +119,7 @@ const connectToWhatsApp = async () => {
 	})
 	conn.ev.on('creds.update', () => saveState)
 	
-/*const random = [`https://i.ibb.co/GHpZpvW/pickos-pria.jpg`,`https://i.ibb.co/0hF7kmL/pickos-wanita.jpg`,`https://i.ibb.co/ScC6tzT/3.jpg`,`https://i.ibb.co/zx4DFvv/4.jpg`,`https://i.ibb.co/vjTHL6D/5.jpg`,`https://i.ibb.co/bsxcY0M/6.jpg`,`https://i.ibb.co/7nfz2Hd/7.jpg`,`https://i.ibb.co/KyzP5yj/8.jpg`]
-const pilih = random[Math.floor(Math.random() * random.length)]*/
+
 	conn.ev.on('group-participants.update', async (data) => {
 	try {
 	let metadata = await conn.groupMetadata(data.id)
@@ -125,15 +127,16 @@ const pilih = random[Math.floor(Math.random() * random.length)]*/
 		try {
 		  var pp_user = await conn.profilePictureUrl(i, 'image')
 		} catch {
-		  var pp_user = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
+		  var pp_user = `https://i.ibb.co/fHjfjhp/7770c211fe27.jpg`
 		}
 		if (data.action == "add") {
-		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }, {buttonId: `/infobot`, buttonText: { displayText: "Siapa si aku?" }, type: 1 }]
-		   
-				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: {url: pp_user}, buttons: but, footer: `Deskripsi : ${metadata.desc}`, mentions: [i]})
+		  var welcomenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/Welcome?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=https://i.ibb.co/L10nGjH/3f2c93f9d640.jpg`)
+		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }]
+				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: welcomenya, buttons: but, footer: `Welcome`, mentions: [i]})
 		} else if (data.action == "remove") {
+		  var leavenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/goodbye?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=https://i.ibb.co/kKtNYWk/f1fd4ff15270.jpg`)
 		  var but = [{buttonId: `/`, buttonText: { displayText: "Good Bye 👋" }, type: 1 }]
-				conn.sendMessage(data.id, { caption: `Byeee @${i.split("@")[0]}`, image: {url: pp_user}, buttons: but, footer: `${metadata.subject}`, mentions: [i]})
+				conn.sendMessage(data.id, { caption: `Byeee @${i.split("@")[0]}`, image: leavenya, buttons: but, footer: `Leave`, mentions: [i]})
 		}
 	  }
 	} catch (e) {
