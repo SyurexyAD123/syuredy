@@ -1240,9 +1240,9 @@ case prefix+'ytmp4': case prefix+'mp4':
 			    addCountCmd('#ytmp4', sender, _cmd)
 			    reply(mess.wait)
 			    y2mateV(args[1]).then ( data => {
-			      conn.sendMessage(from, {document: {url: data[0].link}, fileName: data[0].judul, mimetype: 'video/mp4'}, {quoted: msg})
+			      conn.sendMessage(from, {caption: monospace(data[0].judul), video: {url: data[0].link}}, {quoted: msg})
 			    }).catch(() => xfar.downloader.youtube(args[1]).then ( data => {
-					    conn.sendMessage(from, {document: {url: data.download_url}, fileName: data.title, mimetype: 'video/mp4'}, {quoted: msg})
+					    conn.sendMessage(from, {caption: monospace(data.title), video: {url: data.download_url}}, {quoted: msg})
 					  }))
 			    break
 				///SCRAPER YTMP3 BY ARASYA RAFI	
@@ -1253,7 +1253,6 @@ case prefix+'ytmp3':
 
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
-			    reply(mess.wait)
 				y2mateA(args[1]).then( data => {
 					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
 					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg})
@@ -1313,14 +1312,27 @@ limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
 			    break
 case prefix+'igstalk':
+  case prefix+'stalkig':
 if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 if (!q)return reply(`Kirim Perintah ${command} Username mu`)
-reply(`Mengambil Data ${q}`)
+reply(`Mencari ${q} 🔎`)
 SyaApi.insta_profile(args[1]).then ( data => {
-var caption = `*_INSTAGRAM STALKER_*\n\n➠ *Username :* @${q}\n➠ *Postingan :* ${data.post_count}\n➠ *Followers :* ${data.followers}\n➠ *Following :* ${data.following}\n➠ *Bio :* ${data.bio}\n➠ *Terakhir Posting :* ${data.avarage_post_time}`
+var caption = `*_INSTAGRAM STALKER_*\n\n➠ *Username :* @${q}\n➠ *Postingan :* ${data.post_count}\n➠ *Followers :* ${data.followers}\n➠ *Following :* ${data.following}\n➠ *Bio :* ${data.bio}\n➠ *Terakhir Posting :* ${data.avarage_post_time} Ago\nLink : https://instagram.com/${args[1]}`
 conn.sendMessage(from, {caption: caption, image: {url: data.profile_pic}}, {quoted: msg})}).catch(() => reply(`Akun Tersebut Di Privat Atau Username Gak Valid!`))
 limitAdd(sender, limit)
   break
+case prefix+'githubstalk':
+case prefix+'ghstalk':
+case prefix+'stalkgithub':
+case prefix+'stalkgh':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+if (!q)return reply(`Kirim Perintah ${command} Username mu`)
+reply(`Mencari ${q} 🔎`)
+SyaApi.github_user(args[1]).then ( data => {
+var capt = `_*GITHUB STALKER*_\n\n➠ Username : ${data.user.username}\n➠ Nama : ${data.user.name}\n➠ Url : ${data.user.github_url}\n➠ Bio : ${data.user.bio}\n➠ Dibuat Pada : ${data.user.creation_date}\n➠ Followers : ${data.user.followers}\n➠ Following : ${data.user.following}\n➠ Repositori : ${data.user.repositories}\n➠ Forked : ${data.user.forkers}\n➠ Commit : ${data.activity.commits}`
+conn.sendMessage(from, {caption: capt, image: {url: data.user.avatar}}, {quoted: msg})}).catch(() => reply(`Pengguna ${q} Tidak Ditemukan`))
+limitAdd(sender, limit)
+break
 case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 				if (args.length < 2) return reply(`Kirim perintah ${command} link`)
@@ -2334,7 +2346,7 @@ case prefix+'promote':
   case prefix+'admin':
     case prefix+'pm':
     if (!isGroup) return reply(mess.OnlyGrup)
-    if (!isGroupAdmins) return reply(mess.GrupAdmin)
+    if (!isGroupAdmins && !isOwner) return reply(mess.GrupAdmin)
     if (!isBotGroupAdmins) return reply(mess.BotAdmin)
     var number;
     if (mentioned.length !== 0) {
@@ -2495,7 +2507,7 @@ case prefix+'judibalance':
   var data2 = pickRandom(gakhoki)
   addBalance(sender, parseInt(data), balance)
   kurangBalance(sender, parseInt(data2), balance)
-  var cpt = `*[ 🎰 DUIT HOKI 🎰 ]*\n\n*@${sender.split("@")[0]}* Mendapatkan : *$${data}* Balance\nMengurangi : - *$${data2}* Balance`
+  var cpt = `*[ 🎰 DUIT HOKI 🎰 ]*\n\nHallo *@${sender.split("@")[0]}*\nMendapatkan : *$${data}* Balance\nMengurangi : - *$${data2}* Balance`
   var judi = [{buttonId: `${command}`, buttonText: { displayText: "Next ➡️" }, type: 1 }]
   conn.sendMessage(from, { text: cpt, buttons: judi, footer: `Jangan Judi!, Bakal Suram🗿`, mentions: [sender]})
   gameAdd(sender, glimit)
@@ -2760,7 +2772,7 @@ case prefix+'qrcode':
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
     if (args.length < 2) return reply(`Kirim perintah ${command} Text\nContoh : ${command} ${botName}`)
     reply(`Membuat Qr Code`)
-    conn.sendMessage(from, {caption: `*QR CODE*`, image: {url: `https://docs-jojo.herokuapp.com/api/qrcode?text=${q}`}}, {quoted: msg})
+    conn.sendMessage(from, {caption: `Sukses Membuat *QR CODE* ^_^\n@${sender.split("@")[0]} Jangan Lupa Follow instagram : ${ig}`, image: {url: `https://api.qrserver.com/v1/create-qr-code/?size=790x790&data=${q}`}}, {quoted: msg})
     limitAdd(sender, limit)
     break
 case prefix+'cersex':
@@ -2900,11 +2912,11 @@ case prefix+'report':
     case prefix+'chatown':
     if (args.length < 2) return reply(`Silahkan Masukan Laporan nya, Contoh : ${command} Ada Bug Di fitur <fitur>`)
     var salin = [
-      { urlButton: { displayText: `Salin Nomor`, url : `https://www.whatsapp.com/otp/copy/${sender.split("@")[0]}`}},
-            { urlButton: { displayText: `Salin Laporan`, url : `https://www.whatsapp.com/otp/copy/${q}`}}]
+{ urlButton: { displayText: `SALIN NOMER`, url : `https://www.whatsapp.com/otp/copy/${sender.split("@")[0]}`}},
+]
                 reply(`Laporan Telah Di Kirimkan Oleh ke Owner, Laporan main² atau palsu akan di banned!`)
-conn.sendMessage(ownerNumber[0], {text: `*[ PANGGILAN USER ]*\n\n*Dari :* @${sender.split("@")[0]}\n*Pesan :* ${q}`, mentions: [sender]}, {quoted: msg})
-conn.sendMessage(ownerNumber[0], {text: `Tempat Salinan`, templateButtons: salin, footer: botName, mentions: [sender]} )
+conn.sendMessage(ownerNumber[0], {text: `*[ PANGGILAN USER ]*\n\n*Pesan :* ${q}`, templateButtons: salin, footer: botName, mentions: [sender]} )
+sendContact(ownerNumber[0], sender.split("@")[0], pushname, msg)
 break
 case prefix+'gombal':
   case prefix+'gombalan':
