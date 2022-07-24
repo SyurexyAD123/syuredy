@@ -124,13 +124,15 @@ const connectToWhatsApp = async () => {
 	try {
 	let metadata = await conn.groupMetadata(data.id)
 	  for (let i of data.participants) {
+	  var randomlink = ["https://i.ibb.co/Kh3CHWJ/84dfef71e6fa.jpg","https://i.ibb.co/2hH6MRM/b5d1649992ad.jpg","https://i.ibb.co/7tH9Yhh/ad781e263b4d.jpg","https://i.ibb.co/NmrPXxm/8d37afc61265.jpg","https://i.ibb.co/fQ7xGrY/20149ca5ac56.jpg","https://i.ibb.co/gMxwzLr/122d5a8410e7.jpg"]
+	  var acak = randomlink[Math.floor(Math.random() * randomlink.length)]
 		try {
 		  var pp_user = await conn.profilePictureUrl(i, 'image')
 		} catch {
 		  var pp_user = `https://i.ibb.co/fHjfjhp/7770c211fe27.jpg`
 		}
 		if (data.action == "add") {
-		  var welcomenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/Welcome?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=https://i.ibb.co/L10nGjH/3f2c93f9d640.jpg`)
+		  var welcomenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/Welcome?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=${acak}`)
 		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }]
 				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: welcomenya, buttons: but, footer: `Welcome`, mentions: [i]})
 		} else if (data.action == "remove") {
