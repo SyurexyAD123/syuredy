@@ -136,7 +136,7 @@ const connectToWhatsApp = async () => {
 		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }]
 				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: welcomenya, buttons: but, footer: `Welcome`, mentions: [i]})
 		} else if (data.action == "remove") {
-		  var leavenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/goodbye?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=https://i.ibb.co/kKtNYWk/f1fd4ff15270.jpg`)
+		  var leavenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/goodbye?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=${acak}`)
 		  var but = [{buttonId: `/`, buttonText: { displayText: "Good Bye 👋" }, type: 1 }]
 				conn.sendMessage(data.id, { caption: `Byeee @${i.split("@")[0]}`, image: leavenya, buttons: but, footer: `Leave`, mentions: [i]})
 		}
