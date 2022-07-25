@@ -119,6 +119,7 @@ ${readmore}
 > ${prefix}tourl
 ≻ ${prefix}igstalk <Username>
 ≻ ${prefix}film <Pencarian>
+≻ ${prefix}ghstalk <Username>
   
 *( 🅰️ )  Edit Vokal*
 ≻ ${prefix}halah

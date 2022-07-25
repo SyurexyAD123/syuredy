@@ -100,13 +100,13 @@ let multi = true
 let nopref = false
 let prefa = '#'
 
-// Mode
+// Rndm
 let mode = 'public'
 let own2 = '6281319944917@s.whatsapp.net'
 let autoyt = true
 
 // Type Menu
-let typemenu = 'button'
+let typemenu = 'buttons5'
 
 //Random
 let randomreact = ["🗿","👋","🥰","🐛","🤸","😍","🎩","😀","😃","😄","😁","😆","😅","😂","🤣","😭","🤡","🔥","❤️","🧡","💛","💚","💙","💜","🖤","🎆","📢","🏅","🎊","😺","😸","😹","😻","😼","😽","🙀","😿","😾","🤙","👋","🙏","🤳","👀","❣️","🗣️","🌀","🥺","🌛","🌜","🌚","😇","🤪","😜","😝","😛","😱","👻"]
@@ -716,7 +716,7 @@ if (chats.startsWith("fetch ")) {
 			    addCountCmd('#menu', sender, _cmd)
 if (typemenu === 'button') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
+			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: m, mentions: [sender]}, { quoted: msg })
 }
 if (typemenu === 'buttons5') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
@@ -1595,7 +1595,7 @@ case prefix+'kbbi':
   if (args.length < 2) return reply(`Kirim perintah ${command} jembatan`)
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 				kbbi(q).then ( data => {
-				  var caption = monospace(`Kata : ${q}\nArti : `) + data.data.arti
+				  var caption = monospace(`Kata : ${q}\nArti : `) + `${data.data.arti !== undefined ? data.data.arti : 'Gak Ada Di Kamus KBBI!'}`
 				  conn.sendMessage(from, {caption: caption, image: fs.readFileSync('./media/kbbi.png')}, {quoted: msg})
 				})
 				limitAdd(sender, limit)
