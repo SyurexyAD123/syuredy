@@ -124,21 +124,18 @@ const connectToWhatsApp = async () => {
 	try {
 	let metadata = await conn.groupMetadata(data.id)
 	  for (let i of data.participants) {
-	  var randomlink = ["https://i.ibb.co/Kh3CHWJ/84dfef71e6fa.jpg","https://i.ibb.co/2hH6MRM/b5d1649992ad.jpg","https://i.ibb.co/7tH9Yhh/ad781e263b4d.jpg","https://i.ibb.co/NmrPXxm/8d37afc61265.jpg","https://i.ibb.co/fQ7xGrY/20149ca5ac56.jpg","https://i.ibb.co/gMxwzLr/122d5a8410e7.jpg"]
-	  var acak = randomlink[Math.floor(Math.random() * randomlink.length)]
 		try {
 		  var pp_user = await conn.profilePictureUrl(i, 'image')
 		} catch {
-		  var pp_user = `https://i.ibb.co/fHjfjhp/7770c211fe27.jpg`
+		  var pp_user = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 		}
 		if (data.action == "add") {
-		  var welcomenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/Welcome?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=${acak}`)
 		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }]
-				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: welcomenya, buttons: but, footer: `Welcome`, mentions: [i]})
+		   
+				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: {url: pp_user}, buttons: but, footer: `Welcome`, mentions: [i]})
 		} else if (data.action == "remove") {
-		  var leavenya = await getBuffer(`http://hadi-api.herokuapp.com/api/card/goodbye?nama=${i.split("@")[0]}&descriminator=JOJO-BOT&memcount=${metadata.participants.length}&gcname=${metadata.subject}&pp=${pp_user}&bg=${acak}`)
-		  var but = [{buttonId: `/`, buttonText: { displayText: "Good Bye 👋" }, type: 1 }]
-				conn.sendMessage(data.id, { caption: `Byeee @${i.split("@")[0]}`, image: leavenya, buttons: but, footer: `Leave`, mentions: [i]})
+		  var but = [{buttonId: `/`, buttonText: { displayText: "Bye 👋" }, type: 1 }]
+				conn.sendMessage(data.id, { caption: `Byeee @${i.split("@")[0]}`, image: {url: pp_user}, buttons: but, footer: `Goodbye`, mentions: [i]})
 		}
 	  }
 	} catch (e) {
