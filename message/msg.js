@@ -106,7 +106,7 @@ let own2 = '6281319944917@s.whatsapp.net'
 let autoyt = true
 
 // Type Menu
-let typemenu = 'buttons5'
+let typemenu = 'button'
 
 //Random
 let randomreact = ["🗿","👋","🥰","🐛","🤸","😍","🎩","😀","😃","😄","😁","😆","😅","😂","🤣","😭","🤡","🔥","❤️","🧡","💛","💚","💙","💜","🖤","🎆","📢","🏅","🎊","😺","😸","😹","😻","😼","😽","🙀","😿","😾","🤙","👋","🙏","🤳","👀","❣️","🗣️","🌀","🥺","🌛","🌜","🌚","😇","🤪","😜","😝","😛","😱","👻"]
@@ -714,7 +714,7 @@ if (chats.startsWith("fetch ")) {
 			    var randam = pickRandom(randomreact)
 			    conn.sendMessage(from, { react: { text: randam, key: msg.key }})
 			    addCountCmd('#menu', sender, _cmd)
-			    if (typemenu === 'button') {
+if (typemenu === 'button') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
 }
