@@ -5,13 +5,14 @@ Youtube : Channel JOJO
 WhatsApp : 0813-1994-4917
 
 THANKS TO
+- Allah Swt
+- Baileys
 - Irfan 
 - Amell
 - Hardianto
-- Affis Junianto
-- Rafli Rusdiana
 - Febri
 - Grup Jojoo
+- Arasya
 
 Matur Nuwun*/
 "use strict";
@@ -58,6 +59,8 @@ const yts = require("yt-search");
 const speed = require("performance-now");
 const request = require("request");
 const ms = require("parse-ms");
+const waktu = require("countdown");
+const kbbi = require("kbbi-scraper");
 
 //Apikey melcanz, Search aja melcanz.com
 //Apikey jojo = Syaa
@@ -857,8 +860,7 @@ Thanks To
 - Arasya
 - Amel
 - Hardianto
-- Febri
-- KiroFyzu`
+- Febri`
 
 conn.profilePictureUrl(botNumber, 'image').then( res => conn.sendMessage(from, { caption: caption, image: { url: res }, mentions: [sender, botNumber, ownerNumber[0]]}, {quoted: fake})).catch (() => conn.sendMessage(from, {caption: caption, image: fs.readFileSync(setting.pathimg), mentions: [botNumber, ownerNumber[0]]}))
 break
@@ -955,7 +957,7 @@ case prefix+'addresp':
 var pesan = q.split('|')[0] ? q.split('|')[0] : q
 var balas = q.split('|')[1] ? q.split('|')[1] : ''
 if (checkCommands(pesan, commandsDB) === true) return reply(`Udah ada`)
-nds(pesan, balas, sender, commandsDB)
+addCommands(pesan, balas, sender, commandsDB)
 reply(`Pesan : ${pesan}\nBalas : ${balas}\nSuskes Di Tambahankan!`)
 break
 case prefix+'delrespon':
@@ -1577,19 +1579,25 @@ var cimcimi = await fetchJson(`https://api.simsimi.net/v2/?text=${text}&lc=id`)
   conn.sendMessage(from, { text: cimcimi.success}, {quoted: msg})
   break
 case prefix+'hitungmundur':
-  if (args.length < 2) return reply(`Mana tanggalnya?\nContoh : ${prefix}hitungmundur 12 10 2022`)
+  case prefix+'countdown':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			    if (isNaN(args[1], args[2], args[3])) return reply(`Harus berupa angka`)
-				var data = await fetchJson(`https://melcanz.com/countdown?tanggal=${args[1]}&bulan=${args[2]}&tahun=${args[3]}&apikey=${apikey}`)
-			    reply(`Terisisa ${data.result}`)
+			    var tanggal = q.split('/')[0] ? q.split('/')[0] : q
+          var bulan = q.split('/')[1] ? q.split('/')[1] : ''
+          var tahun = q.split('/')[1] ? q.split('/')[2] : ''
+			    if (isNaN(tanggal, bulan, tahun)) return reply(`Harus berupa angka`)
+			    if (!q) return reply(`Masukan Tanggal/Bulan/Tahun\nExample : 12/10/2022`)
+			    if (!tanggal && !bulan && !tahun)return reply(`Masukan Paramater Tanggal Bulan Tahun`)
+				var data = waktu(new Date(tahun, bulan, tanggal)).toString();
+				reply(`Exp : ` + data)
 				limitAdd(sender, limit)
 				break
 case prefix+'kbbi':
   if (args.length < 2) return reply(`Kirim perintah ${command} jembatan`)
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-			    const kbbi = args.join(" ")
-				var data = await fetchJson(`https://docs-jojoapi.herokuapp.com/api/kbbi?kata=${args[1]}&apikey=${jojoapi}`)
-			    reply(`Kata : ${kbbi}\nArti : ${data.result.arti}`)
+				kbbi(q).then ( data => {
+				  var caption = monospace(`Kata : ${q}\nArti : `) + data.data.arti
+				  conn.sendMessage(from, {caption: caption, image: fs.readFileSync('./media/kbbi.png')}, {quoted: msg})
+				})
 				limitAdd(sender, limit)
 				break
 			case prefix+'cecan': case prefix+'cewek':
@@ -2772,7 +2780,7 @@ case prefix+'qrcode':
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
     if (args.length < 2) return reply(`Kirim perintah ${command} Text\nContoh : ${command} ${botName}`)
     reply(`Membuat Qr Code`)
-    conn.sendMessage(from, {caption: `Sukses Membuat *QR CODE* ^_^\n@${sender.split("@")[0]} Jangan Lupa Follow instagram : ${ig}`, image: {url: `https://api.qrserver.com/v1/create-qr-code/?size=790x790&data=${q}`}}, {quoted: msg})
+    conn.sendMessage(from, {caption: `Sukses Membuat *QR CODE* ^_^\n@${sender.split("@")[0]} Jangan Lupa Follow instagram : ${ig}`, image: {url: `https://api.qrserver.com/v1/create-qr-code/?size=790x790&data=${q}`}, mentions: [sender]}, {quoted: msg})
     limitAdd(sender, limit)
     break
 case prefix+'cersex':

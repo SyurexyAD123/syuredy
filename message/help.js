@@ -25,14 +25,6 @@ exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit,
 Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
 Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
 
-❋─────────────────❋
-Nama : ${pushname !== undefined ? pushname : 'No Detect'}
-Status : ${isOwner ? 'Owner' : isPremium ? 'Premium' : 'Free'}
-Limit : ${isOwner ? 'Unlimited' : isPremium ? 'Unlimited' : getLimit(sender, limitCount, limit)}
-Limit Game : ${isOwner ? 'Unlimited' : cekGLimit(sender, gcount, glimit)}
-Balance : $${toCommas(getBalance(sender, balance))}
-❋─────────────────❋
-
 _Ada Bug? Ketik ${prefix}report Bug mu_
 ${readmore}
 *( 📍 )  Generator Menu*
@@ -225,16 +217,5 @@ $ executor
 ≻ ${prefix}setprefix <multi/nopref>
 ≻ ${prefix}setowner <628XXX>
 
-*${setting.botName}*
-${readmore}
-  *THANKS TO*
-- Allah SWT
-- Baileys-Md (Adiwa Jshing)
-- @irfann._x (Iyan)
-- @arsrfii (Arasya)
-- Febri
-- @callme_kiro (Kiro)
-- M Hadi Firmansya (Hadi Api)
-- @melcanz_ (Amel)
-- @hardianto.xyz (Anto)`
+*${setting.botName}*`
 }
