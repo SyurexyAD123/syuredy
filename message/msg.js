@@ -716,7 +716,8 @@ if (chats.startsWith("fetch ")) {
 			case prefix+'menu':
 			case prefix+'help':
 			  case prefix+'m':
-var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n╚═⧎ Thanks For Using ${botName}`
+			    case prefix+'start':
+var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n║\n╠═⧎ *Harap Login Terlebih*\n║ *Dahulu Sebelum Memulai Bot* \n║ *JOJO Untuk Mendapatkan* \n║ *Limit Dan Balance!*\n║\n╚═⧎ Thanks For Using ${botName}`
 			    var randam = pickRandom(randomreact)
 			    conn.sendMessage(from, { react: { text: randam, key: msg.key }})
 			    addCountCmd('#menu', sender, _cmd)
@@ -737,7 +738,8 @@ if (typemenu === 'image') {
 				break
 case prefix+'allmenu':
   var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-  conn.sendMessage(from, {text: teks, mentions: [sender]}, {quoted: fake})
+  var footerkomt = [{buttonId: `/balance`, buttonText: { displayText: `Sisa Balance` }, type: 2 }, {buttonId: `/daftarprem`, buttonText: { displayText: `Daftar Premium` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
   break
 case prefix+'setmenu':
   if (!isOwner)return reply(mess.OnlyOwner)
@@ -986,16 +988,22 @@ reply(teks)
 break
 case prefix+'login':
 case prefix+'daftar':
-if (checkLogins(sender, loginnya) === true) return reply(`Lu dah login jir🗿`)
+case prefix+'sign-in':
+if (checkLogins(sender, loginnya) === true) return reply(`Kamu Sudah Login Hari Ini!\nKembalilah Esok hari!`)
 addLogin(pushname, sender, loginnya)
-mentions(`Sukses, Kamu Sudah Login Di ${botName}\nNama : ${pushname}\nNomor : @${sender.split("@")[0]}`, [sender])
+addBalance(sender, parseInt(10000), balance)
+giveLimit(sender, parseInt(25), limit)
+givegame(sender, parseInt(20), glimit)
+mentions(`Selamat @${sender.split("@")[0]} Kamu Sudah Login Di ${botName}!, Hallo ${pushname} 👋\nKamu Mendapatkan Limit Dan Balance!\nBalance : $10000\nLimit : 25\nLimit Game : 20`, [sender])
 break
 case prefix+'listuser':
 case prefix+'listpengguna':
+case prefix+'listlogin':
+if (!isOwner && !isPremium)return reply(mess.OnlyOwner)
 var teks = `「 *_PENGGUNA ${botName}_* 」\n\nTotal : *${loginnya.length}*\n\n`
 for (let i = 0; i < loginnya.length; i ++){
-teks += `🔖 *Nama :* ${loginnya[i].nama}\n`
-teks += `🔢 *Nomer :* ${loginnya[i].nomer.split("@")[0]}\n\n`
+teks += `*Nama :* ${loginnya[i].nama}\n`
+teks += `*Nomer :* ${loginnya[i].nomer.split("@")[0]}\n*Tag :* @${loginnya[i].nomer.split("@")[0]}\n`
 }
 mentions(teks, [sender], msg)
 break

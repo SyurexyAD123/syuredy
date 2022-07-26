@@ -21,15 +21,12 @@ function toCommas(x) {
 
 exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount) => {
 	return `${ucapanWaktu} @${sender.split("@") [0]} 👋
-Tap ... Baca selengkapnya
-${readmore}
-Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
-Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
 
-🇮🇩 *Kemerdekaan Indonesia* 🇮🇩
-\`\`\`${waktu(new Date(2022, 8, 17)).toString()}\`\`\`
+Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
+Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')} WIB
 
 _Ada Bug? Ketik ${prefix}report Bug mu_
+${readmore}
 *( 📍 )  Generator Menu*
 ≻ ${prefix}menu
 ≻ ${prefix}owner
