@@ -36,6 +36,7 @@ const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBa
 const { isTicTacToe, getPosTic } = require("../lib/tictactoe");
 const { addPlayGame, getJawabanGame, isPlayGame, cekWaktuGame, getGamePosi } = require("../lib/game");
 const { addCommands, checkCommands, deleteCommands } = require("../lib/autoresp");
+const { addLogin, deleteLogin, checkLogins } = require("../lib/login");
 const { addBanned, unBanned, BannedExpired, cekBannedUser } = require("../lib/banned");
 const tictac = require("../lib/tictac");
 const _prem = require("../lib/premium");
@@ -123,6 +124,7 @@ let antilink = JSON.parse(fs.readFileSync('./database/antilink.json'));
 let _cmd = JSON.parse(fs.readFileSync('./database/command.json'));
 let _cmdUser = JSON.parse(fs.readFileSync('./database/commandUser.json'));
 const commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
+const loginnya = JSON.parse(fs.readFileSync('./database/logins.json'))
 let mute = JSON.parse(fs.readFileSync('./database/mute.json'))
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
@@ -400,11 +402,13 @@ module.exports = async(conn, msg, m, setting, store) => {
 		}
 		//{ callButton: { displayText: `Call Owner!`, phoneNumber: `+${ownerNumber}` } },
 		const buttonsDefault = [
-			{ urlButton: { displayText: `CHANNEL ${botName.toUpperCase()}`, url : `https://t.me/telejochannel` } },
-			{ urlButton: { displayText: `OWNER BOT`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
+			{ urlButton: { displayText: `🏹 GRUP WHATSAPP 🎯`, url : gcwa } },
+			{ urlButton: { displayText: `👤 OWNER BOT 👤`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
 			{ quickReplyButton: { displayText: `Rate Bot ⭐`, id: `${prefix}getrating` } },
+			{ quickReplyButton: { displayText: `List Menu 📑`, id: `${prefix}allmenu` } },
+		  { quickReplyButton: { displayText: `Login 👥`, id: `${prefix}login` } },
 		]
-		const buttonsDefa = [{buttonId: `/info`, buttonText: { displayText: "⋮☰ Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }, {buttonId: `/getrating`, buttonText: { displayText: "☰  Rate Bot" }, type: 2 }]
+		const buttonsDefa = [{buttonId: `/getrating`, buttonText: { displayText: `Rate Bot ⭐` }, type: 2 }, {buttonId: `/login`, buttonText: { displayText: `Login 👥` }, type: 2 }, {buttonId: `/allmenu`, buttonText: { displayText: "List Menu 📑" }, type: 2 }]
 		
         
 		const isImage = (type == 'imageMessage')
@@ -462,6 +466,9 @@ module.exports = async(conn, msg, m, setting, store) => {
 					reply(commandsDB[i].balasan)
 				}
 				  }
+				// Login 
+				for (var i = 0; i < loginnya.length ; i++) {
+				}
 
         // Anti link
         if (isGroup && isAntiLink && !isOwner && !isGroupAdmins && isBotGroupAdmins){
@@ -709,26 +716,29 @@ if (chats.startsWith("fetch ")) {
 			case prefix+'menu':
 			case prefix+'help':
 			  case prefix+'m':
+var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n╚═⧎ Thanks For Using ${botName}`
 			    var randam = pickRandom(randomreact)
 			    conn.sendMessage(from, { react: { text: randam, key: msg.key }})
 			    addCountCmd('#menu', sender, _cmd)
 if (typemenu === 'button') {
-			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: m, mentions: [sender]}, { quoted: msg })
+			    conn.sendMessage(from, { caption: menunya, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: botName, mentions: [sender]}, { quoted: msg })
 }
 if (typemenu === 'buttons5') {
-			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-			    conn.sendMessage(from, { caption: teks, image: fs.readFileSync(setting.pathimg), templateButtons: buttonsDefault, footer: monospace(botName), mentions: [sender]} )
+			    conn.sendMessage(from, { caption: menunya, image: fs.readFileSync(setting.pathimg), templateButtons: buttonsDefault, footer: botName, mentions: [sender]} )
 }
 if (typemenu === 'text') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-			    conn.sendMessage(from, {text: teks}, {quoted: msg})
+			    conn.sendMessage(from, {text: teks, mentions: [sender]}, {quoted: msg})
 }
 if (typemenu === 'image') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(setting.pathimg)}, {quoted: msg})
+			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(setting.pathimg), mentions: [sender]}, {quoted: msg})
 }
 				break
+case prefix+'allmenu':
+  var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
+  conn.sendMessage(from, {text: teks, mentions: [sender]}, {quoted: fake})
+  break
 case prefix+'setmenu':
   if (!isOwner)return reply(mess.OnlyOwner)
   var menucuy = [{buttonId: `/getmenu button`, buttonText: { displayText: "Button Biasa" }, type: 1 }, {buttonId: `/getmenu buttons5`, buttonText: { displayText: "Buttons Pake Link" }, type: 2 }, {buttonId: `/getmenu image`, buttonText: { displayText: "Image Biasa" }, type: 3}]
@@ -974,6 +984,21 @@ teks += `❏ *Balasan:* ${commandsDB[i].balasan}\n\n`
 }
 reply(teks)
 break
+case prefix+'login':
+case prefix+'daftar':
+if (checkLogins(sender, loginnya) === true) return reply(`Lu dah login jir🗿`)
+addLogin(pushname, sender, loginnya)
+mentions(`Sukses, Kamu Sudah Login Di ${botName}\nNama : ${pushname}\nNomor : @${sender.split("@")[0]}`, [sender])
+break
+case prefix+'listuser':
+case prefix+'listpengguna':
+var teks = `「 *_PENGGUNA ${botName}_* 」\n\nTotal : *${loginnya.length}*\n\n`
+for (let i = 0; i < loginnya.length; i ++){
+teks += `🔖 *Nama :* ${loginnya[i].nama}\n`
+teks += `🔢 *Nomer :* ${loginnya[i].nomer.split("@")[0]}\n\n`
+}
+mentions(teks, [sender], msg)
+break
 case prefix+'getrate1-25':
 reply(`Makasih Udah Memberi Rating Pada Bot ^_^`)
 var caption = `${ucapanWaktu} ${ownerName} 👋\n\nNama Pengirim : *${pushname}*\nNomor Rating : *1 - 25 ⭐*\nNomor Pengirim : @${sender.split("@")[0]}\nTanggal : *${moment.tz('Asia/Jakarta').format('DD/MM/YY')}*\nWaktu : *${moment.tz('Asia/Jakarta').format('HH:mm:ss')}* WIB\nPesan Dari Bot : Tingkatkan Lebih Baik Lagi`
@@ -991,8 +1016,8 @@ conn.profilePictureUrl(sender, 'image').then( res => conn.sendMessage(ownerNumbe
 break
 case prefix+'getrating':
 var caption = `Hallo ${pushname}\n\nBantu Rating Bot Yukk!!, dengan cara menekan Tombol Berikut, Pilih Salah satu yaaa terima kasii`
-const buttonsDefa = [{buttonId: `/getrate1-25`, buttonText: { displayText: "Rating 1 - 25 ⭐" }, type: 1 }, {buttonId: `/getrate25-60`, buttonText: { displayText: "Rating 25 - 60 ⭐⭐" }, type: 2 }, {buttonId: `/getrate60-100`, buttonText: { displayText: "Rating 60 - 100 ⭐⭐⭐" }, type: 2 }]
-conn.sendMessage(from, { caption: caption, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: botName, mentions: [sender]}, { quoted: msg })
+var buttonsDefap = [{buttonId: `/getrate1-25`, buttonText: { displayText: "Rating 1 - 25 ⭐" }, type: 1 }, {buttonId: `/getrate25-60`, buttonText: { displayText: "Rating 25 - 60 ⭐⭐" }, type: 2 }, {buttonId: `/getrate60-100`, buttonText: { displayText: "Rating 60 - 100 ⭐⭐⭐" }, type: 2 }]
+conn.sendMessage(from, { caption: caption, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefap, footer: botName, mentions: [sender]}, { quoted: msg })
 break
 case prefix+'mute':
 if (!isGroup) return reply(mess.OnlyGrup)

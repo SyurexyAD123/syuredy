@@ -19,13 +19,10 @@ function toCommas(x) {
 	return x;
 }
 
-function monospace(string) {
-            return '```' + string + '```'
-        }
-
 exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount) => {
-	return `${ucapanWaktu} kak *${pushname !== undefined ? pushname : 'No Detect Name'}* 👋
-
+	return `${ucapanWaktu} @${sender.split("@") [0]} 👋
+Tap ... Baca selengkapnya
+${readmore}
 Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
 Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
 
@@ -33,7 +30,6 @@ Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
 \`\`\`${waktu(new Date(2022, 8, 17)).toString()}\`\`\`
 
 _Ada Bug? Ketik ${prefix}report Bug mu_
-${readmore}
 *( 📍 )  Generator Menu*
 ≻ ${prefix}menu
 ≻ ${prefix}owner
@@ -44,6 +40,7 @@ ${readmore}
 ≻ ${prefix}listprem
 ≻ ${prefix}listban
 ≻ ${prefix}listrespon
+≻ ${prefix}listuser
 ≻ ${prefix}jo <Text>
 ≻ ${prefix}delete
 ≻ ${prefix}repeat
@@ -55,6 +52,7 @@ ${readmore}
 ≻ ${prefix}towame
 ≻ ${prefix}tovn
 ≻ fetch
+≻ ${prefix}login
 
 *( ⌛ )  Downloader*
 ≻ ${prefix}play <Querry>
