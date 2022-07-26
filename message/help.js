@@ -1,6 +1,6 @@
 const moment = require("moment-timezone");
 const fs = require("fs");
-
+const waktu = require("countdown");
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
 let dt = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
@@ -19,11 +19,18 @@ function toCommas(x) {
 	return x;
 }
 
+function monospace(string) {
+            return '```' + string + '```'
+        }
+
 exports.allmenu = (sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount) => {
 	return `${ucapanWaktu} kak *${pushname !== undefined ? pushname : 'No Detect Name'}* 👋
 
 Tanggal : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
 Waktu : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
+
+🇮🇩 *Kemerdekaan Indonesia* 🇮🇩
+\`\`\`${waktu(new Date(2022, 8, 17)).toString()}\`\`\`
 
 _Ada Bug? Ketik ${prefix}report Bug mu_
 ${readmore}

@@ -402,8 +402,6 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const buttonsDefault = [
 			{ urlButton: { displayText: `CHANNEL ${botName.toUpperCase()}`, url : `https://t.me/telejochannel` } },
 			{ urlButton: { displayText: `OWNER BOT`, url : `https://wa.me/6281319944917?text=Hai+kak+aku+mau+beli+PREMIUM` } },
-			{ quickReplyButton: { displayText: `Donasi`, id: `${prefix}donate` } },
-			{ quickReplyButton: { displayText: `Dashboard`, id: `${prefix}dashboard` } },
 			{ quickReplyButton: { displayText: `Rate Bot ⭐`, id: `${prefix}getrating` } },
 		]
 		const buttonsDefa = [{buttonId: `/info`, buttonText: { displayText: "⋮☰ Info Bot" }, type: 1 }, {buttonId: `/sewa`, buttonText: { displayText: "☰  Sewa Bot" }, type: 2 }, {buttonId: `/getrating`, buttonText: { displayText: "☰  Rate Bot" }, type: 2 }]
