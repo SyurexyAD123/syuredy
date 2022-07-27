@@ -1003,7 +1003,7 @@ if (!isOwner && !isPremium)return reply(mess.OnlyOwner)
 var teks = `「 *_PENGGUNA ${botName}_* 」\n\nTotal : *${loginnya.length}*\n\n`
 for (let i = 0; i < loginnya.length; i ++){
 teks += `*Nama :* ${loginnya[i].nama}\n`
-teks += `*Nomer :* ${loginnya[i].nomer.split("@")[0]}\n*Tag :* @${loginnya[i].nomer.split("@")[0]}\n`
+teks += `*Nomer :* ${loginnya[i].nomer.split("@")[0]}\n*Tag :* @${loginnya[i].nomer.split("@")[0]}\n\n`
 }
 mentions(teks, [sender], msg)
 break
@@ -1575,7 +1575,7 @@ var sya = q.split('|')[0] ? q.split('|')[0] : q
 var rfi = q.split('|')[1] ? q.split('|')[1] : ''
 if (!q)return reply( `Mana textnya?\nContoh : ${command} Jojo|Bot`)
 reply(mess.wait)
-if ( isQuotedImage ) {
+if ( isImage || isQuotedImage ) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
 var njay = await imgbb(imgbbapi, media)
 var pea = await getBuffer(`https://api.memegen.link/images/custom/${sya}/${rfi}.png?background=${njay.display_url}`)
