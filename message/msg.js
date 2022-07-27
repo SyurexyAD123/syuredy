@@ -1004,8 +1004,8 @@ var teks = `「 *_PENGGUNA ${botName}_* 」\n\nTotal : *${loginnya.length}*\n\n`
 for (let i = 0; i < loginnya.length; i ++){
 teks += `*Nama :* ${loginnya[i].nama}\n`
 teks += `*Nomer :* ${loginnya[i].nomer.split("@")[0]}\n*Tag :* @${loginnya[i].nomer.split("@")[0]}\n\n`
-}
 mentions(teks, [loginnya[i].nomer], msg)
+}
 break
 case prefix+'getrate1-25':
 reply(`Makasih Udah Memberi Rating Pada Bot ^_^`)
