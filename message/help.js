@@ -50,6 +50,7 @@ ${readmore}
 ≻ ${prefix}tovn
 ≻ fetch
 ≻ ${prefix}login
+≻ ${prefix}game
 
 *( ⌛ )  Downloader*
 ≻ ${prefix}play <Querry>

@@ -738,7 +738,7 @@ if (typemenu === 'image') {
 				break
 case prefix+'allmenu':
   var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
-  var footerkomt = [{buttonId: `/balance`, buttonText: { displayText: `Sisa Balance` }, type: 2 }, {buttonId: `/daftarprem`, buttonText: { displayText: `Daftar Premium` }, type: 2 }]
+  var footerkomt = [{buttonId: `/game`, buttonText: { displayText: `Game 🎮` }, type: 2 }]
   conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
   break
 case prefix+'setmenu':
@@ -1769,6 +1769,39 @@ case prefix+'join':
         limitAdd(sender, limit)
         break
 //game & fun menu
+case prefix+'game':
+  var sections = [
+    {
+	title: "GAME BERFIKIR",
+	rows: [
+	    {title: "Tebak Siapakah Aku? 🎮", rowId: "/siapakahaku", description: "Game Tebak Siapakah Aku, Mainkan Sekarang!!🎮"},
+	    {title: "Tebak Gambar 🎮", rowId: "/tebakgambar", description: "Game Tebak Gambar, Tebak Gambarnya Sekarang!!🎮"},
+	    {title: "Teka Teki 🎮", rowId: "/tekateki", description: "Game Yang Bikin Kamu Mikir!, Mainkan Sekarang!!🎮"},
+	    {title: "Tebak Bendera 🎮", rowId: "/tebakbendera", description: "Siapa Yang Kenal Bendera² Negara Di Dunia?!, Mainkan Sekarang!!🎮"},
+	    {title: "Tebak Lagu 🎮", rowId: "/tebaklagu", description: "Siapa Nih Yang Sering Dengar Musik?, Coba Deh Tebak Music Berikut!, Mainkan Sekarang!!🎮"},
+	    {title: "Kuis Game 🎮", rowId: "/kuis", description: "Waduhh Ada Kuis Berhadiah Nih!!, Mainkan Sekarang!!🎮"},
+	    {title: "Game Susun Kata 🎮", rowId: "/susunkata", description: "Yang Otaknya Nyampe, Coba Dehhh Main Game Ini!, Mainkan Sekarang!!🎮"},
+	    {title: "UJIAN!! 🎮", rowId: "/ujian", description: "Soal Ujian Sangat Banyak, Jadilah Pemenangnya!, Mainkan Sekarang!!🎮"},
+	    {title: "Game Tebak Kata 🎮", rowId: "/tebakkata", description: "Coba Tebak Kata Berikut, Pasti kamu bingung apa object tersebut!, Mainkan Sekarang!!🎮"},
+	]
+    },
+    {
+	title: "GAME TANTANGAN",
+	rows: [
+	    {title: "TRUTH ❓", rowId: "/truth", description: "Jawab Soal Berikut!"},
+	    {title: "DARE ❗", rowId: "/dare", description: "Lakukan Tantangan Berikut"}
+	]
+    },
+]
+var listMessage = {
+  text: `Game : 13\nAktif Semua ✔️`,
+  footer: "Follow My Instagram :\nhttps://instagram.com/arsrfii",
+  title: "JOJO - GAME",
+  buttonText: "JOJO - GAME",
+  sections
+}
+conn.sendMessage(from, listMessage, {quoted: msg})
+  break
 //suit menu
 case prefix+'suit':
   var but = [{buttonId: `/sbatu`, buttonText: { displayText: "Batu ✊" }, type: 1 }, {buttonId: `/sgunting`, buttonText: { displayText: "Gunting ✌️" }, type: 1 }, {buttonId: `/skertas`, buttonText: { displayText: "Kertas ✋" }, type: 1 }]
