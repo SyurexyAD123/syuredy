@@ -62,6 +62,8 @@ const request = require("request");
 const ms = require("parse-ms");
 const waktu = require("countdown");
 const kbbi = require("kbbi-scraper");
+const kyy = require("ikyy");
+const Ikyy = new kyy();
 
 //Apikey melcanz, Search aja melcanz.com
 //Apikey jojo = Syaa
@@ -107,7 +109,7 @@ let own2 = '6281319944917@s.whatsapp.net'
 let autoyt = true
 
 // Type Menu
-let typemenu = 'buttons5'
+let typemenu = 'sections'
 
 //Random
 let randomreact = ["🗿","👋","🥰","🐛","🤸","😍","🎩","😀","😃","😄","😁","😆","😅","😂","🤣","😭","🤡","🔥","❤️","🧡","💛","💚","💙","💜","🖤","🎆","📢","🏅","🎊","😺","😸","😹","😻","😼","😽","🙀","😿","😾","🤙","👋","🙏","🤳","👀","❣️","🗣️","🌀","🥺","🌛","🌜","🌚","😇","🤪","😜","😝","😛","😱","👻"]
@@ -132,7 +134,7 @@ moment.tz.setDefault("Asia/Jakarta").locale("id");
 module.exports = async(conn, msg, m, setting, store) => {
 	try {
 		let { ownerNumber, ownerName, botName, gamewaktu, limitCount, gcwa } = setting
-		let { allmenu } = require('./help')
+		let { allmenu, genmenu, downloader, rndm, menuprem, storage, othermenu, maker, vokaledit, gamemenu, atm, grupmenu, encode, owner } = require('./help')
 		const { type, quotedMsg, mentioned, now, fromMe } = msg
 		if (msg.isBaileys) return
 		const jam = moment.tz('asia/jakarta').format('HH:mm:ss')
@@ -735,15 +737,131 @@ if (typemenu === 'image') {
 			    var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
 			    conn.sendMessage(from, {caption: teks, image: fs.readFileSync(setting.pathimg), mentions: [sender]}, {quoted: msg})
 }
+if (typemenu === 'sections') {
+  var sections = [
+    {
+	title: "MENU JOJO",
+	rows: [
+	    {title: `1. Generator Menu 🧬`, rowId: `${prefix}generatormenu`},
+	    {title: `2. Downloader Menu ⬇️`, rowId: `${prefix}downloadermenu`},
+	    {title: `3. Random Menu ⛓️`, rowId: `${prefix}menurandom`},
+	    {title: `4. Premium Menu ⚠️`, rowId: `${prefix}menuprem`},
+	    {title: `5. Maker Menu 🎨`, rowId: `${prefix}makermenu`},
+	    {title: `6. Other Menu 👣`, rowId: `${prefix}othermenu`},
+	    {title: `7. Storage Menu 💾`, rowId: `${prefix}storagemenu`},
+	    {title: `8. Edit Vokal 🅰️`, rowId: `${prefix}vokaledit`},
+	    {title: `9. Game Menu 🎮`, rowId: `${prefix}gamemenu`},
+	    {title: `10. Payment & Bank 🏦`, rowId: `${prefix}menuatm`},
+	    {title: `11. Grup Menu 👥`, rowId: `${prefix}grupmenu`},
+	    {title: `12. Encode & Decode 🔧`, rowId: `${prefix}encodemenu`},
+	    {title: `13. Owner Menu 🎭`, rowId: `${prefix}ownermenu`}
+	]
+    },
+  {
+	title: "Tambahan Fitur",
+	rows: [
+	  {title: `1. All Menu`, rowId: `${prefix}allmenu`, description: `Menampilkan Seluruh Menu`},
+	  {title: `2. Login`, rowId: `${prefix}login`, description: `Jangan Lupa Login Hari Ini!`},
+	  {title: `3. Rate Bot`, rowId: `${prefix}getrating`, description: `Bantu Rating Bot`},
+	  {title: `4. Nomor Owner`, rowId: `${prefix}owner`, description: `Admin Dari JojoBot`}
+  ]},
+    {
+	title: "Social Media Admin",
+	rows: [
+	  {title: `1. Instagram`, rowId: `${prefix}igadmin`, description: `Instagram Admin`},
+	  {title: `2. WhatsApp`, rowId: `${prefix}owner`, description: `Owner Bot`}
+  ]}
+]
+var listMessage = {
+  text: menunya,
+  footer: "Follow My Instagram :\nhttps://instagram.com/arsrfii\n❋─────────────────❋",
+  title: "❋─────────────────❋",
+  buttonText: "*JOJO*",
+  sections
+}
+}
+conn.sendMessage(from, listMessage, {quoted: msg})
 				break
+case prefix+'igadmin':
+  var ignye = [
+			{ urlButton: { displayText: `Instagram Admin`, url : ig } },
+		  { quickReplyButton: { displayText: `Back To Menu 🔙`, id: `${prefix}menu` } },
+		]
+		conn.sendMessage(from, { text: `Nama : Arasya\nUsername : @arsrfii`, templateButtons: ignye, footer: `arsrfii`, mentions: [sender]} )
+  break
 case prefix+'allmenu':
   var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
   var footerkomt = [{buttonId: `/game`, buttonText: { displayText: `Game 🎮` }, type: 2 }]
   conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
   break
+case prefix+'generatormenu':
+  var teks = genmenu(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'downloadermenu':
+  var teks = downloader(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'menurandom':
+  var teks = rndm(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'menuprem':
+  var teks = menuprem(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'storagemenu':
+  var teks = storage(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'othermenu':
+  var teks = othermenu(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'makermenu':
+  var teks = maker(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'vokaledit':
+  var teks = vokaledit(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'gamemenu':
+  var teks = gamemenu(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'menuatm':
+  var teks = atm(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'grupmenu':
+  var teks = grupmenu(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'encodemenu':
+  var teks = encode(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'ownermenu':
+  var teks = owner(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
 case prefix+'setmenu':
   if (!isOwner)return reply(mess.OnlyOwner)
-  var menucuy = [{buttonId: `/getmenu button`, buttonText: { displayText: "Button Biasa" }, type: 1 }, {buttonId: `/getmenu buttons5`, buttonText: { displayText: "Buttons Pake Link" }, type: 2 }, {buttonId: `/getmenu image`, buttonText: { displayText: "Image Biasa" }, type: 3}]
+  var menucuy = [{buttonId: `/getmenu button`, buttonText: { displayText: "Button Biasa" }, type: 1 }, {buttonId: `/getmenu buttons5`, buttonText: { displayText: "Buttons Pake Link" }, type: 2 }, {buttonId: `/getmenu sections`, buttonText: { displayText: "Sections" }, type: 3}]
   conn.sendMessage(from, { caption: `Pilih Type Menu Berikut :`, image: fs.readFileSync(setting.pathimg), buttons: menucuy, footer: monospace(botName), mentions: [sender]}, { quoted: msg })
   break
 case prefix+'getmenu':
@@ -767,6 +885,10 @@ case prefix+'getmenu':
   // Image
   if (args[1] == "image") {
   typemenu = 'image'
+  reply(`Sukses Mengubah Menu Menjadi ${q}`)
+  }
+  if (args[1] == "sections") {
+  typemenu = 'sections'
   reply(`Sukses Mengubah Menu Menjadi ${q}`)
   }
   break
@@ -1289,7 +1411,8 @@ case prefix+'ytmp3':
 				y2mateA(args[1]).then( data => {
 					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
 					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg})
-					conn.sendMessage(from, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
+					conn.sendMessage(sender, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
+					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
 					  }).catch(() => xfar.downloader.youtube(args[1]).then ( data => {
 					    var capt = `📛 *Title :* ${data.title}\n🔰 *Size Audio :* ${data.size}\n\n_Tunggu sebentar audio akan di kirim...._`
 					conn.sendMessage(from, {caption: capt, image: {url: data.thumbnail}}, {quoted: msg})
