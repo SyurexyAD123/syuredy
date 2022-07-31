@@ -172,7 +172,6 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : ''
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isGroupAdmins = groupAdmins.includes(sender)
-		const isUser = pendaftar.includes(sender)
 		const isMuted = isGroup ? mute.includes(from) : false
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 		const isBan = cekBannedUser(sender, ban)
