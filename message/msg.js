@@ -1515,9 +1515,9 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 			    w5botapi.instagram(args[1]).then( data => {
 			     for (let i of data) {
 				  if (i.fileType === "mp4") {
-				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.downloadUrl}, templateButtons: insgram, footer: botName, mentions: [sender]} )
+				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.url}, templateButtons: insgram, footer: botName, mentions: [sender]} )
 				  } else if (i.fileType === "jpg") {
-				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.downloadUrl }}, {quoted: msg})
+				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.url }}, {quoted: msg})
 			      }
 			     }
 				 limitAdd(sender, limit)
