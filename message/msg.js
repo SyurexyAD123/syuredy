@@ -1512,11 +1512,11 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 						{ urlButton: { displayText: `Link`, url : `${q}` } },
 			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}igmp3 ${q}` } },
 				]
-			    w5botapi.instagram(args[1]).then( data => {
-			     for (let i of data) {
-				  if (i.fileType === "mp4") {
+			    SyaApi.insta_post(args[1]).then( data => {
+			     for (let i of data.post1) {
+				  if (i.type === "mp4") {
 				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.url}, templateButtons: insgram, footer: botName, mentions: [sender]} )
-				  } else if (i.fileType === "jpg") {
+				  } else if (i.type === "jpg") {
 				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.url }}, {quoted: msg})
 			      }
 			     }
