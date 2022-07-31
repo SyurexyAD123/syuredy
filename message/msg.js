@@ -115,6 +115,7 @@ let typemenu = 'sections'
 let randomreact = ["🗿","👋","🥰","🐛","🤸","😍","🎩","😀","😃","😄","😁","😆","😅","😂","🤣","😭","🤡","🔥","❤️","🧡","💛","💚","💙","💜","🖤","🎆","📢","🏅","🎊","😺","😸","😹","😻","😼","😽","🙀","😿","😾","🤙","👋","🙏","🤳","👀","❣️","🗣️","🌀","🥺","🌛","🌜","🌚","😇","🤪","😜","😝","😛","😱","👻"]
 
 // Database
+let pendaftar = JSON.parse(fs.readFileSync('./database/user.json'))
 let mess = JSON.parse(fs.readFileSync('./message/response.json'));
 let premium = JSON.parse(fs.readFileSync('./database/premium.json'));
 let ban = JSON.parse(fs.readFileSync('./database/ban.json'));
@@ -172,6 +173,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : ''
 		const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
 		const isGroupAdmins = groupAdmins.includes(sender)
+		const isUser = pendaftar.includes(sender)
 		const isMuted = isGroup ? mute.includes(from) : false
 		const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 		const isBan = cekBannedUser(sender, ban)
@@ -427,7 +429,12 @@ module.exports = async(conn, msg, m, setting, store) => {
 		conn.sendReadReceipt(from, sender, [msg.key.id])
 		conn.sendPresenceUpdate('available', from)
 		
-
+// Auto Registrasi
+		if (isCmd && !isUser) {
+			pendaftar.push(sender)
+			fs.writeFileSync('./database/user.json', JSON.stringify(pendaftar, null, 2))
+		  }
+		  
         // MUTE
         if (isMuted){
             if (!isGroupAdmins && !isOwner) return
@@ -1512,12 +1519,12 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 						{ urlButton: { displayText: `Link`, url : `${q}` } },
 			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}igmp3 ${q}` } },
 				]
-			    SyaApi.insta_post(args[1]).then( data => {
-			     for (let i of data.post1) {
-				  if (i.type === "mp4") {
-				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.url}, templateButtons: insgram, footer: botName, mentions: [sender]} )
-				  } else if (i.type === "jpg") {
-				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.url }}, {quoted: msg})
+			    w5botapi.instagram(args[1]).then( data => {
+			     for (let i of data) {
+				  if (i.fileType === "mp4") {
+				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.downloadUrl}, templateButtons: insgram, footer: botName, mentions: [sender]} )
+				  } else if (i.fileType === "jpg") {
+				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.downloadUrl }}, {quoted: msg})
 			      }
 			     }
 				 limitAdd(sender, limit)
