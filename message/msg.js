@@ -503,7 +503,7 @@ if (chats.includes(yutu)) {
 
         // Game
 		cekWaktuGame(conn, tebakgambar)
-		if (isPlayGame(from, tebakgambar) && isUser) {
+		if (isPlayGame(from, tebakgambar) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebakgambar)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
@@ -517,7 +517,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, kuiscuy)
-		if (isPlayGame(from, kuiscuy) && isUser) {
+		if (isPlayGame(from, kuiscuy) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, kuiscuy)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
@@ -532,7 +532,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, tekateki)
-		if (isPlayGame(from, tekateki) && isUser) {
+		if (isPlayGame(from, tekateki) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tekateki)) {
 		    
 		    var htgm = randomNomor(500, 550)
@@ -547,7 +547,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, tebakkimia)
-		if (isPlayGame(from, tebakkimia) && isUser) {
+		if (isPlayGame(from, tebakkimia) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebakkimia)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
@@ -561,7 +561,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, tebaktebakan)
-		if (isPlayGame(from, tebaktebakan) && isUser) {
+		if (isPlayGame(from, tebaktebakan) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebaktebakan)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
@@ -575,7 +575,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, ujian)
-		if (isPlayGame(from, ujian) && isUser) {
+		if (isPlayGame(from, ujian) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, ujian)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
@@ -589,7 +589,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, tebaklagu)
-		if (isPlayGame(from, tebaklagu) && isUser) {
+		if (isPlayGame(from, tebaklagu) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebaklagu)) {
 		    var htgm = randomNomor(500, 550)
 		    
@@ -604,7 +604,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, susun)
-		if (isPlayGame(from, susun) && isUser) {
+		if (isPlayGame(from, susun) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, susun)) {
 		    var htgm = randomNomor(500, 550)
 		    
@@ -619,7 +619,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, siapaaku)
-		if (isPlayGame(from, siapaaku) && isUser) {
+		if (isPlayGame(from, siapaaku) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, siapaaku)) {
 		    var htgm = randomNomor(500, 550)
 		    
@@ -634,7 +634,7 @@ if (chats.includes(yutu)) {
 		}
 		
 		cekWaktuGame(conn, tb)
-		if (isPlayGame(from, tb) && isUser) {
+		if (isPlayGame(from, tb) ) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tb)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
