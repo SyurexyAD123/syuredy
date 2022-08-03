@@ -719,8 +719,6 @@ if (chats.startsWith("fetch ")) {
 			  case prefix+'m':
 			    case prefix+'start':
 var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n║\n╠═⧎ *Harap Login Terlebih*\n║ *Dahulu Sebelum Memulai Bot* \n║ *JOJO Untuk Mendapatkan* \n║ *Limit Dan Balance!*\n║\n╚═⧎ Thanks For Using ${botName}\n❋─────────────────❋`
-			    var randam = pickRandom(randomreact)
-			    conn.sendMessage(from, { react: { text: randam, key: msg.key }})
 			    addCountCmd('#menu', sender, _cmd)
 if (typemenu === 'button') {
 			    conn.sendMessage(from, { caption: menunya, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: botName, mentions: [sender]}, { quoted: msg })
@@ -1269,6 +1267,7 @@ case prefix+'delimg':
 list.splice(anu, 1)
 fs.writeFileSync('./database/storage/image.json', JSON.stringify(list))
 reply(`Sukses Menghapus Gambar ${q.toUpperCase()}`)
+fs.unlinkSync(`./database/storage/Image/${q}.jpeg`)
   } catch {
   reply(`Image ${q} Gada Di Database`)
 }
@@ -1635,14 +1634,22 @@ case prefix+'dashboard':
 		fakemsg(teks)
 		break
 case prefix+'bc': case prefix+'broadcast':
-			    if (!isOwner) return reply(mess.OnlyOwner)
-		            if (args.length < 2) return reply(`Masukkan isi pesannya`)
-                            var data = await store.chats.all()
-                            for (let i of data) {
-                               conn.sendMessage(i.id, { text: `*[ ${botName} BROADCAST ]*\n\n${q}` })
-                               await sleep(1000)
-                            }
-                            break
+if (!isOwner) return reply(mess.OnlyOwner)
+if (!q && !isImage && !isQuotedImage) return reply(`Kirim Gambar Dengan Caption ${command} text atau Kirim text dengan text ${command} textnya\nExample : ${command} Hallo`)
+if ( isImage || isQuotedImage ) {
+var media = await downloadAndSaveMediaMessage("image", `brotkes.jpeg`)
+var data = await store.chats.all()
+for (let i of data) {
+var depak = [{buttonId: `#menu`, buttonText: { displayText: `Menu📋` }, type: 1 }, {buttonId: `#owner`, buttonText: { displayText: `Owner👤` }, type: 2 }]
+conn.sendMessage(i.id, { caption: `_*BROADCAST ${botName.toUpperCase()}*_\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), buttons: depak, footer: botName, mentions: [sender]})
+}
+} else {
+var data = await store.chats.all()
+for (let i of data) {
+conn.sendMessage(i.id, {text: `_*BROASCAST ${botName.toUpperCase()}*_\n\n${q}`})
+await sleep(1000)}
+}
+break
 			case prefix+'setpp': case prefix+'setppbot':
 		        if (!isOwner) return reply(mess.OnlyOwner)
 		        if (isImage || isQuotedImage) {
@@ -1744,16 +1751,18 @@ break
 case prefix+'memeg':
 case prefix+'memegen':
 if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
-if (!isQuotedImage)return reply(`Reply Imagenya!`)
+if (!isQuotedImage && !isImage)return reply(`Reply Imagenya!`)
 var sya = q.split('|')[0] ? q.split('|')[0] : q
 var rfi = q.split('|')[1] ? q.split('|')[1] : ''
 if (!q)return reply( `Mana textnya?\nContoh : ${command} Jojo|Bot`)
 reply(mess.wait)
 if ( isImage || isQuotedImage ) {
-var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
+var media = await downloadAndSaveMediaMessage("image", `memegen.jpeg`)
 var njay = await imgbb(imgbbapi, media)
 var pea = await getBuffer(`https://api.memegen.link/images/custom/${sya}/${rfi}.png?background=${njay.display_url}`)
-conn.sendMessage(from, {caption: `Sukses Membuat Fitur Meme Generator!\n@${sender.split("@")[0]} Follow My Instagram : @arsrfii`, image: pea, mentions: [sender]}, {quoted: msg})}
+conn.sendMessage(from, {caption: `Sukses Membuat Fitur Meme Generator!\n@${sender.split("@")[0]} Follow My Instagram : @arsrfii`, image: pea, mentions: [sender]}, {quoted: msg})
+  fs.unlinkSync(`memegen.jpeg`)
+}
 limitAdd(sender, limit)
 break
 case prefix+'bajingan':
@@ -2570,9 +2579,9 @@ case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
      var mems = []
-      var teks = `*[ TAG ALL ]*\nPesan : ${q !== undefined ? q : `Pesan Tidak Ada`}\n\n`
+      var teks = `╔══ *TAG MEMBER*\n╠ Pesan : ${q !== undefined ? q : `Pesan Tidak Ada`}\n║\n`
       for (let i of groupMembers) {
-        teks += `≻ @${i.id.split("@")[0]}\n`
+        teks += `╠ ≻ @${i.id.split("@")[0]}\n`
         mems.push(i.id)
       }
       conn.sendMessage(from, { text: teks, mentions: mems}, { quoted: msg })
