@@ -718,7 +718,7 @@ if (chats.startsWith("fetch ")) {
 			case prefix+'help':
 			  case prefix+'m':
 			    case prefix+'start':
-var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n║\n╠═⧎ *Harap Login Terlebih*\n║ *Dahulu Sebelum Memulai Bot* \n║ *JOJO Untuk Mendapatkan* \n║ *Limit Dan Balance!*\n║\n╚═⧎ Thanks For Using ${botName}`
+var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n║\n╠═⧎ *Harap Login Terlebih*\n║ *Dahulu Sebelum Memulai Bot* \n║ *JOJO Untuk Mendapatkan* \n║ *Limit Dan Balance!*\n║\n╚═⧎ Thanks For Using ${botName}\n❋─────────────────❋`
 			    var randam = pickRandom(randomreact)
 			    conn.sendMessage(from, { react: { text: randam, key: msg.key }})
 			    addCountCmd('#menu', sender, _cmd)
@@ -774,7 +774,7 @@ if (typemenu === 'sections') {
 ]
 var listMessage = {
   text: menunya,
-  footer: "Follow My Instagram :\nhttps://instagram.com/arsrfii\n❋─────────────────❋",
+  footer: "Follow My Instagram :\nhttps://instagram.com/arsrfii",
   title: "❋─────────────────❋",
   buttonText: "JOJO",
   sections
@@ -1116,10 +1116,15 @@ case prefix+'daftar':
 case prefix+'sign-in':
 if (checkLogins(sender, loginnya) === true) return reply(`Kamu Sudah Login Hari Ini!\nKembalilah Esok hari!`)
 addLogin(pushname, sender, loginnya)
-addBalance(sender, parseInt(10000), balance)
-giveLimit(sender, parseInt(25), limit)
-givegame(sender, parseInt(20), glimit)
-mentions(`Selamat @${sender.split("@")[0]} Kamu Sudah Login Di ${botName}!, Hallo ${pushname} 👋\nKamu Mendapatkan Limit Dan Balance!\nBalance : $10000\nLimit : 25\nLimit Game : 20`, [sender])
+var randomLimit = randomNomor(10, 30)
+var rndmLimit = randomNomor(10, 35)
+var blnc = randomNomor(5000, 15000)
+addBalance(sender, parseInt(blnc), balance)
+giveLimit(sender, parseInt(rndmLimit), limit)
+givegame(sender, parseInt(randomLimit), glimit)
+mentions(`Mengambil Data @${sender.split("@")[0]}`, [sender])
+var cpt = `_*REGISTERED*_\n\n🎟️ *Nama :* ${pushname}\n*🔢 Nomor :* ${sender.split("@")[0]}\n*📑 Kode Pendaftar :* ${makeid(7)}\n🔧 *Tag :* @${sender.split("@")[0]}\n\n*_GIVE LOGIN_*\n\n*💸 Balance :* $${blnc} Balance\n*🎁 Limit :* ${randomLimit}\n*🎮 Game Limit :* ${rndmLimit}`
+conn.profilePictureUrl(sender, 'image').then( res => conn.sendMessage(from, {caption: cpt, image: {url: res}, mentions: [sender]}, {quoted: msg})).catch(() => conn.sendMessage(from, {caption: cpt, image: fs.readFileSync('./media/profile/5.jpg'), mentions: [sender]}, {quoted: msg}))
 break
 case prefix+'listuser':
 case prefix+'listpengguna':
@@ -1212,6 +1217,14 @@ case prefix+'ban':
                 }
                 mentions(txtx, menx, true)
                 break
+case prefix+'creategrup':
+  case prefix+'buatgrup':
+    case prefix+'creategroup':
+      if (!isOwner) return reply(mess.OnlyOwner)
+      if (!q)return reply(`Masukan Nama Grup!!\nExample : ${command} ${pushname} Jelek`)
+      conn.groupCreate(q, [sender, sender])
+      reply(`Sukses Membuat Grup ${q}`)
+      break
 //storage menu
 case prefix+'addimage':
   case prefix+'addimg':
@@ -1423,12 +1436,29 @@ case prefix+'ytmp3':
 limitAdd(sender, limit)
               break
 case prefix+'ytplay':
+  if (!isGroup) {
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   addCountCmd('#ytmp3', sender, _cmd)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
 				y2mateA(args[1]).then( data => {
+					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
+					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg})
+					conn.sendMessage(sender, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
+					
+					  }).catch(() => xfar.downloader.youtube(args[1]).then ( data => {
+					    var capt = `📛 *Title :* ${data.title}\n🔰 *Size Audio :* ${data.size}\n\n_Tunggu sebentar audio akan di kirim...._`
+					conn.sendMessage(from, {caption: capt, image: {url: data.thumbnail}}, {quoted: msg})
+					    conn.sendMessage(from, {document: {url: data.download_url}, fileName: `${data.title}.mp3`, mimetype: 'audio/mp3'}, {quoted: msg})
+					  }))
+limitAdd(sender, limit)
+} else if (isGroup) {
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  if (args.length < 2) return reply(`Kirim perintah ${command} link`)
+  if (!isUrl(args[1])) return reply(mess.error.Iv)
+	if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
+	y2mateA(args[1]).then( data => {
 					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
 					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg})
 					conn.sendMessage(sender, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
@@ -1439,6 +1469,7 @@ case prefix+'ytplay':
 					    conn.sendMessage(from, {document: {url: data.download_url}, fileName: `${data.title}.mp3`, mimetype: 'audio/mp3'}, {quoted: msg})
 					  }))
 limitAdd(sender, limit)
+}
               break
 			  case prefix+'ytmp3vn':
 				if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
@@ -1519,12 +1550,12 @@ case prefix+'igdl': case prefix+'instagram': case prefix+'ig':
 						{ urlButton: { displayText: `Link`, url : `${q}` } },
 			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}igmp3 ${q}` } },
 				]
-			    w5botapi.instagram(args[1]).then( data => {
-			     for (let i of data) {
-				  if (i.fileType === "mp4") {
-				conn.sendMessage(from, { caption: `Succes Download Video Instagram, Thanks For Using ${botName}!`, video: {url: i.downloadUrl}, templateButtons: insgram, footer: botName, mentions: [sender]} )
-				  } else if (i.fileType === "jpg") {
-				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.downloadUrl }}, {quoted: msg})
+			    SyaApi.insta_post(args[1]).then( data => {
+			     for ( let i of data.post1 ) {
+				  if (i.type === "mp4") {
+				conn.sendMessage(from, {video: {url: i.url}}, {quoted: msg})
+				  } else if (i.type === "jpg") {
+				   conn.sendMessage(from, { caption: `Succes Download Gambar Instagram, Thanks For Using ${botName}`, image: { url: i.url }}, {quoted: msg})
 			      }
 			     }
 				 limitAdd(sender, limit)
