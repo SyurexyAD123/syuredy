@@ -1332,16 +1332,16 @@ fs.unlinkSync(`./database/storage/Image/${q}.jpeg`)
 			    for await(const chunk of stream) {
 			       buffer = Buffer.concat([buffer, chunk])
 			    }
-			    var rand1 = 'sticker/'+getRandom('.webp')
+			    var rand1 = 'sticker/'+getRandom('.jpg')
 			    var rand2 = 'sticker/'+getRandom('.png')
 			    fs.writeFileSync(`./${rand1}`, buffer)
 			    if (isQuotedSticker && msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.isAnimated !== true) {
 			    exec(`ffmpeg -i ./${rand1} ./${rand2}`, (err) => {
-			      fs.unlinkSync(`./${rand1}`)
+			      
 			      if (err) return reply(mess.error.api)
 			      conn.sendMessage(from, { image: { url: `./${rand2}` }}, { quoted: msg })
 			      limitAdd(sender, limit)
-				  fs.unlinkSync(`./${rand2}`)
+				  
 			    })
 			    } else {
 			    reply(mess.wait)
@@ -2579,7 +2579,7 @@ case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
      var mems = []
-      var teks = `╔══ *TAG MEMBER*\n╠ Pesan : ${q !== undefined ? q : `Pesan Tidak Ada`}\n║\n`
+      var teks = `╔══ *TAGA*\n╠ Pesan : ${q !== undefined ? q : `Pesan Tidak Ada`}\n║\n`
       for (let i of groupMembers) {
         teks += `╠ ≻ @${i.id.split("@")[0]}\n`
         mems.push(i.id)
