@@ -435,6 +435,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 			fs.writeFileSync('./database/user.json', JSON.stringify(pendaftar, null, 2))
 		  }
 		  
+		  
         // MUTE
         if (isMuted){
             if (!isGroupAdmins && !isOwner) return
@@ -1274,6 +1275,7 @@ fs.unlinkSync(`./database/storage/Image/${q}.jpeg`)
   break
 	        // Converter & Tools Menu
 			case prefix+'sticker': case prefix+'stiker': case prefix+'s': case prefix+'stickergif': case prefix+'sgif': case prefix+'stikergif': case prefix+'stikgif':
+			  exif.create(`My Sticker`, pushname)
 			  addCountCmd('#sticker', sender, _cmd)
 				if (isImage || isQuotedImage) {
 		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
@@ -1365,7 +1367,7 @@ fs.unlinkSync(`./database/storage/Image/${q}.jpeg`)
 			{ quickReplyButton: { displayText: `Ubah Ke Audio`, id: `${prefix}tiktokaudio ${q}` } },
 				]
 				reply(mess.wait)
-				conn.sendMessage(from, { caption: `Succes Download Video Tiktok, Thanks For Using ${botName}`, video: {url: data.media[1].url}, templateButtons: tidtod, footer: botName, mentions: [sender]} )
+				conn.sendMessage(from, {video: {url: data.media[1].url}}, {quoted: msg})
 			}).catch(() => reply(mess.error.api))
 			limitAdd(sender, limit)
 			    break
@@ -1583,13 +1585,13 @@ case prefix+'igdlaudio':
 			    limitAdd(sender, limit)
 			    break
 			// Owner Menu
-			case prefix+'exif':
+			/*case prefix+'exif':
 			    if (!isOwner) return reply(mess.OnlyOwner)
 			    var namaPack = q.split('|')[0] ? q.split('|')[0] : q
                 var authorPack = q.split('|')[1] ? q.split('|')[1] : ''
                 exif.create(namaPack, authorPack)
 				reply(`Sukses membuat exif`)
-				break
+				break*/
 			case prefix+'leave':
 			    if (!isOwner) return reply(mess.OnlyOwner)
 				if (!isGroup) return reply(mess.OnlyGrup)
