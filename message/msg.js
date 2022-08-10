@@ -183,7 +183,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 
     const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
     const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`*AUTO DOWNLOAD AUDIO YOUTUBE*`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `*AUTO DOWNLOAD AUDIO YOUTUBE*`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
-    const fake = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: `41798898139-1429460331@g.us` } : {}) },message: { "videoMessage": { "title":`${botName}\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `${botName}\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
+    const fake = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: `41798898139-1429460331@g.us` } : {}) },message: { "videoMessage": { "title":`${botName}\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, "h": `Hmm`,'seconds': '100000000', 'caption': `${botName}\n${ucapanWaktu} ${pushname !== undefined ? pushname : `Kak`} 👋`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
     const fdoc = {key : {participant : '0@s.whatsapp.net'},message: {documentMessage: {title: `*HIDETAG! ${groupName}*`,jpegThumbnail: fs.readFileSync(setting.pathimg)}}}
 		const mentionByTag = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.mentionedJid : []
                 const mentionByReply = type == "extendedTextMessage" && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.participant || "" : ""
@@ -200,15 +200,15 @@ module.exports = async(conn, msg, m, setting, store) => {
             .on("close", callback);
         });
       };
-      download(url, "./stik" + names + ".png", async function () {
+      download(url, "./sticker" + names + ".png", async function () {
         console.log("selesai");
-        let filess = "./stik" + names + ".png";
-        let asw = "./stik" + names + ".webp";
+        let filess = "./sticker" + names + ".png";
+        let asw = "./sticker" + names + ".webp";
         exec(
           `ffmpeg -i ${filess} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${asw}`,
           (err) => {
             let media = fs.readFileSync(asw);
-            conn.sendMessage(to, {sticker: fs.readFileSync(media)}, {quoted: msg})
+            conn.sendMessage(to, {sticker: media}, {quoted: msg})
             fs.unlinkSync(filess);
             fs.unlinkSync(asw);
           }
@@ -1275,7 +1275,6 @@ fs.unlinkSync(`./database/storage/Image/${q}.jpeg`)
   break
 	        // Converter & Tools Menu
 			case prefix+'sticker': case prefix+'stiker': case prefix+'s': case prefix+'stickergif': case prefix+'sgif': case prefix+'stikergif': case prefix+'stikgif':
-			  exif.create(`My Sticker`, pushname)
 			  addCountCmd('#sticker', sender, _cmd)
 				if (isImage || isQuotedImage) {
 		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
@@ -1428,11 +1427,11 @@ case prefix+'ytmp3':
 				y2mateA(args[1]).then( data => {
 					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
 					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg})
-					conn.sendMessage(from, { document: { url: data[0].link }, fileName: `${data[0].judul}.mp3`, mimetype: 'audio/mp3' }, { quoted: msg })
+					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4'}, {quoted: msg})
 					  }).catch(() => xfar.downloader.youtube(args[1]).then ( data => {
 					    var capt = `📛 *Title :* ${data.title}\n🔰 *Size Audio :* ${data.size}\n\n_Tunggu sebentar audio akan di kirim...._`
 					conn.sendMessage(from, {caption: capt, image: {url: data.thumbnail}}, {quoted: msg})
-					    conn.sendMessage(from, {document: {url: data.download_url}, fileName: `${data.title}.mp3`, mimetype: 'audio/mp3'}, {quoted: msg})
+					    conn.sendMessage(from, {audio: {url: data.download_url}, mimetype: 'audio/mp4'}, {quoted: msg})
 					  }))
 limitAdd(sender, limit)
               break
@@ -1585,13 +1584,13 @@ case prefix+'igdlaudio':
 			    limitAdd(sender, limit)
 			    break
 			// Owner Menu
-			/*case prefix+'exif':
+			case prefix+'exif':
 			    if (!isOwner) return reply(mess.OnlyOwner)
 			    var namaPack = q.split('|')[0] ? q.split('|')[0] : q
                 var authorPack = q.split('|')[1] ? q.split('|')[1] : ''
                 exif.create(namaPack, authorPack)
 				reply(`Sukses membuat exif`)
-				break*/
+				break
 			case prefix+'leave':
 			    if (!isOwner) return reply(mess.OnlyOwner)
 				if (!isGroup) return reply(mess.OnlyGrup)
@@ -1642,8 +1641,9 @@ if ( isImage || isQuotedImage ) {
 var media = await downloadAndSaveMediaMessage("image", `brotkes.jpeg`)
 var data = await store.chats.all()
 for (let i of data) {
-var depak = [{buttonId: `#menu`, buttonText: { displayText: `Menu📋` }, type: 1 }, {buttonId: `#owner`, buttonText: { displayText: `Owner👤` }, type: 2 }]
-conn.sendMessage(i.id, { caption: `_*BROADCAST ${botName.toUpperCase()}*_\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), buttons: depak, footer: botName, mentions: [sender]})
+/*var depak = [{buttonId: `#menu`, buttonText: { displayText: `Menu📋` }, type: 1 }, {buttonId: `#owner`, buttonText: { displayText: `Owner👤` }, type: 2 }]
+conn.sendMessage(i.id, { caption: `_*BROADCAST ${botName.toUpperCase()}*_\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), buttons: depak, footer: botName, mentions: [sender]})*/
+conn.sendMessage(i.id, {caption: `✗ *_BROADCAST ${botName.toUpperCase()}_* ✗\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), mentions: [q]})
 }
 } else {
 var data = await store.chats.all()
@@ -1764,6 +1764,22 @@ var njay = await imgbb(imgbbapi, media)
 var pea = await getBuffer(`https://api.memegen.link/images/custom/${sya}/${rfi}.png?background=${njay.display_url}`)
 conn.sendMessage(from, {caption: `Sukses Membuat Fitur Meme Generator!\n@${sender.split("@")[0]} Follow My Instagram : @arsrfii`, image: pea, mentions: [sender]}, {quoted: msg})
   fs.unlinkSync(`memegen.jpeg`)
+}
+limitAdd(sender, limit)
+break
+case prefix+'stcmeme':
+case prefix+'smeme':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+if (!isQuotedImage && !isImage)return reply(`Reply Imagenya!`)
+var sya = q.split('|')[0] ? q.split('|')[0] : q
+var rfi = q.split('|')[1] ? q.split('|')[1] : ''
+if (!q)return reply( `Mana textnya?\nContoh : ${command} Jojo|Bot`)
+reply(mess.wait)
+if ( isImage || isQuotedImage ) {
+var media = await downloadAndSaveMediaMessage("image", `memegen.jpeg`)
+var njay = await imgbb(imgbbapi, media)
+var pea = await getBuffer(`https://api.memegen.link/images/custom/${sya}/${rfi}.webp?background=${njay.display_url}`)
+conn.sendMessage(from, {sticker: {url: `https://api.memegen.link/images/custom/${sya}/${rfi}.webp?background=${njay.display_url}.webp`}})
 }
 limitAdd(sender, limit)
 break
@@ -2581,7 +2597,7 @@ case prefix+'tagall':
       if (!isGroup) return reply(mess.OnlyGrup)
       if (!isGroupAdmins) return reply(mess.GrupAdmin)
      var mems = []
-      var teks = `╔══ *TAGA*\n╠ Pesan : ${q !== undefined ? q : `Pesan Tidak Ada`}\n║\n`
+      var teks = `╔══ *TAG MEMBER*\n╠ Pesan : ${q !== undefined ? q : `Pesan Tidak Ada`}\n║\n`
       for (let i of groupMembers) {
         teks += `╠ ≻ @${i.id.split("@")[0]}\n`
         mems.push(i.id)
