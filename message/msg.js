@@ -109,7 +109,7 @@ let own2 = '6281319944917@s.whatsapp.net'
 let autoyt = true
 
 // Type Menu
-let typemenu = 'text'
+let typemenu = 'image'
 
 //Random
 let randomreact = ["🗿","👋","🥰","🐛","🤸","😍","🎩","😀","😃","😄","😁","😆","😅","😂","🤣","😭","🤡","🔥","❤️","🧡","💛","💚","💙","💜","🖤","🎆","📢","🏅","🎊","😺","😸","😹","😻","😼","😽","🙀","😿","😾","🤙","👋","🙏","🤳","👀","❣️","🗣️","🌀","🥺","🌛","🌜","🌚","😇","🤪","😜","😝","😛","😱","👻"]
@@ -715,7 +715,7 @@ if (chats.startsWith("fetch ")) {
 
 		switch(command) {
 			// Main Menu
-			case prefix+'menu':
+			/*case prefix+'menu':
 			case prefix+'help':
 			  case prefix+'m':
 			    case prefix+'start':
@@ -780,7 +780,14 @@ var listMessage = {
 }
 }
 conn.sendMessage(from, listMessage, {quoted: msg})
-				break
+				break*/
+				case prefix+'menu':
+			case prefix+'help':
+			  case prefix+'m':
+			    case prefix+'start':
+				  var teks = allmenu(sender, prefix, pushname, isOwner, isPremium, balance, limit, limitCount, glimit, gcount)
+			    conn.sendMessage(from, {text: teks, mentions: [sender]}, {quoted: msg})
+			    break
 case prefix+'igadmin':
   var ignye = [
 			{ urlButton: { displayText: `Instagram Admin`, url : `https://instagram.com/${ig}` } },
