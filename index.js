@@ -26,7 +26,7 @@ const chalk = require('chalk')
 const logg = require('pino')
 const clui = require('clui')
 const { Spinner } = clui
-const { getBuffer, serialize} = require("./lib/myfunc");
+const { serialize } = require("./lib/myfunc");
 const { color, mylog, infolog } = require("./lib/color");
 const time = moment(new Date()).format('HH:mm:ss DD/MM/YYYY')
 let setting = JSON.parse(fs.readFileSync('./config.json'));
@@ -82,6 +82,7 @@ const connectToWhatsApp = async () => {
 	const conn = makeWASocket({
             printQRInTerminal: true,
             logger: logg({ level: 'fatal' }),
+            version: [2, 2228, 8],
             auth: state,
             browser: ["Jojo-Bot", "Safari", "3.0"]
         })
@@ -130,12 +131,9 @@ const connectToWhatsApp = async () => {
 		  var pp_user = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 		}
 		if (data.action == "add") {
-		   var but = [{buttonId: `/`, buttonText: { displayText: "Welcome 🥳" }, type: 1 }]
-		   
-				conn.sendMessage(data.id, { caption: `Hallo @${i.split("@")[0]} Selamat Datang Di Grup *${metadata.subject}*\nSilahkan Untuk Memperkenalkan diri anda`, image: {url: pp_user}, buttons: but, footer: `Welcome`, mentions: [i]})
+		   conn.sendMessage(data.id, {caption: `Selamat Datang @${i.split("@")[0]} Di Grup ${metadata.subject}`, image: {url: pp_user}, mentions: [i]})
 		} else if (data.action == "remove") {
-		  var but = [{buttonId: `/`, buttonText: { displayText: "Bye 👋" }, type: 1 }]
-				conn.sendMessage(data.id, { caption: `Byeee @${i.split("@")[0]}`, image: {url: pp_user}, buttons: but, footer: `Goodbye`, mentions: [i]})
+		  conn.sendMessage(data.id, {caption: `Bye @${i.split("@")[0]}`, image: {url: pp_user}, mentions: [i]})
 		}
 	  }
 	} catch (e) {
