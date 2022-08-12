@@ -3176,6 +3176,8 @@ limitAdd(sender, limit)
 break
 case prefix+'suratto':
   case prefix+'surat':
+    case prefix+'menfes':
+      case prefix+'menfess':
     if (isGroup)return reply(`Hanya Bisa Di Gunakan Di Private Message!`)
     if (args.length < 2) return reply(`Kirim perintah ${command} nomer|Suratnya\nContoh ${command} 62813199449171|Anjing\n\nAWALI DENGAN 62!`)
     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
@@ -3183,7 +3185,7 @@ case prefix+'suratto':
                 var text = q.split('|')[1] ? q.split('|')[1] : ''
                 if (isNaN(number)) return reply(`Nominal harus berupa angka!`)
                 mentions(`*Succes Sending Message!*\nInfo Bot Please Contact Owner : @${ownerNumber[0].split("@")[0]}`, [ownerNumber[0]])
-                var caption = `*[ FITUR BOT SURAT ]*\nDari : Tidak Diketahui\nUntuk : Kamu\nPesan : *${text}*`
+                var caption = `*[ FITUR BOT MENFESS/SURAT ]*\nDari : Tidak Diketahui\nUntuk : Kamu\nPesan : *${text}*`
 conn.sendMessage(`${number}@s.whatsapp.net`, {caption: caption, image : fs.readFileSync('./media/surat.jpeg')})
 limitAdd(sender, limit)
 break
