@@ -355,6 +355,8 @@ exports.gamemenu = (sender, prefix) => {
   return `${viewsmenu}\n\n
 *( 🎮 )  Game & Fun Menu*
 ≻ ${prefix}duithoki
+≻ ${prefix}jodohku
+≻ ${prefix}menfess <no|text>
 ≻ ${prefix}tictactoe @tag
 ≻ ${prefix}delttc
 ≻ ${prefix}suit
@@ -421,6 +423,15 @@ exports.encode = (sender, prefix) => {
   return `${viewsmenu}\n\n*( 🔧 )  Encrypt & Decrypt*
 ≻ ${prefix}encode <Text>
 ≻ ${prefix}decode <Text>`
+}
+
+exports.shoping = (sender, prefix) => {
+  return `${viewsmenu}\n\n**( 📄 )  List Shop*
+≻ ${prefix}addlist <nameshop|text>
+≻ ${prefix}list
+≻ ${prefix}delshop
+≻ ${prefix}done
+≻ ${prefix}proses`
 }
 
 exports.owner = (sender, prefix) => {
