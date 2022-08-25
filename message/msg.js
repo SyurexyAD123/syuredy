@@ -1111,6 +1111,60 @@ teks += `❏ *Balasan:* ${commandsDB[i].balasan}\n\n`
 }
 reply(teks)
 break
+				case prefix+'addlist':
+if (checkList(nameshop, listnya) === true) return reply(`Toko Tersebut Sudah Ada`)
+var nameshop = q.split('|')[0] ? q.split('|')[0] : q
+var text = q.split('|')[1] ? q.split('|')[1] : ''
+addList(nameshop, text, sender, listnya)
+var anunya = `_*[ ADD LIST ]*_\n\n📝 *Nama Toko :* ${nameshop}\n🎟️ *Penjualan :* ${text}\n👤 *Creation :* @${sender.split("@")[0]}\n⌚ *Waktu :* ${jam}\n📅 *Tanggal :* ${tgl}`
+conn.sendMessage(from, {caption: anunya, image: fs.readFileSync('pp.jpg'), mentions: [sender]}, {quoted: msg})
+conn.sendMessage(ownerNumber[0], {text: `Ada yang menambahkan list Penjualan`})
+sendContact(ownerNumber[0], sender.split("@")[0], pushname, msg)
+break
+case prefix+'list':
+  case prefix+'ceklist':
+var list = []
+var teskd = `*[ JOJO BOT - LIST DM SHOP ]*\n\n`
+for (let i of listnya) {
+list.push({
+title: i.nameshop, rowId: `${prefix}gettlist ${i.text}`, description: `Name Shop : ${i.nameshop}\nPenjual : https://wa.me/${i.sender.split("@")[0]}`})}
+var sections = [{title: "JOJO - BOT", rows:list}]
+var listms = { text: `Berikut Merupakan List Penjualan Dari Beberapa User Bot`, footer: botName, buttonText: "Click Here", sections }
+conn.sendMessage(from, listms, {quoted:msg})
+break
+case prefix+'deletetoko':
+  case prefix+'delshop':
+    case prefix+'deltoko':
+      case prefix+'deletelist':
+if (!isOwner)return reply(mess.OnlyOwner)
+if (!checkList(q, listnya)) return reply(`Tidak Menemukan Toko`)
+deleteList(q, listnya)
+reply(`Sukses Menghapus Toko ${q}`)
+break
+case prefix+'gettlist':
+conn.sendMessage(from, {text: q}, {quoted: fake})
+break
+case prefix+'done':
+if (!isGroup)return reply(mess.OnlyGrup)
+if (isQuotedMsg) {
+var txt = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
+var but = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
+conn.sendMessage(quotedMsg.sender, { text: txt, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
+var txt1 = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
+var but1 = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
+conn.sendMessage(from, { text: txt1, buttons: but1, footer: botName, mentions: [sender]}, { quoted: msg })
+} else {
+  var txt = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
+var but = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
+conn.sendMessage(`${q}@s.whatsapp.net`, { text: txt, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
+var txt1 = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
+var but1 = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
+conn.sendMessage(from, { text: txt1, buttons: but1, footer: botName, mentions: [sender]}, { quoted: msg })
+}
+break
+case prefix+'proses':
+reply(`Dalam Perbaikan!!`)
+break
 case prefix+'login':
 case prefix+'daftar':
 case prefix+'sign-in':
