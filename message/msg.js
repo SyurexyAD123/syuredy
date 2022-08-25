@@ -1148,16 +1148,16 @@ break
 case prefix+'done':
 if (!isGroup)return reply(mess.OnlyGrup)
 if (isQuotedMsg) {
-var txt = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
+var ayaya = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
 var but = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
-conn.sendMessage(quotedMsg.sender, { text: txt, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
+conn.sendMessage(quotedMsg.sender, { text: ayaya, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
 var txt1 = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
 var but1 = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
 conn.sendMessage(from, { text: txt1, buttons: but1, footer: botName, mentions: [sender]}, { quoted: msg })
 } else {
-  var txt = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
+  var ayaya = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
 var but = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
-conn.sendMessage(`${q}@s.whatsapp.net`, { text: txt, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
+conn.sendMessage(`${q}@s.whatsapp.net`, { text: ayaya, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
 var txt1 = `「 *TRANSAKSI BERHASIL* 」` + monospace(`\n⌚ Waktu : ${jam}\n📅 Tanggal : ${tgl}\n👀 Status : Sukses\n🔢 Nomer : @${sender.split("@")[0]}`)
 var but1 = [{buttonId: `/list`, buttonText: { displayText: 'Check List' }, type: 1 }]
 conn.sendMessage(from, { text: txt1, buttons: but1, footer: botName, mentions: [sender]}, { quoted: msg })
