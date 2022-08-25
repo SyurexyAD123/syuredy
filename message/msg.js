@@ -1126,6 +1126,7 @@ teks += `❏ *Balasan:* ${commandsDB[i].balasan}\n\n`
 reply(teks)
 break
 				case prefix+'addlist':
+				if (!isPremium)return reply(mess.OnlyPrem)
 if (checkList(nameshop, listnya) === true) return reply(`Toko Tersebut Sudah Ada`)
 var nameshop = q.split('|')[0] ? q.split('|')[0] : q
 var text = q.split('|')[1] ? q.split('|')[1] : ''
@@ -1150,7 +1151,7 @@ case prefix+'deletetoko':
   case prefix+'delshop':
     case prefix+'deltoko':
       case prefix+'deletelist':
-if (!isOwner)return reply(mess.OnlyOwner)
+				if (!isPremium)return reply(mess.OnlyPrem)
 if (!checkList(q, listnya)) return reply(`Tidak Menemukan Toko`)
 deleteList(q, listnya)
 reply(`Sukses Menghapus Toko ${q}`)
