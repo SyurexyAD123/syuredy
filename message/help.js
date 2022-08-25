@@ -425,7 +425,7 @@ exports.encode = (sender, prefix) => {
 ≻ ${prefix}decode <Text>`
 }
 
-exports.shoping = (sender, prefix) => {
+exports.shop = (sender, prefix) => {
   return `${viewsmenu}\n\n**( 📄 )  List Shop*
 ≻ ${prefix}addlist <nameshop|text>
 ≻ ${prefix}list
