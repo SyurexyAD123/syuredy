@@ -1654,6 +1654,14 @@ case prefix+'igdlaudio':
 			    limitAdd(sender, limit)
 			    break
 			// Owner Menu
+case prefix+'setthumb':
+if (!isOwner)return reply(mess.OnlyOwner)
+if (!isImage && !isQuotedImage)return reply(`Reply Gambar atau kirim gambar dengan caption ${prefix}setthumb`)
+if (isImage || isQuotedImage) {
+  var media = downloadAndSaveMediaMessage('image', 'pp.jpg')
+  reply(`Sukses Mengganti Gambar Bot..`)
+}
+  break
 			case prefix+'exif':
 			    if (!isOwner) return reply(mess.OnlyOwner)
 			    var namaPack = q.split('|')[0] ? q.split('|')[0] : q
