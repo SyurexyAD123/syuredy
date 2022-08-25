@@ -135,7 +135,7 @@ moment.tz.setDefault("Asia/Jakarta").locale("id");
 module.exports = async(conn, msg, m, setting, store) => {
 	try {
 		let { ownerNumber, ownerName, botName, gamewaktu, limitCount, gcwa } = setting
-		let { allmenu, genmenu, downloader, rndm, menuprem, storage, othermenu, maker, vokaledit, gamemenu, atm, grupmenu, encode, owner } = require('./help')
+		let { allmenu, genmenu, downloader, rndm, menuprem, storage, othermenu, maker, vokaledit, gamemenu, atm, grupmenu, encode, owner, shop } = require('./help')
 		const { type, quotedMsg, mentioned, now, fromMe } = msg
 		if (msg.isBaileys) return
 		const jam = moment.tz('asia/jakarta').format('HH:mm:ss')
@@ -767,7 +767,8 @@ if (typemenu === 'sections') {
 	    {title: `10. Payment & Bank 🏦`, rowId: `${prefix}menuatm`},
 	    {title: `11. Grup Menu 👥`, rowId: `${prefix}grupmenu`},
 	    {title: `12. Encode & Decode 🔧`, rowId: `${prefix}encodemenu`},
-	    {title: `13. Owner Menu 🎭`, rowId: `${prefix}ownermenu`}
+	    {title: `13. Owner Menu 🎭`, rowId: `${prefix}ownermenu`},
+            {title: `14. Shop Menu 🛒`, rowId: `${prefix}shopmenu`}
 	]
     },
   {
@@ -874,6 +875,11 @@ case prefix+'encodemenu':
   break
 case prefix+'ownermenu':
   var teks = owner(sender, prefix)
+  var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
+  conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
+  break
+case prefix+'shopmenu':
+  var teks = shop(sender, prefix)
   var footerkomt = [{buttonId: `${prefix}allmenu`, buttonText: { displayText: `Semua Menu` }, type: 2 }]
   conn.sendMessage(from, { text: teks, buttons: footerkomt, footer: botName, mentions: [sender]}, { quoted: msg })
   break
