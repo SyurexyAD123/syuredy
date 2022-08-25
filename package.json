@@ -13,7 +13,7 @@
   "author": "ArasyaRafi",
   "license": "MIT",
   "dependencies": {
-    "@adiwajshing/baileys": "^4.2.0",
+    "@FatihArridho/baileys": "^4.2.0",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@phaticusthiccy/open-apis": "^1.8.5",
     "awesome-phonenumber": "^2.64.0",
