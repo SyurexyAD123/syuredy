@@ -17,11 +17,10 @@ const logg = require('pino')
 const clui = require('clui')
 const { Spinner } = clui
 const moment = require('moment');
-const { serialize } = require("./lib/function");
+const { serialize } = require("./lib/myfunc");
 const { color, mylog, infolog } = require("./lib/color");
 const time = moment(new Date()).format('HH:mm:ss DD/MM/YYYY')
-const setting = JSON.parse(fs.readFileSync('./satset.json'));
-const { groupResponse } = require('./message/group.js')
+const setting = JSON.parse(fs.readFileSync('./config.json'));
 const session = `./${setting.sessionName}.json`
 const { state, saveState } = useSingleFileAuthState(session)
 
