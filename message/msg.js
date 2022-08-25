@@ -128,6 +128,7 @@ let _cmdUser = JSON.parse(fs.readFileSync('./database/commandUser.json'));
 const commandsDB = JSON.parse(fs.readFileSync('./database/commands.json'))
 const loginnya = JSON.parse(fs.readFileSync('./database/logins.json'))
 let mute = JSON.parse(fs.readFileSync('./database/mute.json'))
+let listnya = JSON.parse(fs.readFileSync('./database/list.json'))
 
 moment.tz.setDefault("Asia/Jakarta").locale("id");
 
