@@ -1782,6 +1782,55 @@ var quot = [
 		conn.sendMessage(from, {text: hasil, templateButtons: quot, footer: 'Galau Mulu', mentions: [sender]} )
 		limitAdd(sender, limit)
 break
+				case prefix+'jodohku':
+if (!isGroup) return reply(`Perintah Ini Hanya Bisa DiGunakan Di Grup!!, masuk grup Jojo Bot Untuk Mendapatkan Jodoh kamu`)
+var memeg = groupMembers
+var anu = pickRandom(memeg)
+var l = await reply(`Mencari Jodoh.....`)
+await sleep(2000)
+var t = await reply(`Menemukan Jodoh kamu!!\nSilahkan Tunggu Pesan Bot Di Private Message!!`)
+var but = [{buttonId: `/jdhcnfrm ${sender.split("@")[0]}`, buttonText: { displayText: 'Aku Suka Dia' }, type: 1 }, {buttonId: `/jdhtolak ${sender.split("@")[0]}`, buttonText: { displayText: 'Gak Suka Dia' }, type: 1 }]
+var n = await conn.sendMessage(sender, {text : `Kami Sudah Menemukan Jodoh Kamu, Tunggu dia membalasnya:>`}, {quoted: msg})
+var k = await conn.sendMessage(anu.id, { text: `Hallo kak saya Jojo - Bot, Kamu mendapatkan Jodoh nih dari Grup ${groupName}, apakah kamu menerima nyaa??`, buttons: but, footer: `Who?`})
+await sleep(20000)
+await conn.sendMessage(from, { delete: k.key })
+await conn.sendMessage(from, { delete: n.key })
+await conn.sendMessage(from, { delete: t.key })
+await conn.sendMessage(from, { delete: l.key })
+conn.sendMessage(sender, { text: `Menghapus Message`})
+  break
+case prefix+'jdhcnfrm':
+var but = [{buttonId: `/sendkont ${q}`, buttonText: { displayText: 'Kirim Kontak Dia' }, type: 1 }]
+conn.sendMessage(sender, { text: `Kamu Menerima Jodohmu, semoga langgeng :>`, buttons: but, footer: `Who?`})
+var butt = [{buttonId: `/sendkontk ${sender.split("@")[0]}`, buttonText: { displayText: 'Kirim Kontak Dia' }, type: 1 }]
+conn.sendMessage(`${q}@s.whatsapp.net`, { text: `Kamu Diterima Oleh Jodoh Kamu, semoga kamu langgeng :>`, buttons: butt, footer: `Who?`})
+break
+case prefix+'jdhtolak':
+  conn.sendMessage(sender, {text: `ok`})
+  conn.sendMessage(`${q}@s.whatsapp.net`, {text: `Kamu Di Tolak Oleh Jodoh Kamu Hahahaa`})
+  break
+case prefix+'sendkont':
+sendContact(`${q}@s.whatsapp.net`, q, `Jodohmu`, msg)
+break
+case prefix+'sendkontk':
+sendContact(sender, q, `Jodohmu`, msg)
+break
+case prefix+'menfess':
+case prefix+'menfes':
+if (isGroup)return reply(`Hanya Bisa Di Gunakan Di Private Message!`)
+if (args.length < 2) return reply(`Kirim perintah ${command} nomer|pesan\nContoh ${command} 62813199449171|Kamu tu ganteng`)
+var nomor = q.split('|')[0] ? q.split('|')[0] : q
+var text = q.split('|')[1] ? q.split('|')[1] : ''
+var teksnya = `Hai kak ada Menfess nih!!\n${piw}\nDari : -\nPesan : _${text}_`
+
+var but = [{buttonId: `/menfesconfirm ${sender}`, buttonText: { displayText: 'Konfirmasi Menfess Diterima' }, type: 1 }]
+					conn.sendMessage(`${nomor}@s.whatsapp.net`, { caption: teksnya, image: {url: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMkjAJhYezm4h6k1AJ6qfreGkaRdBcR7UHMw&usqp=CAU`}, buttons: but, footer: `SIAPA YA!!!` })
+reply(`Sukses Mengirim Menfess!!`)
+break
+case prefix+'menfesconfirm':
+  conn.sendMessage(q, {text: `Menfess sudah di confirmasi oleh jodoh kamu`})
+  reply(`Menfess Telah Diterima.`)
+  break
 case prefix+'quotes':
   case prefix+'quote':
     case prefix+'katakata':
