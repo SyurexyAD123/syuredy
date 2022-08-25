@@ -1,48 +1,76 @@
-/**
-  * Edit features in './message/msg.js'
-  * Contact me on WhatsApp wa.me/6281319944917
-  * Follow : https://github.com/rtwone
-  * Follow : https://github.com/GetSya
-*/
-
 "use strict";
 const {
 	default: makeWASocket,
 	BufferJSON,
-	WA_DEFAULT_EPHEMERAL,
-	generateWAMessageFromContent,
-	proto,
 	initInMemoryKeyStore,
 	DisconnectReason,
 	AnyMessageContent,
-        makeInMemoryStore,
+    makeInMemoryStore,
 	useSingleFileAuthState,
 	delay
 } = require("@adiwajshing/baileys")
+const  { Boom } = require('@hapi/boom')
 const figlet = require("figlet");
 const fs = require("fs");
-const moment = require('moment')
 const chalk = require('chalk')
 const logg = require('pino')
 const clui = require('clui')
 const { Spinner } = clui
-const { serialize } = require("./lib/myfunc");
+const moment = require('moment');
+const { serialize } = require("./lib/function");
 const { color, mylog, infolog } = require("./lib/color");
 const time = moment(new Date()).format('HH:mm:ss DD/MM/YYYY')
-let setting = JSON.parse(fs.readFileSync('./config.json'));
-let session = `./${setting.sessionName}.json`
+const setting = JSON.parse(fs.readFileSync('./satset.json'));
+const { groupResponse } = require('./message/group.js')
+const session = `./${setting.sessionName}.json`
 const { state, saveState } = useSingleFileAuthState(session)
 
+    if (time < "24:59:00") {
+      var ucapanWaktu = "Selamat malam🌌";
+    }
+    if (time < "19:00:00") {
+      var ucapanWaktu = "Selamat senja🌞";
+    }
+    if (time < "18:00:00") {
+      var ucapanWaktu = "Selamat sore🌄";
+    }
+    if (time < "15:00:00") {
+      var ucapanWaktu = "Selamat siang☀️";
+    }
+    if (time < "11:00:00") {
+      var ucapanWaktu = "Selamat pagi🌅";
+    }
+    if (time < "05:00:00") {
+      var ucapanWaktu = "Selamat malam🌃";
+    }
+    
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}    
+    
+let spc1 = ' '
+let spc2 = '\n              '
+let spc3 = '           '
+let spc4 = '  '
+
 function title() {
-      console.clear()
-	  console.log(chalk.bold.green(figlet.textSync('Jojo-Bot', {
-		font: 'Standard',
-		horizontalLayout: 'default',
-		verticalLayout: 'default',
-		width: 80,
-		whitespaceBreak: false
-	})))
-	console.log(chalk.yellow(`\n                        ${chalk.yellow('[ Powered By Iyan & Arasya ]')}\n\n${chalk.red('Jojo-Bot')} : ${chalk.white('WhatsApp Bot Multi Device')}\n${chalk.red('Follow Insta Dev')} : ${chalk.white('@sofunsyabi.jpg')}\n${chalk.red('Message Me On WhatsApp')} : ${chalk.white('+62 813-1994-4917')}\n${chalk.red('Donate')} : ${chalk.white('088213292687 ( Gopay/Pulsa )')}\n`))
+      console.clear()    
+      console.log('\x1b[1;31m×\x1b[1;37m>', '<\x1b[1;32m📍︎\x1b[1;37m>', color('connect to'), 'whatsaapweb')	
+	  console.log(color(figlet.textSync(`${spc2}Zee-MD`, {
+        font: 'Standard',
+        horizontalLayout: 'default',
+        vertivalLayout: 'default',
+        width: 80,
+        whitespaceBreak: false
+        }), 'aqua'))        		  	  
+	  console.log(color(`${spc2}[ • PENGGUNA BOT ${setting.ownerName} • ]` ,'white'))
+	  console.log(color(`${spc4}< ================================================== >`, 'cyan'))
+	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Hai          : ${ucapanWaktu}`, 'yellow'))
+	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Bot Version : 2.1.2`, 'lime'))
+	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Status       : Online!`, 'white'))
+	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Owner       : ${setting.ownerName}`, 'red'))
+	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Devoloper    : @Pebri_Elja`, 'magenta'))
+	  console.log(color(`${spc4}< ================================================== >`, 'cyan'))
 }
 
 /**
@@ -51,7 +79,7 @@ function title() {
 * @param {function} cb <optional> ;
 */
 function nocache(module, cb = () => { }) {
-	console.log(`Module ${module} sedang diperhatikan terhadap perubahan`) 
+	console.log(color(`Module ${module} sedang diperhatikan terhadap perubahan`, 'aqua'))
 	fs.watchFile(require.resolve(module), async () => {
 		await uncache(require.resolve(module))
 		cb(module)
@@ -78,35 +106,55 @@ const reconnect = new Spinner(chalk.redBright(` Reconnecting WhatsApp Bot`))
 
 const store = makeInMemoryStore({ logger: logg().child({ level: 'fatal', stream: 'store' }) })
 
-const connectToWhatsApp = async () => {
+const ZeeConnect = async () => {
 	const conn = makeWASocket({
             printQRInTerminal: true,
             logger: logg({ level: 'fatal' }),
-            version: [2, 2228, 8],
+            logger: logg({ level: 'silent' }),
             auth: state,
-            browser: ["Jojo-Bot", "Safari", "3.0"]
+            browser: ["Zee", "Safari", "3.0"]
         })
-	title()
+	    title()
         store.bind(conn.ev)
 	
 	/* Auto Update */
-	require('./message/help')
-	require('./lib/myfunc')
 	require('./message/msg')
-	require('./index')
-	nocache('./message/help', module => console.log(chalk.greenBright('[ WHATSAPP BOT ]  ') + time + chalk.cyanBright(` "${module}" Telah diupdate!`)))
-	nocache('./lib/myfunc', module => console.log(chalk.greenBright('[ WHATSAPP BOT ]  ') + time + chalk.cyanBright(` "${module}" Telah diupdate!`)))
-	nocache('./message/msg', module => console.log(chalk.greenBright('[ WHATSAPP BOT ]  ') + time + chalk.cyanBright(` "${module}" Telah diupdate!`)))
-	nocache('./index', module => console.log(chalk.greenBright('[ WHATSAPP BOT ]  ') + time + chalk.cyanBright(` "${module}" Telah diupdate!`)))
+    nocache('./message/msg', module => console.log(chalk.greenBright(' ✓ ') + time + chalk.cyanBright(` "${module}" update!`)))
 	
 	conn.ev.on('messages.upsert', async m => {
 		if (!m.messages) return;
 		var msg = m.messages[0]
 		msg = serialize(conn, msg)
 		msg.isBaileys = msg.key.id.startsWith('BAE5') || msg.key.id.startsWith('3EB0')
-		require('./message/msg')(conn, msg, m, setting, store)
+		require('./message/msg')(conn, msg, m, setting, store, ucapanWaktu)
 	})
-	conn.ev.on('connection.update', async (update) => {
+	
+  conn.ev.on('group-participants.update', async (data) => {
+    try {
+    let metadata = await conn.groupMetadata(data.id)
+      for (let i of data.participants) {
+      try {
+        var pp_user = await conn.profilePictureUrl(i, 'image')
+      } catch {
+        var pp_user = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
+      }
+      if (data.action == "add") {
+        var but = [{buttonId: `/`, buttonText: { displayText: 'WELCOME' }, type: 1 }]
+					conn.sendMessage(data.id, { caption: `Selamat Datang @${i.split("@")[0]} Di Grup ${metadata.subject}`, image: { url: pp_user }, buttons: but, footer: metadata.subject, mentions: [i] })
+         
+      } else if (data.action == "remove") {
+        var but = [{buttonId: `/`, buttonText: { displayText: 'GOOD BYE' }, type: 1 }]
+					conn.sendMessage(data.id, { caption: `Byeee @${i.split("@")[0]}`, image: { url: pp_user }, buttons: but, footer: metadata.subject, mentions: [i] })
+      }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+    }
+  )     
+   
+	
+	   conn.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect } = update	    
         if (connection === 'close') {
         const reason = new Boom(lastDisconnect?.error)?.output?.statusCode
@@ -118,35 +166,20 @@ const connectToWhatsApp = async () => {
             else if (reason === DisconnectReason.restartRequired) { console.log("Restart Required, Restarting..."); ZeeConnect(); }
             else if (reason === DisconnectReason.timedOut) { console.log("Connection TimedOut, Reconnecting..."); ZeeConnect(); }
             else { console.log(`Unknown DisconnectReason: ${reason}|${connection}`) }
-	conn.ev.on('creds.update', () => saveState)
+        }
+        //await sleep(100000000);
+        console.log(update)
+       // console.log('Lagi ngeload session cooo, sabarr',)
+        //await sleep(1000);
+    })
 	
-
-	conn.ev.on('group-participants.update', async (data) => {
-	try {
-	let metadata = await conn.groupMetadata(data.id)
-	  for (let i of data.participants) {
-		try {
-		  var pp_user = await conn.profilePictureUrl(i, 'image')
-		} catch {
-		  var pp_user = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
-		}
-		if (data.action == "add") {
-		   conn.sendMessage(data.id, {caption: `Selamat Datang @${i.split("@")[0]} Di Grup ${metadata.subject}`, image: {url: pp_user}, mentions: [i]})
-		} else if (data.action == "remove") {
-		  conn.sendMessage(data.id, {caption: `Bye @${i.split("@")[0]}`, image: {url: pp_user}, mentions: [i]})
-		}
-	  }
-	} catch (e) {
-	  console.log(e)
-	}
-  }
-)
-
+	conn.ev.on('creds.update', () => saveState)
 	
 	conn.reply = (from, content, msg) => conn.sendMessage(from, { text: content }, { quoted: msg })
 
 	return conn
+	
 }
 
-connectToWhatsApp()
+ZeeConnect()
 .catch(err => console.log(err))
