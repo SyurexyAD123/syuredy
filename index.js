@@ -106,18 +106,18 @@ const connectToWhatsApp = async () => {
 		msg.isBaileys = msg.key.id.startsWith('BAE5') || msg.key.id.startsWith('3EB0')
 		require('./message/msg')(conn, msg, m, setting, store)
 	})
-	conn.ev.on('connection.update', (update) => {
-		const { connection, lastDisconnect } = update
-		if (connection === 'close') {
-			status.stop()
-			reconnect.stop()
-			starting.stop()
-			console.log(mylog('Server Ready ✓'))
-			lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut 
-			? connectToWhatsApp()
-			: console.log(mylog('Wa web terlogout...'))
-		}
-	})
+	conn.ev.on('connection.update', async (update) => {
+        const { connection, lastDisconnect } = update	    
+        if (connection === 'close') {
+        const reason = new Boom(lastDisconnect?.error)?.output?.statusCode
+            if (reason === DisconnectReason.badSession) { console.log(`Bad Session File, Please Delete Session and Scan Again`); process.exit(); }
+            else if (reason === DisconnectReason.connectionClosed) { console.log("Connection closed, reconnecting...."); ZeeConnect(); }
+            else if (reason === DisconnectReason.connectionLost) { console.log("Connection Lost from Server, reconnecting..."); ZeeConnect(); }
+            else if (reason === DisconnectReason.connectionReplaced) { console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First"); process.exit(); }
+            else if (reason === DisconnectReason.loggedOut) { console.log(`Device Logged Out, Please Delete Session and Scan Again.`); process.exit(); }
+            else if (reason === DisconnectReason.restartRequired) { console.log("Restart Required, Restarting..."); ZeeConnect(); }
+            else if (reason === DisconnectReason.timedOut) { console.log("Connection TimedOut, Reconnecting..."); ZeeConnect(); }
+            else { console.log(`Unknown DisconnectReason: ${reason}|${connection}`) }
 	conn.ev.on('creds.update', () => saveState)
 	
 
