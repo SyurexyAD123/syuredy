@@ -100,6 +100,13 @@ ${readmore}
 ≻ ${prefix}memegen <Text1>|<Text2>
 ≻ ${prefix}bajingan <Text>
   
+*( 📄 )  List Shop*
+≻ ${prefix}addlist <nameshop|text>
+≻ ${prefix}list
+≻ ${prefix}delshop
+≻ ${prefix}done
+≻ ${prefix}proses
+  
 *( 🪀 )  Menu Lain Nya*
 ≻ ${prefix}shortlink <Link>
 ≻ ${prefix}kbbi <Kata>
@@ -131,6 +138,8 @@ ${readmore}
 ≻ ${prefix}holoh
   
 *( 🎮 )  Game & Fun Menu*
+≻ ${prefix}jodohku
+≻ ${prefix}menfess <no|text>
 ≻ ${prefix}duithoki
 ≻ ${prefix}tictactoe @tag
 ≻ ${prefix}delttc
