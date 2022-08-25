@@ -181,6 +181,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const isAntiLink = isGroup ? antilink.includes(from) : false
 		const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
+		const piw = `❋─────────────────❋\n            *✘ JOJO - BOT ✘*\n❋─────────────────❋`
 
     const fgclink = {key: {participant: "0@s.whatsapp.net","remoteJid": "0@s.whatsapp.net"},"message": {"groupInviteMessage": {"groupJid": "41798898139-1429460331@g.us","inviteCode": "m","groupName": "Jojo Lovers", "caption": `© ${pushname}`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
     const fvideo = {key: { fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "41798898139-1429460331@g.us" } : {}) },message: { "videoMessage": { "title":`*AUTO DOWNLOAD AUDIO YOUTUBE*`, "h": `Hmm`,'seconds': '10000000⁰0', 'caption': `*AUTO DOWNLOAD AUDIO YOUTUBE*`, 'jpegThumbnail': fs.readFileSync(setting.pathimg)}}}
