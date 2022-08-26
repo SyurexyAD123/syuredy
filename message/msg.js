@@ -69,7 +69,7 @@ const Ikyy = new kyy();
 //Apikey jojo = Syaa
 const apikey = "melcantik"
 const jojoapi = "Syaa"
-const imgbbapi = "f7cd522752481ff1d53af32f10ee552e"
+const imgbbapi = "9a0aed7ae09bdf7a9d7ddeb018fed6cf"
 
 // Setting Donasi
 const gopay = "0882-1329-2687"
@@ -1413,7 +1413,7 @@ fs.unlinkSync(`./database/storage/Image/${q}.jpeg`)
 			    exec(`ffmpeg -i ./${rand1} ./${rand2}`, (err) => {
 			      
 			      if (err) return reply(mess.error.api)
-			      conn.sendMessage(from, { image: { url: `./${rand2}` }}, { quoted: msg })
+			      conn.sendMessage(from, {caption: `Sukses Convert Sticer To Image`, image: { url: `./${rand2}` }}, { quoted: msg })
 			      limitAdd(sender, limit)
 				  
 			    })
@@ -1941,12 +1941,28 @@ conn.sendMessage(from, {caption: `Sukses Membuat Fitur Bajingan\n@${sender.split
 limitAdd(sender, limit)
 break
 case prefix+'imgbb':
-case prefix+'tourl':
 if (!isQuotedImage && !isImage)return reply(`Reply Imagenya!`)
 if ( isQuotedImage || isImage) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
 var njay = await imgbb(imgbbapi, media)
 reply(`_Sukses Membuat Link Image Bb_!\n*Link :* ${njay.display_url}`)}
+break
+case prefix+'tourl':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+if ( isImage || isQuotedImage ) {
+var mek = await downloadAndSaveMediaMessage(`image`, 'upload.jpg')
+var tot = await upload(fs.readFileSync('upload.jpg'))
+conn.sendMessage(from, {text: `Sukses Membuat Link\nLink : ${tot}`}, {quoted: msg})
+fs.unlinkSync('upload.jpg')
+} else if ( isVideo || isQuotedVideo ) {
+var mek = await downloadAndSaveMediaMessage(`video`, 'upload.mp4')
+var tot = await upload(fs.readFileSync('upload.mp4'))
+conn.sendMessage(from, {text: `Sukses Membuat Link\nLink : ${tot}`}, {quoted: msg})
+fs.unlinkSync('upload.mp4')
+} else {
+  reply(`Kirim gambar/video dengan caption: ${command}`)
+}
+limitAdd(sender, limit)
 break
 case prefix+'tagme':
   case prefix+'tag':
