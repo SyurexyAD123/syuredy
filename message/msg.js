@@ -289,7 +289,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 			var url = await yts(query)
 			url = url.videos[0].url
 			hxz.youtube(url).then(async(data) => {
-				var but = [{buttonId: `/ytplay ${url}`, buttonText: { displayText: `🎵 Audio (${data.size_mp3})` }, type: 1 }, {buttonId: `/ytmp4 ${url}`, buttonText: { displayText: `🎵 Audio (${data.size})` }, type: 1 }]
+				var but = [{buttonId: `/ytplay ${url}`, buttonText: { displayText: `🎵 Audio (${data.size_mp3})` }, type: 1 }, {buttonId: `/ytmp4 ${url}`, buttonText: { displayText: `🎥 Video (${data.size})` }, type: 1 }]
 				conn.sendMessage(from, { caption: `*Title :* ${data.title}\n*Quality :* ${data.quality}\n*Url :* https://youtu.be/${data.id}`, image: { url: data.thumb }, buttons: but, footer: pushname}, {quoted: msg})
 			}).catch((e) => {
 			  conn.sendMessage(from, { text: mess.error.api }, { quoted: msg })
