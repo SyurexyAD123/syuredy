@@ -2720,12 +2720,6 @@ var media = await downloadAndSaveMediaMessage('audio', 'audio.mp3')
 conn.sendMessage(from, {audio: {url: media}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})}
 limitAdd(sender, limit)
 break
-case prefix+'tourl':
-  if (isQuotedImage) {
-var media = await downloadAndSaveMediaMessage('audio', 'audio.mp3')
-var res = await upload(media)
-reply(res)
-}
 case prefix+'infogc':
   case prefix+'infogrup':
     case prefix+'grupinfo':
