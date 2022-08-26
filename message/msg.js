@@ -1719,24 +1719,42 @@ case prefix+'dashboard':
 		}
 		fakemsg(teks)
 		break
-case prefix+'bc': case prefix+'broadcast':
+case prefix+'bc': case prefix+'broadast':
 if (!isOwner) return reply(mess.OnlyOwner)
-if (!q && !isImage && !isQuotedImage) return reply(`Kirim Gambar Dengan Caption ${command} text atau Kirim text dengan text ${command} textnya\nExample : ${command} Hallo`)
+if (!q && !isImage && !isQuotedImage && !isQuotedAudio) return reply(`Kirim Gambar Dengan Caption ${command} text atau Kirim text dengan text ${command} textnya\nExample : ${command} Hallo`)
 if ( isImage || isQuotedImage ) {
 var media = await downloadAndSaveMediaMessage("image", `brotkes.jpeg`)
 var data = await store.chats.all()
 for (let i of data) {
-/*var depak = [{buttonId: `#menu`, buttonText: { displayText: `Menu📋` }, type: 1 }, {buttonId: `#owner`, buttonText: { displayText: `Owner👤` }, type: 2 }]
-conn.sendMessage(i.id, { caption: `_*BROADCAST ${botName.toUpperCase()}*_\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), buttons: depak, footer: botName, mentions: [sender]})*/
-conn.sendMessage(i.id, {caption: `✗ *_BROADCAST ${botName.toUpperCase()}_* ✗\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), mentions: [q]})
+var depak = [{buttonId: `#menu`, buttonText: { displayText: `Menu📋` }, type: 1 }, {buttonId: `#owner`, buttonText: { displayText: `Owner👤` }, type: 2 }]
+conn.sendMessage(i.id, { caption: `_*BROADCAST ${botName.toUpperCase()}*_\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), buttons: depak, footer: botName, mentions: [sender]})
 }
-} else {
+} else 
+ if ( isQuotedAudio ) {
+   var media = await downloadAndSaveMediaMessage("audio", `./database/audio.mp3`)
+   var data = await store.chats.all()
+   for (let i of data) {
+   conn.sendMessage(i.id, {audio: fs.readFileSync('./database/audio.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: fake})
+}} else {
 var data = await store.chats.all()
 for (let i of data) {
 conn.sendMessage(i.id, {text: `_*BROASCAST ${botName.toUpperCase()}*_\n\n${q}`})
 await sleep(1000)}
 }
 break
+case prefix+'bcprem':
+				if (!isOwner) return reply(mess.OnlyOwner)
+				if ( isImage || isQuotedImage ) {
+					var media = await downloadAndSaveMediaMessage("image", `brotkes.jpeg`)
+					for (let i of premium) {
+					var depak = [{buttonId: `#menu`, buttonText: { displayText: `Menu📋` }, type: 1 }, {buttonId: `#owner`, buttonText: { displayText: `Owner👤` }, type: 2 }]
+					await sleep(5000)
+					conn.sendMessage(i.id, { caption: `BROADCAST ${botName.toUpperCase()}\n\n${q}`, image: fs.readFileSync(`brotkes.jpeg`), buttons: depak, footer: botName, mentions: [sender]})
+					}
+					}
+					await sleep(60000)
+					fs.unlinkSync('brotkes.jpeg')
+				break
 			case prefix+'setpp': case prefix+'setppbot':
 		        if (!isOwner) return reply(mess.OnlyOwner)
 		        if (isImage || isQuotedImage) {
