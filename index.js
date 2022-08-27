@@ -55,7 +55,7 @@ let spc4 = '  '
 function title() {
       console.clear()    
       console.log('\x1b[1;31m×\x1b[1;37m>', '<\x1b[1;32m📍︎\x1b[1;37m>', color('connect to'), 'whatsaapweb')	
-	  console.log(color(figlet.textSync(`${spc2}Zee-MD`, {
+	  console.log(color(figlet.textSync(`${spc2}Jo-Md`, {
         font: 'Standard',
         horizontalLayout: 'default',
         vertivalLayout: 'default',
@@ -68,7 +68,7 @@ function title() {
 	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Bot Version : 2.1.2`, 'lime'))
 	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Status       : Online!`, 'white'))
 	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Owner       : ${setting.ownerName}`, 'red'))
-	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Devoloper    : @Pebri_Elja`, 'magenta'))
+	  console.log(color(`${spc3}[•]`, 'aqua'), color(`Devoloper    : Arasya Tae`, 'magenta'))
 	  console.log(color(`${spc4}< ================================================== >`, 'cyan'))
 }
 
@@ -109,9 +109,9 @@ const ZeeConnect = async () => {
 	const conn = makeWASocket({
             printQRInTerminal: true,
             logger: logg({ level: 'fatal' }),
-            logger: logg({ level: 'silent' }),
+            
             auth: state,
-            browser: ["Zee", "Safari", "3.0"]
+            browser: ["Joo", "Safari", "3.0"]
         })
 	    title()
         store.bind(conn.ev)
