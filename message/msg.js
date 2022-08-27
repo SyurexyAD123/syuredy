@@ -519,11 +519,9 @@ if (chats.includes(yutu)) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebakgambar)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var tebakgmbr = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakgambar` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: tebakgmbr, footer: 'TEBAK - GAMBAR', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/tebakgambar`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })  
 		    tebakgambar.splice(getGamePosi(from, tebakgambar), 1)
 		  }
 		}
@@ -534,11 +532,9 @@ if (chats.includes(yutu)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
 			
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, kuiscuy)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakkata` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK KATA', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/tebakkata`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })  
 		    kuiscuy.splice(getGamePosi(from, kuiscuy), 1)
 		  }
 		}
@@ -549,11 +545,9 @@ if (chats.includes(yutu)) {
 		    
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tekateki)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tekateki` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'KUIS V2', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/tekateki`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })  
 		    tekateki.splice(getGamePosi(from, tekateki), 1)
 		  }
 		}
@@ -563,11 +557,9 @@ if (chats.includes(yutu)) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebakkimia)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakkimia)}\nHadiah : ${htgm} balance\n\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakkimia` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK KIMIA', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/tebakkimia`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
 		    tebakkimia.splice(getGamePosi(from, tebakkimia), 1)
 		  }
 		}
@@ -577,11 +569,9 @@ if (chats.includes(yutu)) {
 		  if (chats.toLowerCase() == getJawabanGame(from, tebaktebakan)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaktebakan)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}kuis` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'KUIS By JOJO-BOT', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/kuis`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })  
 		    tebaktebakan.splice(getGamePosi(from, tebaktebakan), 1)
 		  }
 		}
@@ -591,11 +581,9 @@ if (chats.includes(yutu)) {
 		  if (chats.toLowerCase() == getJawabanGame(from, ujian)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, ujian)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}ujian` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'ASAH OTAK', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/tebakkata`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
 		    ujian.splice(getGamePosi(from, ujian), 1)
 		  }
 		}
@@ -606,11 +594,9 @@ if (chats.includes(yutu)) {
 		    var htgm = randomNomor(500, 550)
 		    
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebaklagu)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebaklagu` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'Tebak Lagu', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/tebaklagu`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })  
 		    tebaklagu.splice(getGamePosi(from, tebaklagu), 1)
 		  }
 		}
@@ -621,11 +607,9 @@ if (chats.includes(yutu)) {
 		    var htgm = randomNomor(500, 550)
 		    
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, susun)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}susunkata` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'Susun Kata', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/susunkata`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg }) 
 		    susun.splice(getGamePosi(from, susun), 1)
 		  }
 		}
@@ -636,11 +620,9 @@ if (chats.includes(yutu)) {
 		    var htgm = randomNomor(500, 550)
 		    
 			addBalance(sender, htgm, balance)
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, siapaaku)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}siapakahaku` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK AKU', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/siapakahaku`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg })
 		    siapaaku.splice(getGamePosi(from, siapaaku), 1)
 		  }
 		}
@@ -651,11 +633,9 @@ if (chats.includes(yutu)) {
 		    var htgm = randomNomor(500, 550)
 			addBalance(sender, htgm, balance)
 			
-		    var texttg = `*Selamat ${pushname} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tb)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
-			var kus = [
-			{ quickReplyButton: { displayText: `Main Lagi`, id: `${prefix}tebakbendera` } },
-		]
-			 conn.sendMessage(from, { text: texttg, templateButtons: kus, footer: 'TEBAK BENDERA', mentions: [sender]} )  
+		    var texttg = `*Selamat @${sender.split("@")[0]} Jawaban Kamu Benar 🎉*\n\nJawaban : ${getJawabanGame(from, tebakgambar)}\nHadiah : ${htgm} balance\nKode Game : ${makeid(15)}\n\nIngin bermain lagi? Pencet Tombol Dibawah`
+			var but = [{buttonId: `/tebakbendera`, buttonText: { displayText: '⟨ PLAY AGAIN ⟩' }, type: 1 }]
+			conn.sendMessage(from, { text: texttg, buttons: but, footer: botName, mentions: [sender]}, { quoted: msg }) 
 		    tb.splice(getGamePosi(from, tb), 1)
 		  }
 		}
@@ -1426,6 +1406,7 @@ fs.unlinkSync(`./database/storage/Image/${q}.jpeg`)
 				  })
 			    }
 			    break
+
 //downloader
 			case prefix+'tiktoknowm':
 			  case prefix+'tiktok':
@@ -1955,6 +1936,7 @@ var tot = await upload(fs.readFileSync('upload.jpg'))
 conn.sendMessage(from, {text: `Sukses Membuat Link\nLink : ${tot}`}, {quoted: msg})
 fs.unlinkSync('upload.jpg')
 } else if ( isVideo || isQuotedVideo ) {
+reply(mess.wait)
 var mek = await downloadAndSaveMediaMessage(`video`, 'upload.mp4')
 var tot = await upload(fs.readFileSync('upload.mp4'))
 conn.sendMessage(from, {text: `Sukses Membuat Link\nLink : ${tot}`}, {quoted: msg})
