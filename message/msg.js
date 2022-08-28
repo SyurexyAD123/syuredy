@@ -2089,7 +2089,7 @@ case prefix+'husbu':
 				  }
 				})
 			    break
-			case prefix+'yts': case prefix+'ytsearch':
+		/*	case prefix+'yts': case prefix+'ytsearch':
 			    if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} query`)
 				reply(mess.wait)
@@ -2113,7 +2113,28 @@ case prefix+'husbu':
 				conn.sendMessage(from, { image: { url: yt[0].image }, caption: txt }, { quoted: msg })
 				limitAdd(sender, limit)
 				}).catch(() => reply(mess.error.api))
-			    break
+			    break*/
+case prefix+'yts':
+case prefix+'ytsearch':
+case prefix+'youtubesearch':
+case prefix+'search':
+  if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+	if (args.length < 2) return reply(`Kirim perintah ${command} judul lagunya\nExample : ${command} Dandelion`)
+  var teskd = `*YOUTUBE SEARCH*\n\n`
+  yts(q).then ( data => {
+  var yte = data.videos
+	var jumlah = 15
+	var list = []
+	for (let i = 0; i < jumlah; i++) {
+	list.push({
+title: yte[i].title, rowId: `/ytmp3 ${yte[i].url}`, description: `▢ Judul : ${yte[i].title}\n▢ ID : ${yte[i].videoId}\n▢ Channel : ${yte[i].author.name}\n▢ Upload : ${yte[i].ago}\n▢ Ditonton : ${yte[i].views}\n*▢ Duration : ${yte[i].timestamp}\n▢ URL : ${yte[i].url}`})
+	}
+	var sections = [{title: "*YOUTUBE SEARCH*", rows:list}]
+  var listms = { text: `*YOUTUBE SEARCH*\n\nBerhasil Menemukan Data\nHasil Pencarian : \nSilahkan Pilih`, footer: botName, buttonText: "Click Here", sections }
+  conn.sendMessage(from, listms, {quoted:msg})
+  }).catch(() => reply(`Maaf Fitur Sedang Di Nonaktifkan Oleh Owner!`))
+  limitAdd(sender, limit)
+  break
 //report
 case prefix+'join':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
