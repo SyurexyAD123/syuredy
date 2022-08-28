@@ -1473,6 +1473,15 @@ case prefix+'ytmp4': case prefix+'mp4':
 				///SCRAPER YTMP3 BY ARASYA RAFI	
 case prefix+'ytmp3':
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+  var pasu = `ptt`
+  if (q.includes('--')) pasu = q.split('--')[1]
+			    y2mateA(q.replace('--'+pasu, '')).then(async(data) => {
+				  if (q.includes('--')) {
+					var capt = `📛 *Title :* ${data[0].judul}\n🔰 *Size Audio :* ${data[0].size}\n\n_Tunggu sebentar audio akan di kirim...._`
+					conn.sendMessage(from, {caption: capt, image: {url: data[0].thumb}}, {quoted: msg})
+					conn.sendMessage(from, {audio: {url: data[0].link}, mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
+				  } else {
+				    
   addCountCmd('#ytmp3', sender, _cmd)
 			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
 
@@ -1486,14 +1495,14 @@ case prefix+'ytmp3':
 					    var capt = `📛 *Title :* ${data.title}\n🔰 *Size Audio :* ${data.size}\n\n_Tunggu sebentar audio akan di kirim...._`
 					conn.sendMessage(from, {caption: capt, image: {url: data.thumbnail}}, {quoted: msg})
 					    conn.sendMessage(from, {audio: {url: data.download_url}, mimetype: 'audio/mp4'}, {quoted: msg})
-					  }))
+					  }))}})
 limitAdd(sender, limit)
               break
 case prefix+'ytplay':
   if (!isGroup) {
   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
   addCountCmd('#ytmp3', sender, _cmd)
-			    if (args.length < 2) return reply(`Kirim perintah ${command} link`)
+			    if (args.length < 2) return reply(`Kirim perintah ${command} link\n\n` + monospace(`Example : ${command} https://youtu.be/FB1YNEOspyA\n\n( tambahkan --ptt jika ingin di ubah ke vn \nExample : ${command} https://youtu.be/FB1YNEOspyA --ptt )`))
 			    if (!isUrl(args[1])) return reply(mess.error.Iv)
 			    if (!args[1].includes('youtu.be') && !args[1].includes('youtube.com')) return reply(mess.error.Iv)
 				y2mateA(args[1]).then( data => {
