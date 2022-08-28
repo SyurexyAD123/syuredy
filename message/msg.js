@@ -2130,7 +2130,7 @@ case prefix+'search':
 title: yte[i].title, rowId: `/ytmp3 ${yte[i].url}`, description: `▢ Judul : ${yte[i].title}\n▢ ID : ${yte[i].videoId}\n▢ Channel : ${yte[i].author.name}\n▢ Upload : ${yte[i].ago}\n▢ Ditonton : ${yte[i].views}\n▢ Duration : ${yte[i].timestamp}\n▢ URL : ${yte[i].url}`})
 	}
 	var sections = [{title: "*YOUTUBE SEARCH*", rows:list}]
-  var listms = { text: `*YOUTUBE SEARCH*\n\nBerhasil Menemukan Data\nHasil Pencarian : \nSilahkan Pilih`, footer: botName, buttonText: "Click Here", sections }
+  var listms = { text: `*YOUTUBE SEARCH*\n\nBerhasil Menemukan Data\nHasil Pencarian : ${q}\nSilahkan Pilih`, footer: botName, buttonText: "Click Here", sections }
   conn.sendMessage(from, listms, {quoted:msg})
   }).catch(() => reply(`Maaf Fitur Sedang Di Nonaktifkan Oleh Owner!`))
   limitAdd(sender, limit)
