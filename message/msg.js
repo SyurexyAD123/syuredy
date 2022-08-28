@@ -2127,7 +2127,7 @@ case prefix+'search':
 	var list = []
 	for (let i = 0; i < jumlah; i++) {
 	list.push({
-title: yte[i].title, rowId: `/ytmp3 ${yte[i].url}`, description: `▢ Judul : ${yte[i].title}\n▢ ID : ${yte[i].videoId}\n▢ Channel : ${yte[i].author.name}\n▢ Upload : ${yte[i].ago}\n▢ Ditonton : ${yte[i].views}\n*▢ Duration : ${yte[i].timestamp}\n▢ URL : ${yte[i].url}`})
+title: yte[i].title, rowId: `/ytmp3 ${yte[i].url}`, description: `▢ Judul : ${yte[i].title}\n▢ ID : ${yte[i].videoId}\n▢ Channel : ${yte[i].author.name}\n▢ Upload : ${yte[i].ago}\n▢ Ditonton : ${yte[i].views}\n▢ Duration : ${yte[i].timestamp}\n▢ URL : ${yte[i].url}`})
 	}
 	var sections = [{title: "*YOUTUBE SEARCH*", rows:list}]
   var listms = { text: `*YOUTUBE SEARCH*\n\nBerhasil Menemukan Data\nHasil Pencarian : \nSilahkan Pilih`, footer: botName, buttonText: "Click Here", sections }
