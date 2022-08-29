@@ -140,6 +140,7 @@ module.exports = async(conn, msg, m, setting, store) => {
 		const { type, quotedMsg, mentioned, now, fromMe } = msg
 		if (msg.isBaileys) return
 		const jam = moment.tz('asia/jakarta').format('HH:mm:ss')
+		const tgl = moment.tz('Asia/Jakarta').format('DD/MM/YY')
 		let dt = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
 		const ucapanWaktu = "Selamat "+dt.charAt(0).toUpperCase() + dt.slice(1)
 		const content = JSON.stringify(msg.message)
@@ -724,7 +725,7 @@ if (chats.startsWith("fetch ")) {
 			case prefix+'help':
 			  case prefix+'m':
 			    case prefix+'start':
-var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n║\n╠═⧎ *Harap Login Terlebih*\n║ *Dahulu Sebelum Memulai Bot* \n║ *JOJO Untuk Mendapatkan* \n║ *Limit Dan Balance!*\n║\n╚═⧎ Thanks For Using ${botName}\n❋─────────────────❋`
+var menunya = `╔═⧎ *${botName}* ⧎═\n║\n╠═⧎ Hallo *${pushname}*\n║\n╠═⧎ Aku Adalah *${botName}* \n║ Silahkan Pilih List Menu\n║ Untuk Melihat Daftar Menu.\n║ Dan Pilih Rating Bot\n║ Untuk Rating Bot ${botName}\n║\n╠═⧎ *Harap Login Terlebih*\n║ *Dahulu Sebelum Memulai Bot* \n║ *JOJO Untuk Mendapatkan* \n║ *Limit Dan Balance!*\n║\n╚═⧎ Thanks For Using ${botName}\n❋─────────────────❋\n\n「 *${tgl}* 」\n「 *${jam}* 」 `
 			    addCountCmd('#menu', sender, _cmd)
 if (typemenu === 'button') {
 			    conn.sendMessage(from, { caption: menunya, image: fs.readFileSync(setting.pathimg), buttons: buttonsDefa, footer: botName, mentions: [sender]}, { quoted: msg })
