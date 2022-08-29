@@ -33,6 +33,7 @@ const { ephoto } = require("../lib/ephoto")
 const { igDownloader } = require("../lib/igdown")
 const { wikiSearch } = require("../lib/wiki")
 const { isLimit, limitAdd, getLimit, giveLimit, addBalance, kurangBalance, getBalance, isGame, gameAdd, givegame, cekGLimit } = require("../lib/limit");
+const { addList, deleteList, checkList } = require("../lib/list");
 const { isTicTacToe, getPosTic } = require("../lib/tictactoe");
 const { addPlayGame, getJawabanGame, isPlayGame, cekWaktuGame, getGamePosi } = require("../lib/game");
 const { addCommands, checkCommands, deleteCommands } = require("../lib/autoresp");
@@ -266,6 +267,19 @@ module.exports = async(conn, msg, m, setting, store) => {
 				return path_file
 			}
 		}
+		function styletext(teks) {
+    return new Promise((resolve, reject) => {
+        axios.get('http://qaz.wtf/u/convert.cgi?text='+teks)
+        .then(({ data }) => {
+            let $ = cheerio.load(data)
+            let hasil = []
+            $('table > tbody > tr').each(function (a, b) {
+                hasil.push({ name: $(b).find('td:nth-child(1) > span').text(), result: $(b).find('td:nth-child(2)').text().trim() })
+            })
+            resolve(hasil)
+        })
+    })
+}
 		const sendFileFromUrl = async (from, url, caption, options = {}) => {
 		    let mime = '';
 		    let res = await axios.head(url)
@@ -927,6 +941,8 @@ var teks = `  │
   ├─ ❏ ${ovo}
   ├─ ❏ DANA
   ├─ ❏ ${dana}
+  ├─ ❏ SHOPEE PAY
+  ├─ ❏ 0882-1329-2687
   ├─ ❏ INSTAGRAM
   └─ ❏ https://www.instagram.com/${ig}
   
@@ -953,6 +969,7 @@ Via :
 - Ovo (088213292687)
 - Gopay (088213292687)
 - Dana (081319944917)
+- Spay (088213292687)
 
 ~ Tim ${botName}
 ${readmore}
@@ -2123,14 +2140,14 @@ case prefix+'search':
   var teskd = `YOUTUBE SEARCH\n\n`
   yts(q).then ( data => {
   var yte = data.videos
-	var jumlah = 15
+	var jumlah = 20
 	var list = []
 	for (let i = 0; i < jumlah; i++) {
 	list.push({
 title: yte[i].title, rowId: `/ytmp3 ${yte[i].url}`, description: `▢ Judul : ${yte[i].title}\n▢ ID : ${yte[i].videoId}\n▢ Channel : ${yte[i].author.name}\n▢ Upload : ${yte[i].ago}\n▢ Ditonton : ${yte[i].views}\n▢ Duration : ${yte[i].timestamp}\n▢ URL : ${yte[i].url}`})
 	}
 	var sections = [{title: `${ucapanWaktu} ${pushname} 👋`, rows:list}]
-  var listms = { text: `*YOUTUBE SEARCH*\n\nBerhasil Menemukan Data\nHasil Pencarian : ${q}\nSilahkan Pilih`, footer: botName, buttonText: "Click Here", sections }
+  var listms = { text: `*YOUTUBE SEARCH*\n\nBerhasil Menemukan Data\nHasil Pencarian : *${q}*\nSilahkan Pilih`, footer: botName, buttonText: "Click Here", sections }
   conn.sendMessage(from, listms, {quoted:msg})
   }).catch(() => reply(`Maaf Fitur Sedang Di Nonaktifkan Oleh Owner!`))
   limitAdd(sender, limit)
