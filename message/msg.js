@@ -1963,9 +1963,12 @@ if (!isQuotedImage && !isImage)return reply(`Kirim Gambar dengan caption ${comma
 reply(mess.wait)
 var tete = await downloadAndSaveMediaMessage('image', 'rmvbg.jpg')
 var tot = await upload(fs.readFileSync('rmvbg.jpg'))
-rmvbg.rbFromImageUrl(tot, `ruKT93J1PWEEFF761HvL4jcg`)
+rmvbg.rbFromImageUrl(tot, `ruKT93J1PWEEFF761HvL4jcg`) //ini api punya guehhhhh
+await sleep(5000)
 conn.sendMessage(from, {caption: `Sukses Hapus Background!!`, image: fs.readFileSync('output-2.png')}, {quoted: msg})
 }
+fs.unlinkSync('output-2.png')
+fs.unlinkSync('rmvbg.jpg')
 limitAdd(sender, limit)
 break
 case prefix+'tourl':
