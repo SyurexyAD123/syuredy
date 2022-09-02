@@ -58,6 +58,7 @@ const ra = require("ra-api");
 const thiccysapi = require("textmaker-lasi");
 const kotz = require("kotz-api");
 const yts = require("yt-search");
+const rmvbg = require("removebg-wrapper");
 const speed = require("performance-now");
 const request = require("request");
 const ms = require("parse-ms");
@@ -1953,6 +1954,19 @@ if ( isQuotedImage || isImage) {
 var media = await downloadAndSaveMediaMessage("image", `${pushname}.jpeg`)
 var njay = await imgbb(imgbbapi, media)
 reply(`_Sukses Membuat Link Image Bb_!\n*Link :* ${njay.display_url}`)}
+break
+case prefix+'removebg':
+case prefix+'rb':
+if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+if (!isQuotedImage && !isImage)return reply(`Kirim Gambar dengan caption ${command} atau reply gambar dengan text ${command}!`)
+ if (isQuotedImage || isImage ) {
+reply(mess.wait)
+var tete = await downloadAndSaveMediaMessage('image', 'rmvbg.jpg')
+var tot = await upload(fs.readFileSync('rmvbg.jpg'))
+rmvbg.rbFromImageUrl(tot, `ruKT93J1PWEEFF761HvL4jcg`)
+conn.sendMessage(from, {caption: `Sukses Hapus Background!!`, image: fs.readFileSync('output-2.png')}, {quoted: msg})
+}
+limitAdd(sender, limit)
 break
 case prefix+'tourl':
 if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)

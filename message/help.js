@@ -126,6 +126,7 @@ ${readmore}
 ≻ ${prefix}ytsearch <Pencarian>
 ≻ ${prefix}pinterest <Querry>
 > ${prefix}tourl
+> ${prefix}removebg
 ≻ ${prefix}igstalk <Username>
 ≻ ${prefix}film <Pencarian>
 ≻ ${prefix}ghstalk <Username>
@@ -322,6 +323,7 @@ exports.othermenu = (sender, prefix) => {
 ≻ ${prefix}ytsearch <Pencarian>
 ≻ ${prefix}pinterest <Querry>
 > ${prefix}tourl
+> ${prefix}removebg
 ≻ ${prefix}igstalk <Username>
 ≻ ${prefix}film <Pencarian>
 ≻ ${prefix}ghstalk <Username>`
