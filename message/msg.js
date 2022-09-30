@@ -656,21 +656,7 @@ if (chats.includes(yutu)) {
 		  }
 		}
 		
-if (chats.includes(`Bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
-}
-if (chats.includes(`bot`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jokeuwi.mp3'), mimetype: 'audio/mp4', seconds: "359996400", ptt: true}, {quoted: msg})
-}
-if (chats.startsWith(`tes`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
-if (chats.startsWith(`Tes`)){
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
-if (chats.includes(`@${botNumber.split("@")[0]}`)) {
- conn.sendMessage(from, { audio: fs.readFileSync('audio/jojo.mp3'), mimetype: 'audio/mp4', ptt: true}, {quoted: msg})
-}
+
 
 if (chats.startsWith("fetch ")) {
   if (!q)return reply(`Masukan Fetch Link!`)
