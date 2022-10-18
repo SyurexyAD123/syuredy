@@ -717,16 +717,30 @@ if (chats.startsWith("fetch ")) {
 					if (isGroup)return reply(`Maaf!, Pembelian Hanya Di Lakukan Di Private Message!!`)
   var sections = [
         {
-	title: "LIST DIMSUM VARIAN",
+	title: "VARIAN DIMSUM",
 	rows: [
-	    {title: "DIMSUM UDANG ( BETA TESTER )", rowId: `buytext Dimsum Udang`},
-	    {title: "DIMSUM AYAM ( BETA TESTER )", rowId: `buytext Dimsum Ayam`},
-	    {title: "DIMSUM PANGSIT ( BETA TESTER )", rowId: `buytext Dimsum Pangsit`}
+	    {title: "DIMSUM UDANG", rowId: `buytext Dimsum Udang`},
+	    {title: "DIMSUM AYAM", rowId: `buytext Dimsum Ayam`},
+	    {title: "DIMSUM PANGSIT", rowId: `buytext Dimsum Pangsit`}
+	]
+    },
+    {
+	title: "CAMPURAN DIMSUM",
+	rows: [
+	    {title: "UDANG - AYAM", rowId: `buytext Dimsum Udang & Dimsum Ayam`},
+	    {title: "UDANG - PANGSIT", rowId: `buytext Dimsum Udang & Dimsum Pangsit`},
+	    {title: "AYAM - PANGSIT", rowId: `buytext Dimsum Pangsit & Dimsum Ayam`},
+	]
+    },
+    {
+	title: "PILIH SEMUA",
+	rows: [
+	    {title: "PILIHAN SEMUA", rowId: `buytext Pilihan Semua`}
 	]
     }
 ]
 var listMessage = {
-  text: `"Dimsum Enak Buatan PPLG"\n\n*THIS IS A BETA TESTER!!*`,
+  text: `"Dimsum Enak Dimsum Lezat Dimsum Gurih"`,
   footer: "XI - PPLG ROBOT WHATSAPP",
   title: "DIMSUM ENAK XI-PPLG",
   buttonText: "PILIH DISINI MENUNYA",
@@ -737,10 +751,10 @@ conn.sendMessage(from, listMessage, {quoted: msg})
 case prefix+'buytext':
 	if (isGroup)return reply(`Maaf!, Pembelian Hanya Di Lakukan Di Private Message!!`)
 	var idmek = makeid(10)
-	reply(`BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}`))
-	var capt = monospace(`[ TRANSAKSI PEMBELIAN ]\n\nNama Pembeli : ${pushname}\nNomor Pembeli : ${sender.split("@")[0]}\nPembelian : ${q}\nId Pembelian : ${idmek}`)
+	reply(`BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n*TERIMA adaKASIH SUDAH MEMBELI DIMSUM ENAK PPLG DIJAMIN KAMU SUKA RASANYA*`))
+	var capt = monospace(`❮ TRANSAKSI PEMBELIAN ❯\n\nNama Pembeli : ${pushname}\nNomor Pembeli : ${sender.split("@")[0]}\nPembelian : ${q}\nId Pembelian : ${idmek}`)
 	conn.sendMessage(setgrup, { text : capt})
-	sendContact(setgrup, sender.split("@")[0], pushname, msg)
+	sendContact(setgrup, sender.split("@")[0], pushname)
 	break
 default:
 
