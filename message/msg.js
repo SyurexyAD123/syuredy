@@ -751,10 +751,9 @@ conn.sendMessage(from, listMessage, {quoted: msg})
 case prefix+'buytext':
 	if (isGroup)return reply(`Maaf!, Pembelian Hanya Di Lakukan Di Private Message!!`)
 	var idmek = makeid(10)
-	reply(`BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n*TERIMA adaKASIH SUDAH MEMBELI DIMSUM ENAK PPLG DIJAMIN KAMU SUKA RASANYA*`))
-	var capt = monospace(`❮ TRANSAKSI PEMBELIAN ❯\n\nNama Pembeli : ${pushname}\nNomor Pembeli : ${sender.split("@")[0]}\nPembelian : ${q}\nId Pembelian : ${idmek}`)
-	conn.sendMessage(setgrup, { text : capt})
-	sendContact(setgrup, sender.split("@")[0], pushname)
+	  conn.sendMessage(from, {caption: `BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n`) + ` *TERIMA KASIH SUDAH MEMBELI DIMSUM ENAK PPLG* `, image: {url: `https://api.memegen.link/images/custom/Makasih_Kak/${pushname}.png?background=https://telegra.ph/file/d608ec3cb57ff6b9ac708.jpg`}}, {quoted: msg}).catch(() => { reply(`BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n`) + ` *TERIMA KASIH SUDAH MEMBELI DIMSUM ENAK PPLG* `)})
+	var capt = monospace(`❮ TRANSAKSI PEMBELIAN ❯\n\nNama Pembeli : ${pushname}\nNomor Pembeli : ${sender.split("@")[0]}\nPembelian : ${q}\nId Pembelian : ${idmek}\nTag : @${sender.split("@")[0]}`)
+	conn.sendMessage(setgrup, { text : capt, mentions: [sender]})
 	break
 default:
 
