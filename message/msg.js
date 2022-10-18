@@ -74,7 +74,7 @@ const jojoapi = "Syaa"
 const imgbbapi = "9a0aed7ae09bdf7a9d7ddeb018fed6cf"
 
 //Set Grup
-const setgrup = "120363044155293596@g.us"
+const setgrup = "6281289874234@s.whatsapp.net"
 
 // Setting Donasi
 const gopay = "0882-1329-2687"
