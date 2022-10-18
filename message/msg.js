@@ -74,7 +74,7 @@ const jojoapi = "Syaa"
 const imgbbapi = "9a0aed7ae09bdf7a9d7ddeb018fed6cf"
 
 //Set Grup
-const setgrup = "6281289874234@s.whatsapp.net"
+let setgrup = "6281319944917@s.whatsapp.net"
 
 // Setting Donasi
 const gopay = "0882-1329-2687"
@@ -714,28 +714,23 @@ if (chats.startsWith("fetch ")) {
 		case prefix+'dimsum':
 			case prefix+'list':
 				case prefix+'dimsumcoy':
+				  case prefix+'menu':
 					if (isGroup)return reply(`Maaf!, Pembelian Hanya Di Lakukan Di Private Message!!`)
   var sections = [
         {
 	title: "VARIAN DIMSUM",
 	rows: [
-	    {title: "DIMSUM UDANG", rowId: `buytext Dimsum Udang`},
-	    {title: "DIMSUM AYAM", rowId: `buytext Dimsum Ayam`},
-	    {title: "DIMSUM PANGSIT", rowId: `buytext Dimsum Pangsit`}
+	    {title: "DIMSUM AYAM - WORTEL", rowId: `buytext Dimsum Ayam Wortel`},
+	    {title: "DIMSUM AYAM - JAMUR", rowId: `buytext Dimsum Ayam Jamur`},
+	    {title: "DIMSUM AYAM - DAGING", rowId: `buytext Dimsum Ayam Daging`},
+	    {title: "DIMSUM AYAM - UDANG", rowId: `buytext Dimsum Ayam Udang`},
+	    {title: "DIMSUM AYAM - TELOR", rowId: `buytext Dimsum Ayam Telor`}
 	]
     },
     {
-	title: "CAMPURAN DIMSUM",
+	title: "1 PCS / BELI VARIAN SEMUA DIMSUM",
 	rows: [
-	    {title: "UDANG - AYAM", rowId: `buytext Dimsum Udang & Dimsum Ayam`},
-	    {title: "UDANG - PANGSIT", rowId: `buytext Dimsum Udang & Dimsum Pangsit`},
-	    {title: "AYAM - PANGSIT", rowId: `buytext Dimsum Pangsit & Dimsum Ayam`},
-	]
-    },
-    {
-	title: "PILIH SEMUA",
-	rows: [
-	    {title: "PILIHAN SEMUA", rowId: `buytext Pilihan Semua`}
+	    {title: "BELI VARIAN SELURUH DIMSUM", rowId: `buytext Pilihan Semua Dimsum`}
 	]
     }
 ]
@@ -747,14 +742,56 @@ var listMessage = {
   sections
 }
 conn.sendMessage(from, listMessage, {quoted: msg})
+conn.sendMessage(from, {caption: `Dijamin Enak 😋`, image: {url: `https://telegra.ph/file/d1a35a8b6d4ee7a035b99.jpg`}})
   break
 case prefix+'buytext':
 	if (isGroup)return reply(`Maaf!, Pembelian Hanya Di Lakukan Di Private Message!!`)
 	var idmek = makeid(10)
-	  conn.sendMessage(from, {caption: `BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n`) + ` *TERIMA KASIH SUDAH MEMBELI DIMSUM ENAK PPLG* `, image: {url: `https://api.memegen.link/images/custom/Makasih_Kak/${pushname}.png?background=https://telegra.ph/file/d608ec3cb57ff6b9ac708.jpg`}}, {quoted: msg}).catch(() => { reply(`BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n`) + ` *TERIMA KASIH SUDAH MEMBELI DIMSUM ENAK PPLG* `)})
+	  var but = [{buttonId: `/confirm ${sender}`, buttonText: { displayText: 'Confirmasi Pembelian' }, type: 1 }]
+					conn.sendMessage(from, { caption: `BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n`) + ` *TERIMA KASIH SUDAH MEMBELI DIMSUM ENAK PPLG* `, image: { url: `https://api.memegen.link/images/custom/Makasih_Kak/${pushname}.png?background=https://telegra.ph/file/d608ec3cb57ff6b9ac708.jpg` }, buttons: but, footer: 'XI - PPLG' }, { quoted: msg }).catch(() => {
+var caption = `BERHASIL MELAKUKAN PEMBELIAN\n\n` + monospace(`Nama : ${pushname}\nNomor : ${sender.split("@")[0]}\nId Pembelian : ${idmek}\n\n`) + ` *TERIMA KASIH SUDAH MEMBELI DIMSUM ENAK PPLG* `
+var but = [{buttonId: `/confirm ${sender}`, buttonText: { displayText: "Confirm Pembelian" }, type: 1 }]
+conn.sendMessage(from, { text: caption, buttons: but, footer: `XI - PPLG DIMSUM`, templateButtons: but }, {quoted: msg})
+					})
 	var capt = monospace(`❮ TRANSAKSI PEMBELIAN ❯\n\nNama Pembeli : ${pushname}\nNomor Pembeli : ${sender.split("@")[0]}\nPembelian : ${q}\nId Pembelian : ${idmek}\nTag : @${sender.split("@")[0]}`)
 	conn.sendMessage(setgrup, { text : capt, mentions: [sender]})
 	break
+case prefix+'setconfirm':
+ setgrup = from
+  break
+case prefix+'confirm':
+  reply(`Terima kasih kak sudah membeli dimsum kami, yuk beri rating pada Dimsum Kami!!`)
+  conn.sendMessage(setgrup, {text: `Pembelian Sudah Di Confirmasi.`})
+  var sections = [
+        {
+	title: "Rating Kolom",
+	rows: [
+	    {title: "RATING 10%", rowId: `rate 10%`},
+	    {title: "RATING 20%", rowId: `rate 20%`},
+	    {title: "RATING 30%", rowId: `rate 30%`},
+	    {title: "RATING 40%", rowId: `rate 40%`},
+	    {title: "RATING 50%", rowId: `rate 50%`},
+	    {title: "RATING 60%", rowId: `rate 60%`},
+	    {title: "RATING 70%", rowId: `rate 70%`},
+	    {title: "RATING 80%", rowId: `rate 80%`},
+	    {title: "RATING 90%", rowId: `rate 90%`},
+	    {title: "RATING 100%", rowId: `rate 100%`},
+	]
+    }
+]
+var listMessage = {
+  text: `"TEMPAT RATING DIMSUM KAMII!!"`,
+  footer: "XI - PPLG ROBOT WHATSAPP",
+  title: "DIMSUM ENAK XI-PPLG",
+  buttonText: "PILIH DISINI RATINGNYA",
+  sections
+}
+conn.sendMessage(from, listMessage, {quoted: msg})
+  break
+case prefix+'rate':
+  reply(`Terima Kasih Sudah Memberi Rating Pada Kami:)\nSelamat Menikmati`)
+  conn.sendMessage(`120363044155293596@g.us`, {text: `*[ RATING DARI ${pushname.toUpperCase()} ]*\n\nPemberian Rating dari @${sender.split("@")[0]} : *${q}*`, mentions: [sender]})
+  break
 default:
 
 		}
