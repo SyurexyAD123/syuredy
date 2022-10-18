@@ -742,7 +742,7 @@ var listMessage = {
   sections
 }
 conn.sendMessage(from, listMessage, {quoted: msg})
-conn.sendMessage(from, {caption: `Dijamin Enak 😋`, image: {url: `https://telegra.ph/file/d1a35a8b6d4ee7a035b99.jpg`}})
+conn.sendMessage(from, {caption: `Dijamin Enak 😋`, image: {url: `https://telegra.ph/file/eda2306061de92e2fa311.jpg`}})
   break
 case prefix+'buytext':
 	if (isGroup)return reply(`Maaf!, Pembelian Hanya Di Lakukan Di Private Message!!`)
@@ -757,6 +757,7 @@ conn.sendMessage(from, { text: caption, buttons: but, footer: `XI - PPLG DIMSUM`
 	conn.sendMessage(setgrup, { text : capt, mentions: [sender]})
 	break
 case prefix+'setconfirm':
+  reply(`${from} sekarang menjadi broadcast nya`)
  setgrup = from
   break
 case prefix+'confirm':
@@ -789,8 +790,8 @@ var listMessage = {
 conn.sendMessage(from, listMessage, {quoted: msg})
   break
 case prefix+'rate':
-  reply(`Terima Kasih Sudah Memberi Rating Pada Kami:)\nSelamat Menikmati`)
-  conn.sendMessage(`120363044155293596@g.us`, {text: `*[ RATING DARI ${pushname.toUpperCase()} ]*\n\nPemberian Rating dari @${sender.split("@")[0]} : *${q}*`, mentions: [sender]})
+  reply(`Terima Kasih Sudah Memberi Rating Pada Kami:)`)
+  conn.sendMessage(setgrup, {text: `*[ RATING DARI ${pushname} ]*\n\nPemberian Rating dari @${sender.split("@")[0]} : *${q}*`, mentions: [sender]})
   break
 default:
 
