@@ -1,12 +1,12 @@
 {
-  "ownerNumber": ["6281319944917@s.whatsapp.net"],
-  "ownerName": ["Arasya"],
-  "botName": "JOJO - BOT",
+  "ownerNumber": ["6281271010619@s.whatsapp.net"],
+  "ownerName": ["Suranta"],
+  "botName": "SyurexyBOT",
   "sessionName": "session",
   "pathimg": "./pp.jpg",
-  "gcwa": "https://chat.whatsapp.com/Famd1qzPzScBX4TSual41k",
-  "gamewaktu": 50,
-  "limitCount": 25,
+  "gcwa": "-",
+  "gamewaktu": 80,
+  "limitCount": 40,
   "gcount": {
 	"prem": 100000000000,
 	"user": 20
